@@ -1,0 +1,122 @@
+
+# UnivIO Configuration For 64-pin ATSAM4S
+
+# the device fw must report exactly this:
+fwid = "GenIO-AE5X-64"
+
+# Unique identifier for this configuration
+deviceid = "GenIO-AE5X-64-def"
+
+manufacturer = "github.com/nvitya/univio"
+usb_vendor_id  = 0xBABE
+usb_product_id = 0xBEE3
+
+# Serial number, it is recommended rather to provide/override this at the command line
+serialnum = "112233"
+
+# PIN CONFIGURATION
+
+# Special functions
+#   A0  = TRACE output UART (reserved)
+#   B13 = precise 12 MHz output (optional)
+
+pins_per_port = 32 # 16 = STM32, 32 = ATSAM
+
+###############################################################################
+# pinconf(port_id, type, num, pinflags)
+
+# A0 = Trace out
+pinconf(A1, LEDBLP, 0, 1) # on board led
+pinconf(A2,  ANA_OUT, 0)
+pinconf(A3,  ANA_IN, 0)
+pinconf(A4,  ANA_IN, 1)
+pinconf(A5,  ANA_OUT, 1)
+pinconf(A6,  ANA_IN, 2)
+pinconf(A7,  ANA_IN, 3)
+
+pinconf(A8,  ANA_IN, 4)
+pinconf(A9,  ANA_IN, 5)
+pinconf(A10, ANA_IN, 6)
+pinconf(A11, ANA_IN, 7)
+pinconf(A12, UART, 0)  # USB-UART TX (UnivIO device output)
+pinconf(A13, UART, 0)  # USB-UART RX (UnivIO device input)
+# A14: reserved (XIN)
+# A15: reserved (XOUT)
+
+pinconf(A16, SPI, 0) # SPI_SCK
+pinconf(A17, SPI, 0) # SPI_MOSI
+pinconf(A18, SPI, 0) # SPI_CS
+pinconf(A19, SPI, 0) # SPI_MISO
+pinconf(A20, PWM, 0)
+pinconf(A21, PWM, 1)
+pinconf(A22, PWM, 2)
+pinconf(A23, PWM, 3)
+
+# A24: USB D-
+# A25: USB D+
+# A26: -
+pinconf(A27, DIG_IN, 0)
+# A28: -
+# A29: -
+# A30: SWCLK
+# A31: SWDIO
+
+pinconf(B0,  DIG_OUT, 0)
+pinconf(B1,  DIG_OUT, 1)
+pinconf(B2,  DIG_OUT, 2)
+pinconf(B3,  DIG_OUT, 3)
+pinconf(B4,  DIG_OUT, 4)
+pinconf(B5,  DIG_OUT, 5)
+pinconf(B6,  DIG_OUT, 6)
+pinconf(B7,  DIG_OUT, 7)
+
+pinconf(B8,  DIG_IN, 1)
+pinconf(B9,  DIG_IN, 2)
+pinconf(B10, DIG_IN, 3)
+pinconf(B11, DIG_IN, 4)
+pinconf(B12, DIG_IN, 5)
+pinconf(B13, CLKOUT, 0) # 12 MHz out
+pinconf(B14, DIG_IN, 6)
+pinconf(B15, DIG_IN, 7)
+
+pinconf(B16, I2C, 0)
+pinconf(B17, I2C, 0)
+# B18: -
+# B19: -
+# B20: -
+# B21: -
+pinconf(B22, DIG_OUT, 8)
+pinconf(B23, DIG_OUT, 9)
+
+# B24: -
+# B25: -
+# B26: -
+# B27: -
+# B28: -
+# B29: -
+# B30: SWO (reserved)
+pinconf(B31, PWM, 4)
+
+###############################################################################
+
+# PWM
+
+pwm_freq_all = 1000
+pwm_freq[0] = 2000
+
+# OTPUT RESET STATES
+
+dout_all = 0
+dout[0] = 1
+dout[3] = 1
+
+aout_all = 0x8000
+aout[0] = 16383
+
+pwm_all = 0
+pwm[0] = 32767
+pwm[1] = 16383
+
+ledblp_all = 0
+ledblp[0] = 0xFFFFFFFE
+

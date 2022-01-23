@@ -1,0 +1,97 @@
+
+# UnivIO Configuration For 64-pin ATSAM4S
+
+# the device fw must report exactly this:
+fwid = "GenIO-A4S-64"
+
+# Unique identifier for this configuration
+deviceid = "GenIO-A4S-64-def"
+
+manufacturer = "github.com/nvitya/univio"
+usb_vendor_id  = 0xBABE
+usb_product_id = 0xBEE2
+
+# Serial number, it is recommended rather to provide/override this at the command line
+serialnum = "112233"
+
+# PIN CONFIGURATION
+
+pins_per_port = 32 # 16 = STM32, 32 = ATSAM
+
+#pinconf(port_id, type, num, pinflags)
+pinconf(A0, DIG_OUT, 0)
+pinconf(A1, LEDBLP, 0, 1)
+pinconf(A2, DIG_OUT, 1)
+pinconf(A3, I2C, 0)
+pinconf(A4, I2C, 0)
+pinconf(A5, DIG_OUT, 1)
+# A6 = trace out
+pinconf(A7, DIG_OUT, 2)
+
+pinconf(A8,  DIG_OUT, 3)
+pinconf(A9,  UART, 0)  # USB-UART RX (UnivIO device input)
+pinconf(A10, UART, 0)  # USB-UART TX (UnivIO device output)
+pinconf(A11, SPI, 0)
+pinconf(A12, SPI, 0)
+pinconf(A13, SPI, 0)
+pinconf(A14, SPI, 0)
+pinconf(A15, PWM, 0, 0)
+
+pinconf(A16, PWM, 1, 0)
+pinconf(A17, ANA_IN, 0)
+pinconf(A18, ANA_IN, 1)
+pinconf(A19, ANA_IN, 2)
+pinconf(A20, ANA_IN, 3)
+pinconf(A21, ANA_IN, 4)
+pinconf(A22, ANA_IN, 5)
+pinconf(A23, DIG_IN, 0)
+
+pinconf(A24, DIG_IN, 1)
+pinconf(A25, DIG_IN, 2)
+pinconf(A26, DIG_IN, 3)
+pinconf(A27, DIG_OUT, 4)
+pinconf(A28, DIG_OUT, 5)
+pinconf(A29, DIG_OUT, 6)
+pinconf(A30, DIG_OUT, 7)
+pinconf(A31, CLKOUT, 0)  # PCK2 = 12 MHz out
+
+pinconf(B0, ANA_IN, 6)
+pinconf(B1, ANA_IN, 7)
+pinconf(B2, ANA_IN, 8)
+pinconf(B3, ANA_IN, 9)
+# B4 = TDI
+# B5 = TDO
+# B6 = SDWIO
+# B7 = SWDCLK
+
+#  B8 = XOUT
+#  B9 = XIN
+# B10 = USB DDM
+# B11 = USB DDP
+# B12 = ERASE
+
+pinconf(B13, DAC, 0, 0)  # DAC is not supported yet
+pinconf(B14, DAC, 1, 0)
+# B15 = not existing
+
+# PWM
+
+pwm_freq_all = 1000
+pwm_freq[0] = 2000
+
+# OTPUT RESET STATES
+
+dout_all = 0
+dout[0] = 1
+dout[3] = 1
+
+aout_all = 0x8000
+aout[0] = 16383
+
+pwm_all = 0
+pwm[0] = 32767
+pwm[1] = 16383
+
+ledblp_all = 0
+ledblp[0] = 0xFFFFFFFE
+

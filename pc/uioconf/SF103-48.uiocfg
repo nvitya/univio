@@ -1,0 +1,80 @@
+
+# UnivIO Configuration For 48-pin STM32F103, the "BLUE PILL" board
+
+# the device fw must report exactly this:
+fwid = "GenIO-SF103-48"
+
+# Unique identifier for this configuration
+deviceid = "GenIO-SF103-48-def"
+
+manufacturer = "github.com/nvitya/univio"
+usb_vendor_id  = 0xBABE
+usb_product_id = 0xBEE1
+
+# Serial number, it is recommended rather to provide/override this at the command line
+serialnum = "112233"
+
+# Non configurable pins / functions
+#   A8  = precise 8 MHz output
+#   A9  = VCP uart_tx (output)
+#   A10 = VCP uart_rx (input)
+#   B10 = trace output uart: 115200 baud, 8 bit, 1 stop, no parity
+
+# PIN CONFIGURATION
+
+pins_per_port = 16 # 16 = STM32, 32 = ATSAM
+
+#pinconf(port_id, type, num, pinflags)
+pinconf(A0, ANA_IN, 0)
+pinconf(A1, ANA_IN, 1)
+pinconf(A2, ANA_IN, 2)
+pinconf(A3, ANA_IN, 3)
+pinconf(A4, DIG_IN, 0)
+pinconf(A5, DIG_IN, 1)
+pinconf(A6, DIG_IN, 2)
+pinconf(A7, DIG_IN, 3)
+
+pinconf(A8, CLKOUT, 0)  # fix 8 MHz output
+
+pinconf(A15, DIG_OUT, 0)
+
+pinconf(B0, PWM, 0)
+pinconf(B1, PWM, 1)
+pinconf(B2, DIG_OUT, 1)
+pinconf(B3, DIG_OUT, 2)
+pinconf(B4, DIG_OUT, 3)
+pinconf(B5, DIG_OUT, 4)
+pinconf(B6, I2C, 0)
+pinconf(B7, I2C, 0)
+
+pinconf(B8, DIG_OUT, 5)
+pinconf(B9, DIG_OUT, 6)
+
+pinconf(B10, UART, 0)  # USB-UART TX (UnivIO device output)
+pinconf(B11, UART, 0)  # USB-UART RX (UnivIO device input)
+
+pinconf(B12, SPI, 0)  # CS
+pinconf(B13, SPI, 0)  # CLK
+pinconf(B14, SPI, 0)  # MISO
+pinconf(B15, SPI, 0)  # MOSI
+
+pinconf(C13, LEDBLP, 0, 1)  # on-board led
+
+# PWM
+
+pwm_freq_all = 1000
+pwm_freq[0] = 2000
+
+# OTPUT RESET STATES
+
+dout_all = 0
+dout[0] = 1
+
+pwm_all = 0
+pwm[0] = 32767
+pwm[1] = 16383
+
+ledblp_all = 0
+ledblp[0] = 0xFFFFFFFE
+
+

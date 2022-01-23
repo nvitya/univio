@@ -1,0 +1,11 @@
+You need to include the VIHAL library here.
+
+
+1. Either as checkout directly here:
+
+ git clone https://github.com/nvitya/vihal.git
+
+
+2. or link a local copy:
+
+ ln -s /some_local_workspace/github/vihal vihal
