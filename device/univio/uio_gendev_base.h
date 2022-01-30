@@ -98,6 +98,8 @@ typedef struct
 
   TUioDevBaseCfg    basecfg;
   TUioDeviceCfg     cfg;
+
+  uint64_t          _tail_pad;  // this must be the last, ensuring 8 byte size alignment
 //
 } TUioCfgStb;
 

@@ -132,6 +132,7 @@ bool TUioGenDevImpl::InitBoard()
   #endif
 
   // place the Non-Volatile data to the end of the flash, importantly into BANKB for concurrent access
+  // the erase size depend on flash size, the highest value is 8k
   nvsaddr_setup  = hwintflash.start_address + hwintflash.bytesize - 32 * 1024;
   nvsaddr_nvdata = hwintflash.start_address + hwintflash.bytesize - 16 * 1024;
   nvs_sector_size = hwintflash.EraseSize(nvsaddr_setup);
