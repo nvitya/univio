@@ -746,9 +746,18 @@ void TUioGenDevBase::SaveSetup()
   pstb->cfg_length = sizeof(cfg);
   pstb->cfg_csum = uio_content_checksum(&cfg, sizeof(cfg));
 
+  pstb->_tail_pad = 0x1111111111111111;
+
   // save to flash
+#if 1
   hwintflash.StartCopyMem(nvsaddr_setup, pstb, sizeof(*pstb));
   hwintflash.WaitForComplete();
+#else
+  hwintflash.StartEraseMem(nvsaddr_setup, sizeof(*pstb));
+  hwintflash.WaitForComplete();
+  hwintflash.StartWriteMem(nvsaddr_setup, pstb, sizeof(*pstb));
+  hwintflash.WaitForComplete();
+#endif
 
   TRACE("Setup save completed.\r\n");
 }

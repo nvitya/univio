@@ -1,4 +1,5 @@
 import univio
+import sys
 import time
 
 def SetBarrBit(barr, bitidx):
@@ -47,6 +48,8 @@ class UioLedStripe:
 		#/
 
 	def Update(self):
+		while conn.read_uint(0x1602) == 1:
+			pass
 		conn.write(0xC000, self.spidata)  # upload the SPI data
 		#conn.write_uint(0x1601, len(self.spidata), 2)  # length
 		conn.write_uint(0x1602, 1, 1)  # start
@@ -59,12 +62,12 @@ conn = univio.UioComm()
 conn.open("/dev/ttyACM1")
 conn.write_uint(0x1500, 0xFFFFFFFC, 4)
 
-ledcnt = 30
+ledcnt = 200
 
 ls = UioLedStripe(conn, ledcnt)
 
 for n in range(0, ledcnt):
-	ls.SetLed(n, 0, 0, 20)
+	ls.SetLed(n, 0, 0, 0)
 
 ls.Update()
 
@@ -79,7 +82,6 @@ while True:
 		#/
 	#/
 	ls.Update()
-	time.sleep(0.01)
 	#
 	if upcnt:
 		if cnt < ledcnt - 1:
