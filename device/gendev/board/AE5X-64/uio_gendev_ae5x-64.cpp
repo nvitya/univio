@@ -3,7 +3,7 @@
 #include "hwintflash.h"
 #include "hwspi.h"
 #include "univio_comm.h"
-#include "uio_gendev.h"
+#include "uio_device.h"
 
 
 #define SPI_CS_PIN       18 // A18

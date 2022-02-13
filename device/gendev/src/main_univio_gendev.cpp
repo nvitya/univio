@@ -19,7 +19,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  * --------------------------------------------------------------------------- */
 /*
- * file:     main_univio_device.cpp
+ * file:     main_univio_gendev.cpp
  * brief:    UNIVIO GENDEV Start and main loop
  * created:  2021-11-18
  * authors:  nvitya
