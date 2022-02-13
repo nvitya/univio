@@ -178,8 +178,8 @@ bool TUioGenDevImpl::InitBoard()
   g_uart.DmaAssign(false, &g_dma_uart_rx);
 
   // USB PINS
-  hwpinctrl.PinSetup(PORTNUM_A, 24, PINCFG_AF_H);  // USB DM
-  hwpinctrl.PinSetup(PORTNUM_A, 25, PINCFG_AF_H);  // USB DP
+  hwpinctrl.PinSetup(PORTNUM_A, 24, PINCFG_AF_H | PINCFG_DRIVE_STRONG);  // USB DM
+  hwpinctrl.PinSetup(PORTNUM_A, 25, PINCFG_AF_H | PINCFG_DRIVE_STRONG);  // USB DP
 
   // Other Pin inits is not necessary here, because all pins will be initialized later to passive
   // before the config loading happens
