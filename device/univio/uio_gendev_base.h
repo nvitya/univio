@@ -1,12 +1,32 @@
-/*
- * uio_gendev_base.h
+/* -----------------------------------------------------------------------------
+ * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
+ * Copyright (c) 2022 Viktor Nagy, nvitya
  *
- *  Created on: Nov 24, 2021
- *      Author: vitya
- */
+ * This software is provided 'as-is', without any express or implied warranty.
+ * In no event will the authors be held liable for any damages arising from
+ * the use of this software. Permission is granted to anyone to use this
+ * software for any purpose, including commercial applications, and to alter
+ * it and redistribute it freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software in
+ *    a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ *
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ *
+ * 3. This notice may not be removed or altered from any source distribution.
+ * --------------------------------------------------------------------------- */
+/*
+ *  file:     uio_gendev_base.h
+ *  brief:    UNIVIO GENDEV target independent parts
+ *  version:  1.00
+ *  date:     2022-02-13
+ *  authors:  nvitya
+*/
 
-#ifndef UNIVIO_UIO_GENDEV_BASE_H_
-#define UNIVIO_UIO_GENDEV_BASE_H_
+#pragma once
 
 #include "hwpins.h"
 #include "hwadc.h"
@@ -218,4 +238,4 @@ extern THwDmaChannel    g_dma_uart_rx;
 
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen);
 
-#endif /* UNIVIO_UIO_GENDEV_BASE_H_ */
+

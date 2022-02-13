@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------------------
- * This file is a part of the VIHAL TEST project: https://github.com/nvitya/vihaltests
- * Copyright (c) 2021 Viktor Nagy, nvitya
+ * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
+ * Copyright (c) 2022 Viktor Nagy, nvitya
  *
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the authors be held liable for any damages arising from
@@ -33,7 +33,7 @@
 #include "usbdevice.h"
 #include "hwusbctrl.h"
 
-#include "uio_gendev.h"
+#include "uio_device.h"
 
 TUsbDevUio       usbdev;
 

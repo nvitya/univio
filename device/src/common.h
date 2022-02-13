@@ -1,12 +1,12 @@
 /*
- * common.h
- *
- *  Created on: Nov 20, 2021
- *      Author: vitya
- */
+ *  file:     common.h
+ *  brief:    Some project specific commonly used definitions
+ *  version:  1.00
+ *  date:     2021-11-18
+ *  authors:  nvitya
+*/
 
-#ifndef SRC_COMMON_H_
-#define SRC_COMMON_H_
+#pragma once
 
 #include "platform.h"
 
@@ -16,4 +16,4 @@
 #define CLOCKS_TO_US(aclk)     (aclk / (MCU_CLOCK_SPEED / 1000000))
 #define CLOCKS_TO_MS(aclk)     (aclk / (MCU_CLOCK_SPEED / 1000))
 
-#endif /* SRC_COMMON_H_ */
+
