@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
+ * This file is a part of the UNIVIO projects: https://github.com/nvitya/univio_projects
  * Copyright (c) 2022 Viktor Nagy, nvitya
  *
  * This software is provided 'as-is', without any express or implied warranty.
@@ -19,9 +19,9 @@
  * 3. This notice may not be removed or altered from any source distribution.
  * --------------------------------------------------------------------------- */
 /*
- * file:     main_univio_gendev.cpp
- * brief:    UNIVIO GENDEV Start and main loop
- * created:  2021-11-18
+ * file:     main_usbsensor.cpp
+ * brief:    USB Sensor project start and main loop
+ * created:  2022-02-13
  * authors:  nvitya
 */
 
@@ -85,7 +85,7 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   //tracebuf.waitsend = true;  // better for basic debugging and stepping
 
   TRACE("\r\n--------------------------------------\r\n");
-  TRACE("UNIVIO Device: %s\r\n", BOARD_NAME);
+  TRACE("USB Sensor Device: %s\r\n", BOARD_NAME);
   TRACE("SystemCoreClock: %u\r\n", SystemCoreClock);
 
   TRACE_FLUSH();
@@ -93,18 +93,8 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   mcu_enable_interrupts();
 
   g_uiodev.Init();
-  g_uiodev.LoadSetup();
 
-#if USB_ENABLE
   usb_device_init();
-#endif
-
-#if UART_CTRL_ENABLE
-  if (!g_uartctrl.Init())
-  {
-    TRACE("Ctrl Uart init error!\r\n");
-  }
-#endif
 
   TRACE("\r\nStarting main cycle...\r\n");
 
@@ -119,13 +109,7 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   {
     t1 = CLOCKCNT;
 
-    #if USB_ENABLE
-      usb_device_run();
-    #endif
-
-    #if UART_CTRL_ENABLE
-      g_uartctrl.Run();
-    #endif
+    usb_device_run();
 
     g_uiodev.Run();
 

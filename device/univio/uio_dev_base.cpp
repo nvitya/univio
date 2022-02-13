@@ -168,6 +168,27 @@ bool TUioDevBase::HandleRw(TUnivioRequest * rq, void * avarptr, unsigned alen)
   }
 }
 
+bool TUioDevBase::ResponseI32(TUnivioRequest * rq, int32_t adata)
+{
+  if (rq->iswrite)  return ResponseError(rq, UIOERR_READ_ONLY);
+
+  *(int32_t *)&rq->data[0] = adata;
+  rq->length = sizeof(adata);
+  rq->result = 0;
+  return true;
+}
+
+bool TUioDevBase::ResponseI16(TUnivioRequest * rq, int16_t adata)
+{
+  if (rq->iswrite)  return ResponseError(rq, UIOERR_READ_ONLY);
+
+  *(int16_t *)&rq->data[0] = adata;
+  rq->length = sizeof(adata);
+  rq->result = 0;
+  return true;
+}
+
+
 bool TUioDevBase::ResponseU32(TUnivioRequest * rq, uint32_t adata)
 {
   if (rq->iswrite)  return ResponseError(rq, UIOERR_READ_ONLY);

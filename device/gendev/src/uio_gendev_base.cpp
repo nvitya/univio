@@ -557,7 +557,7 @@ bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
   }
   else if ((0x1300 <= addr) && (addr < 0x1300 + UIO_ADC_COUNT)) // Set ANA_OUT
   {
-    uint8_t idx = addr - 0x0700;
+    uint8_t idx = addr - 0x1300;
 
     HandleRw(rq, &dac_value[idx], sizeof(dac_value[0]));  // save to the shadow
     if (!rq->iswrite)
@@ -570,9 +570,9 @@ bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
     return ResponseOk(rq);
   }
 
-  else if ((0x1400 <= addr) && (addr < 0x0700 + UIO_PWM_COUNT)) // Set PWM Duty Cycle
+  else if ((0x1400 <= addr) && (addr < 0x1400 + UIO_PWM_COUNT)) // Set PWM Duty Cycle
   {
-    uint8_t idx = addr - 0x0700;
+    uint8_t idx = addr - 0x1400;
 
     HandleRw(rq, &pwm_value[idx], sizeof(pwm_value[0]));  // save to the shadow
     if (!rq->iswrite)

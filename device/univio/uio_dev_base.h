@@ -72,6 +72,9 @@ public: // utility functions
   bool              ResponseBin(TUnivioRequest * rq, void * asrc, unsigned alen);
   bool              ResponseStr(TUnivioRequest * rq, const char * astr);
 
+  bool              ResponseI32(TUnivioRequest * rq, int32_t adata);
+  bool              ResponseI16(TUnivioRequest * rq, int16_t adata);
+
   bool              ResponseU32(TUnivioRequest * rq, uint32_t adata);
   bool              ResponseU16(TUnivioRequest * rq, uint16_t adata);
   bool              ResponseU8(TUnivioRequest * rq, uint8_t adata);
