@@ -1,0 +1,50 @@
+/*
+ *  file:     board.h
+ *  brief:    UnivIO definitions for the 48 pin STM32F401 MCU
+ *            (aka. Black Pill Board)
+ *  created:  2022-03-02
+ *  authors:  nvitya
+*/
+
+#ifndef BOARD_H_
+#define BOARD_H_
+
+#define BOARD_NAME "STM32F401 48-pin"
+#define MCU_STM32F401CC
+#define EXTERNAL_XTAL_HZ   25000000
+#define MCU_CLOCK_SPEED    84000000   // for proper 2.4 MHz SPI, it must be divisible by 2.4 MHz
+
+#define USB_ENABLE        1
+#define UART_CTRL_ENABLE  0
+#define USB_UART_ENABLE   0  // there is not enough endpoint on this USB HW !
+
+#define UART_CTRL         0
+
+// UnivID Device settings
+
+#define UIO_FW_ID   "GenIO-SF401-48"
+#define UIO_FW_VER    ((0 << 24) | (5 << 16) | 0)
+#define UIO_MEM_SIZE       0x8000 // for OBJ#0002
+
+#define UIO_MAX_DATA_LEN     4096
+#define UIO_MPRAM_SIZE       8192
+
+// UnivIO Generic Device settings
+
+#define UIO_PINS_PER_PORT  16
+#define UIO_PIN_COUNT      48
+
+#define UIOMCU_ADC_COUNT    1
+
+// DMA Allocation
+
+#define DMACH_UART_TX     0x101
+#define DMACH_UART_RX     0x102
+
+#define DMACH_SPI_TX      0x103
+#define DMACH_SPI_RX      0x104
+#define DMACH_I2C_TX      0x105
+#define DMACH_I2C_RX      0x106
+
+
+#endif /* BOARD_H_ */

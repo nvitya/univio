@@ -85,7 +85,7 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   //tracebuf.waitsend = true;  // better for basic debugging and stepping
 
   TRACE("\r\n--------------------------------------\r\n");
-  TRACE("USB Sensor Device: %s\r\n", BOARD_NAME);
+  TRACE("UnivIO-GENDEV: %s\r\n", BOARD_NAME);
   TRACE("SystemCoreClock: %u\r\n", SystemCoreClock);
 
   TRACE_FLUSH();
@@ -93,6 +93,7 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   mcu_enable_interrupts();
 
   g_uiodev.Init();
+  g_uiodev.LoadSetup();
 
   usb_device_init();
 
