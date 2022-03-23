@@ -160,6 +160,7 @@ public:
   uint8_t           spi_status = 0;
 
   THwI2c *          i2c = nullptr;
+  TI2cTransaction   i2ctra;
   uint16_t          i2c_data_offs = 0;
   uint32_t          i2c_speed = 100000;
   uint32_t          i2c_eaddr = 0;

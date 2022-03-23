@@ -68,6 +68,8 @@ bool TUioGenDevBase::InitDevice()
   i2c = &g_i2c;
   uart = &g_uart;
 
+  i2ctra.completed = true;
+
   // prepare g_pins
 
   for (n = 0; n < UIO_PIN_COUNT; ++n)
@@ -990,6 +992,11 @@ uint16_t TUioGenDevBase::I2cStart()
     return UIOERR_UNITSEL;
   }
 
+  if (!i2ctra.completed)
+  {
+    return UIOERR_BUSY;
+  }
+
   i2c_trlen = (i2c_cmd >> 16);
   uint32_t edata_len = ((i2c_cmd >> 12) & 3);
 
@@ -1006,11 +1013,11 @@ uint16_t TUioGenDevBase::I2cStart()
 
   if (i2c_cmd & UIO_I2C_CMD_WRITE)
   {
-    i2c->StartWriteData(i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
+    i2c->StartWrite(&i2ctra, i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
   }
   else
   {
-    i2c->StartReadData(i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
+    i2c->StartRead(&i2ctra, i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
   }
 
   i2c_result = 0xFFFF;
@@ -1077,9 +1084,9 @@ void TUioGenDevBase::Run() // handle led blink patterns
   if (0xFFFF == i2c_result)
   {
     i2c->Run();
-    if (!i2c->busy)
+    if (i2ctra.completed)
     {
-      i2c_result = i2c->error;
+      i2c_result = i2ctra.error;
     }
   }
 
