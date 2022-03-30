@@ -10,6 +10,7 @@ using namespace std;
 #include "stdio.h"
 #include "stdlib.h"
 #include <string>
+#include "univio_conn.h"
 
 TUnivioConn  conn;
 
@@ -22,9 +23,9 @@ void flushstdout()
 
 int main(int argc, char * const * argv)
 {
-  printf("UnivIO Configurator - v1.0\n");
+  printf("UnivIO Test - v1.0\n");
 
-  string comport = "/dev/ttyUSB0";
+  string comport = "/dev/ttyACM0";
 
   if (argc > 1)
   {

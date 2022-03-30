@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="uiocommtest.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="45" Y="36"/>
+        <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../univio.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="63" Y="44"/>
+        <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <IsPartOfProject Value="True"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="311"/>
+        <CursorPos X="26" Y="403"/>
+        <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../utils_os/sercomm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="112"/>
+        <CursorPos X="82" Y="145"/>
+        <UsageCount Value="26"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/packages/rtl-extra/src/unix/serial.pp"/>
+        <UnitName Value="Serial"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="124"/>
+        <CursorPos X="34" Y="150"/>
+        <UsageCount Value="12"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/unix/termiosh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="11" Y="20"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/unix/bunxovlh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3"/>
+        <CursorPos X="11" Y="52"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/unix/bunxovl.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="226"/>
+        <CursorPos X="3" Y="229"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/unix/bunxh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="46" Y="75"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../utils_os/util_nstime.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="6" Y="74"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/linux/linux.pp"/>
+        <UnitName Value="Linux"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="416"/>
+        <CursorPos X="52" Y="471"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/linux/ptypes.inc"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="133"/>
+        <CursorPos X="26" Y="182"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/unix/errors.pp"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="52" Y="32"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/linux/errnostr.inc"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="3" Y="17"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="89" Column="45" TopLine="89"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="108" Column="56" TopLine="59"/>
+      </Position>
+      <Position>
+        <Filename Value="uiocommtest.lpr"/>
+        <Caret Line="32" Column="80"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="103" Column="61" TopLine="79"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="34" Column="5"/>
+      </Position>
+      <Position>
+        <Filename Value="uiocommtest.lpr"/>
+        <Caret Line="4" Column="12"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="382" TopLine="293"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="199" Column="48" TopLine="139"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="48" Column="15"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="339" Column="17" TopLine="302"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="185" Column="20" TopLine="136"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="186" TopLine="136"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="192" TopLine="136"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="200" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="201" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="202" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="203" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="204" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="206" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="208" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="210" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="185" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="uiocommtest.lpr"/>
+        <Caret Line="36" Column="45"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="270" Column="63" TopLine="223"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="36" Column="53"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="398" Column="49" TopLine="308"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="36" Column="42" TopLine="35"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="403" Column="30" TopLine="311"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="36" Column="14"/>
+      </Position>
+      <Position>
+        <Filename Value="../univio/univio_conn.pas"/>
+        <Caret Line="403" Column="26" TopLine="311"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <Watches>
+      <Item>
+        <Expression Value="self"/>
+      </Item>
+      <Item>
+        <Expression Value="Self.BUF"/>
+        <DisplayStyle Value="wdfMemDump"/>
+      </Item>
+    </Watches>
+  </Debugging>
+</CONFIG>

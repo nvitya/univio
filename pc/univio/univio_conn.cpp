@@ -130,6 +130,45 @@ uint16_t TUnivioConn::WriteUint(uint16_t aaddr, uint32_t adata, unsigned alen)
 	return rq.result;
 }
 
+uint16_t TUnivioConn::WriteUint32(uint16_t aaddr, uint32_t adata)
+{
+	rq.address = aaddr;
+	rq.metalen = 0;
+	rq.length = 4;
+	rq.iswrite = 1;
+	*(uint32_t *)&rq.data[0] = adata;
+
+	ExecRequest();
+
+	return rq.result;
+}
+
+uint16_t TUnivioConn::WriteUint16(uint16_t aaddr, uint16_t adata)
+{
+	rq.address = aaddr;
+	rq.metalen = 0;
+	rq.length = 2;
+	rq.iswrite = 1;
+	*(uint16_t *)&rq.data[0] = adata;
+
+	ExecRequest();
+
+	return rq.result;
+}
+
+uint16_t TUnivioConn::WriteUint8(uint16_t aaddr, uint8_t adata)
+{
+	rq.address = aaddr;
+	rq.metalen = 0;
+	rq.length = 1;
+	rq.iswrite = 1;
+	rq.data[0] = adata;
+
+	ExecRequest();
+
+	return rq.result;
+}
+
 void TUnivioConn::ExecRequest()
 {
 	int r;

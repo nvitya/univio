@@ -42,6 +42,9 @@ public:
 
 	uint16_t          ReadUint32(uint16_t aaddr, uint32_t * rdata);
 	uint16_t          WriteUint(uint16_t aaddr, uint32_t adata, unsigned alen);
+	uint16_t          WriteUint32(uint16_t aaddr, uint32_t adata);
+	uint16_t          WriteUint16(uint16_t aaddr, uint16_t adata);
+	uint16_t          WriteUint8(uint16_t aaddr, uint8_t adata);
 
 	void              ExecRequest();
 	unsigned          AddTx(void * asrc, unsigned len);
