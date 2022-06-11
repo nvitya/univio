@@ -37,33 +37,33 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 {
 /*  0   A0 */ { RESERVED },  // TRACE_OUT = USART0_TX - reserved for programming
 /*  1   A1 */ { RESERVED },  // USART0_RX - reserved for bootloader programming
-/*  2   A2 */ { 1 | UIOFUNC_I2C,   0, 0, 0 },  // I2C1_SDA
-/*  3   A3 */ { 1 | UIOFUNC_I2C,   0, 0, 0 },  // I2C1_SCL
-/*  4   A4 */ { 1 | UIOFUNC_UART,  0, 0, 0 },  // UART_TX_OUT = UART1_TX
-/*  5   A5 */ { 1 | UIOFUNC_UART,  0, 0, 0 },  // UART_RX_IN  = UART1_RX
-/*  6   A6 */ { 1,   0, 0, 0 },
-/*  7   A7 */ { 1,   0, 0, 0 },
+/*  2   A2 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(1, 0) },  // I2C1_SDA
+/*  3   A3 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(1, 1) },  // I2C1_SCL
+/*  4   A4 */ { 1 | UIOFUNC_UART,  0, 0, UIOPWM(2, 0) },  // UART_TX_OUT = UART1_TX
+/*  5   A5 */ { 1 | UIOFUNC_UART,  0, 0, UIOPWM(2, 1) },  // UART_RX_IN  = UART1_RX
+/*  6   A6 */ { 1,   0, 0, UIOPWM(3, 0) },
+/*  7   A7 */ { 1,   0, 0, UIOPWM(3, 1) },
 
-/*  8   A8 */ { 1,   0, 0, 0 },
-/*  9   A9 */ { 1,   0, 0, 0 },
-/* 10  A10 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // SPI1_SCK
-/* 11  A11 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // SPI1_TX = MOSI
-/* 12  A12 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // SPI1_RX = MISO
-/* 13  A13 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // SPI1_CSn
+/*  8   A8 */ { 1,   0, 0, UIOPWM(4, 0) },
+/*  9   A9 */ { 1,   0, 0, UIOPWM(4, 1) },
+/* 10  A10 */ { 1 | UIOFUNC_SPI,   0, 0, UIOPWM(5, 0) },  // SPI1_SCK
+/* 11  A11 */ { 1 | UIOFUNC_SPI,   0, 0, UIOPWM(5, 1) },  // SPI1_TX = MOSI
+/* 12  A12 */ { 1 | UIOFUNC_SPI,   0, 0, UIOPWM(6, 0) },  // SPI1_RX = MISO
+/* 13  A13 */ { 1 | UIOFUNC_SPI,   0, 0, UIOPWM(6, 1) },  // SPI1_CSn
 /* 14  A14 */ { 1,   0, 0, UIOPWM(7, 0) },
 /* 15  A15 */ { 1,   0, 0, UIOPWM(7, 1) },
 
-/* 16  A16 */ { 1,   0, 0, 0 },
-/* 17  A17 */ { 1,   0, 0, 0 },
-/* 18  A18 */ { 1,   0, 0, 0 },
-/* 19  A19 */ { 1,   0, 0, 0 },
-/* 20  A20 */ { 1,   0, 0, 0 },
-/* 21  A21 */ { 1 | UIOFUNC_CLKOUT,   0, 0, 0 },  // CLOCK GPOUT0: 12 MHz Output
-/* 22  A22 */ { 1,   0, 0, 0 },
-/* 23  A23 */ { 1,   0, 0, 0 }, // RP-PICO: internal supply light load control (output)
+/* 16  A16 */ { 1,   0, 0, UIOPWM(0, 0) },
+/* 17  A17 */ { 1,   0, 0, UIOPWM(0, 1) },
+/* 18  A18 */ { 1,   0, 0, UIOPWM(1, 0) },
+/* 19  A19 */ { 1,   0, 0, UIOPWM(1, 1) },
+/* 20  A20 */ { 1,   0, 0, UIOPWM(2, 0) },
+/* 21  A21 */ { 1 | UIOFUNC_CLKOUT,   0, 0, UIOPWM(2, 1) },  // CLOCK GPOUT0: 12 MHz Output
+/* 22  A22 */ { 1,   0, 0, UIOPWM(3, 0) },
+/* 23  A23 */ { 1,   0, 0, UIOPWM(3, 1) }, // RP-PICO: internal supply light load control (output)
 
-/* 24  A24 */ { 1,   0, 0, 0 }, // RP-PICO: USB VBUS detect (input)
-/* 25  A25 */ { 1,   0, 0, 0 }, // RP-PICO: internal LED (output)
+/* 24  A24 */ { 1,   0, 0, UIOPWM(4, 0) }, // RP-PICO: USB VBUS detect (input)
+/* 25  A25 */ { 1,   0, 0, UIOPWM(4, 1) }, // RP-PICO: internal LED (output)
 /* 26  A26 */ { 1,   UIOADC(0, 0), 0, 0 },
 /* 27  A27 */ { 1,   UIOADC(0, 1), 0, 0 },
 /* 28  A28 */ { 1,   UIOADC(0, 2), 0, 0 },

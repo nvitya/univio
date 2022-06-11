@@ -64,7 +64,7 @@ public:
 	TCdcLineCoding  linecoding;
 
 	TUsbEndpoint    ep_manage;
-	uint8_t         databuf[64];
+	uint8_t         databuf[64] __attribute__((aligned(4)));
 
 public: // mandatory functions
 	virtual bool    InitInterface();
@@ -108,8 +108,8 @@ public:
   uint16_t        usb_rxlen = 0;
   uint16_t        usb_rpos = 0;
 
-  uint8_t         usb_txbuf[64];
-  uint8_t         usb_rxbuf[64];
+  uint8_t         usb_txbuf[64] __attribute__((aligned(4)));
+  uint8_t         usb_rxbuf[64] __attribute__((aligned(4)));
 
 public: // mandatory functions
 	virtual bool    InitInterface();

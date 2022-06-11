@@ -1,0 +1,86 @@
+
+# UnivIO Configuration for the RP2040
+
+# the device fw must report exactly this:
+fwid = "GenIO-RP2040"
+
+# Unique identifier for this configuration
+deviceid = "GenIO-RP2040-def"
+
+manufacturer = "github.com/nvitya/univio"
+usb_vendor_id  = 0xBABE
+usb_product_id = 0xBEE6
+
+# Serial number, it is recommended rather to provide/override this at the command line
+serialnum = "112233"
+
+# PIN CONFIGURATION
+
+# Special functions
+#   0  = TRACE output UART (reserved)
+#  21  = precise 12 MHz output (optional)
+
+pins_per_port = 32 
+
+###############################################################################
+# pinconf(port_id, type, num, pinflags)
+
+# A0 = Trace out = UART0_TX
+# A1 = UART0_RX (reserved)
+pinconf(A2,  I2C, 0)        # I2C_SDA
+pinconf(A3,  I2C, 0)        # I2C_SCL
+pinconf(A4,  UART, 0)       # UART_TX_OUT
+pinconf(A5,  UART, 0)       # UART_RX_IN
+pinconf(A6,  DIG_IN, 0)              
+pinconf(A7,  DIG_IN, 1)              
+                           
+pinconf(A8,  DIG_IN, 2)              
+pinconf(A9,  DIG_IN, 3)              
+pinconf(A10, SPI, 0)        # SPI_SCK
+pinconf(A11, SPI, 0)        # SPI_MOSI
+pinconf(A12, SPI, 0)        # SPI_MISO
+pinconf(A13, SPI, 0)        # SPI_CSn
+pinconf(A14, PWM, 0)       
+pinconf(A15, PWM, 1)       
+                           
+pinconf(A16, DIG_OUT, 0)              
+pinconf(A17, DIG_OUT, 1)              
+pinconf(A18, DIG_OUT, 2)              
+pinconf(A19, DIG_OUT, 3)
+pinconf(A20, DIG_OUT, 4)
+pinconf(A21, DIG_OUT, 5)
+pinconf(A22, CLKOUT, 0)     # fix 12 MHz output
+pinconf(A23, PASSIVE, 0)    # internal supply light load control
+
+pinconf(A24, PASSIVE, 0)    # USB VBUS Detect
+pinconf(A25, LEDBLP, 0, 0)  # on board led on the RP-PICO
+pinconf(A26, ANA_IN, 0)
+pinconf(A27, ANA_IN, 1)
+pinconf(A28, ANA_IN, 2)
+pinconf(A29, ANA_IN, 3)     # internal only for VSYS voltage measurement
+# A30: -
+# A31: -
+
+###############################################################################
+
+# PWM
+
+pwm_freq_all = 1000
+pwm_freq[0] = 2000
+
+# OTPUT RESET STATES
+
+dout_all = 0
+dout[0] = 1
+dout[3] = 1
+
+aout_all = 0x8000
+aout[0] = 16383
+
+pwm_all = 0
+pwm[0] = 32767
+pwm[1] = 16383
+
+ledblp_all = 0
+ledblp[0] = 0xFFFFFFFE
+

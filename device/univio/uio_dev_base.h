@@ -50,7 +50,7 @@ public:
 
   bool              initialized = false;
 
-  TUioDevBaseCfg    basecfg;
+  TUioDevBaseCfg    basecfg __attribute__((aligned(4)));
 
   bool              Init();
 
