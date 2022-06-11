@@ -34,7 +34,6 @@
 #include "hwspi.h"
 #include "hwi2c.h"
 #include "hwdma.h"
-#include "hwintflash.h"
 
 #include "usbfunc_cdc_uart.h"
 

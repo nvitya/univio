@@ -27,20 +27,28 @@
 */
 
 #include "string.h"
-#include "hwintflash.h"
 #include "univio.h"
 #include "uio_device.h"
 #include <uio_nvdata.h>
+#include "uio_nvstorage.h"
 
 TUioNvData g_nvdata;
+
+#if HAS_SPI_FLASH
+
+  // with SPI Flash storage the CPU must have enough RAM to have this relative big buffer
+
+  // this two sector buffer mirrors the SPI Flash content:
+  uint8_t nvdata_spi_buf[8192] __attribute__((aligned(8)));
+#endif
 
 void TUioNvData::Init()
 {
   unsigned n;
 
-  if (!hwintflash.initialized)
+  if (!g_nvstorage.initialized)
   {
-    hwintflash.Init();
+    g_nvstorage.Init();
   }
 
   sector_size = g_uiodev.nvs_sector_size;
@@ -48,10 +56,19 @@ void TUioNvData::Init()
 
   chrec_count = (sector_size - sizeof(TUioNvDataHead)) / sizeof(TUioNvDataChRec);
 
-  // two sectors, select the newer one
+  #if HAS_SPI_FLASH
+    // load the two sectors into the memory first, the sector size must be 4096 here
 
-  TUioNvDataHead *  phead1 = (TUioNvDataHead *)(nvsaddr_base + 0 * sector_size);
-  TUioNvDataHead *  phead2 = (TUioNvDataHead *)(nvsaddr_base + 1 * sector_size);
+    g_nvstorage.Read(nvsaddr_base, &nvdata_spi_buf[0], sizeof(nvdata_spi_buf));
+
+    TUioNvDataHead *  phead1 = (TUioNvDataHead *)&nvdata_spi_buf[0 * sector_size];
+    TUioNvDataHead *  phead2 = (TUioNvDataHead *)&nvdata_spi_buf[1 * sector_size];
+  #else
+    // two sectors, select the newer one
+
+    TUioNvDataHead *  phead1 = (TUioNvDataHead *)(nvsaddr_base + 0 * sector_size);
+    TUioNvDataHead *  phead2 = (TUioNvDataHead *)(nvsaddr_base + 1 * sector_size);
+  #endif
 
   TUioNvDataHead *   phead = nullptr;
 
@@ -76,17 +93,21 @@ void TUioNvData::Init()
   {
     // not initialized yet
 
-    hwintflash.StartEraseMem(nvsaddr_base, sector_size * 2);
-    hwintflash.WaitForComplete();
+    g_nvstorage.Erase(nvsaddr_base, sector_size * 2);
 
     ldatahead.signature = UIO_NVDATA_SIGNATURE;
     ldatahead.serial = 1;
     memcpy(&ldatahead.value[0], &value[0], sizeof(value));
 
-    hwintflash.StartWriteMem(nvsaddr_base, &ldatahead,  sizeof(ldatahead));
-    hwintflash.WaitForComplete();
+    g_nvstorage.Write(nvsaddr_base, &ldatahead,  sizeof(ldatahead));
 
     sector_index = 0;
+
+    #if HAS_SPI_FLASH
+      // update the local buffer
+      memset(&nvdata_spi_buf[0], 0xFF, sizeof(nvdata_spi_buf));
+      memcpy(&nvdata_spi_buf[0], &ldatahead,  sizeof(ldatahead));
+    #endif
   }
   else
   {
@@ -128,7 +149,13 @@ uint16_t TUioNvData::SaveValue(uint8_t aid, uint32_t avalue)
 
   value[aid] = avalue; // update locally first
 
-  TUioNvDataHead *  phead = (TUioNvDataHead *)(nvsaddr_base + sector_size * sector_index);
+  #if HAS_SPI_FLASH
+    TUioNvDataHead *  phead = (TUioNvDataHead *)&nvdata_spi_buf[sector_size * sector_index];
+    uint8_t * pbase = (uint8_t *)&nvdata_spi_buf[0];
+  #else
+    TUioNvDataHead *  phead = (TUioNvDataHead *)(nvsaddr_base + sector_size * sector_index);
+    uint8_t * pbase = (uint8_t *)nvsaddr_base;
+  #endif
 
   // search an empty (0xFF) record
 
@@ -146,8 +173,12 @@ uint16_t TUioNvData::SaveValue(uint8_t aid, uint32_t avalue)
       lrec.id_not = (aid ^ 0xFF);
       lrec.value = avalue;
 
-      hwintflash.StartWriteMem(unsigned(prec), &lrec,  sizeof(lrec));
-      hwintflash.WaitForComplete();
+      g_nvstorage.Write(nvsaddr_base + unsigned(prec) - unsigned(pbase), &lrec,  sizeof(lrec));
+      #if HAS_SPI_FLASH
+        // update the local buffer too, the prec points there
+        memcpy(prec, &lrec,  sizeof(lrec));
+      #endif
+
       return 0;
     }
     ++prec;
@@ -163,11 +194,14 @@ uint16_t TUioNvData::SaveValue(uint8_t aid, uint32_t avalue)
 
   sector_index = (sector_index ^ 1); // change to the other sector
 
-  hwintflash.StartEraseMem(nvsaddr_base + sector_size * sector_index, sector_size);
-  hwintflash.WaitForComplete();
+  g_nvstorage.Erase(nvsaddr_base + sector_size * sector_index, sector_size);
+  g_nvstorage.Write(nvsaddr_base + sector_size * sector_index, &ldatahead,  sizeof(ldatahead));
 
-  hwintflash.StartWriteMem(nvsaddr_base + sector_size * sector_index, &ldatahead,  sizeof(ldatahead));
-  hwintflash.WaitForComplete();
+  #if HAS_SPI_FLASH
+    // update the local buffer too
+    memset(&nvdata_spi_buf[sector_size * sector_index], 0xFF, sector_size);
+    memcpy(&nvdata_spi_buf[sector_size * sector_index], &ldatahead,  sizeof(ldatahead));
+  #endif
 
   return 0;
 }

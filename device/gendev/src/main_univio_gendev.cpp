@@ -37,6 +37,10 @@
 #include "univio_comm.h"
 #include "uio_device.h"
 
+#if SPI_SELF_FLASHING
+  #include "spi_self_flashing.h"
+#endif
+
 #include "traces.h"
 
 volatile unsigned hbcounter = 0;
@@ -89,6 +93,26 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   TRACE("SystemCoreClock: %u\r\n", SystemCoreClock);
 
   TRACE_FLUSH();
+
+  #if HAS_SPI_FLASH
+    spiflash_init();
+    if (spiflash.initialized)
+    {
+      TRACE("SPI Flash ID CODE: %08X, size = %u\r\n", spiflash.idcode, spiflash.bytesize);
+    }
+    else
+    {
+      TRACE("Error initializing SPI Flash !\r\n");
+    }
+
+    #if SPI_SELF_FLASHING
+      if (self_flashing && spiflash.initialized)
+      {
+        spi_self_flashing(&spiflash);
+      }
+    #endif
+    TRACE_FLUSH();
+  #endif
 
   mcu_enable_interrupts();
 

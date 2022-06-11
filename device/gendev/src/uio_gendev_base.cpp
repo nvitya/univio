@@ -29,9 +29,9 @@
 #include "string.h"
 #include "hwspi.h"
 #include "hwi2c.h"
-#include "hwintflash.h"
 #include <uio_gendev_base.h>
 #include "uio_nvdata.h"
+#include "uio_nvstorage.h"
 #include "traces.h"
 
 THwSpi           g_spi;
@@ -60,7 +60,7 @@ bool TUioGenDevBase::InitDevice()
 
   mpram = &g_mpram[0];
 
-  hwintflash.Init();
+  g_nvstorage.Init();
 
   blp_bit_clocks = (SystemCoreClock >> 4);  // 1/16 s
 
@@ -773,21 +773,29 @@ void TUioGenDevBase::SaveSetup()
 
   // save to flash
 #if 1
-  hwintflash.StartCopyMem(nvsaddr_setup, pstb, sizeof(*pstb));
-  hwintflash.WaitForComplete();
+  g_nvstorage.CopyTo(nvsaddr_setup, pstb, sizeof(*pstb));
 #else
-  hwintflash.StartEraseMem(nvsaddr_setup, sizeof(*pstb));
-  hwintflash.WaitForComplete();
-  hwintflash.StartWriteMem(nvsaddr_setup, pstb, sizeof(*pstb));
-  hwintflash.WaitForComplete();
+  g_nvstorage.Erase(nvsaddr_setup, sizeof(*pstb));
+  g_nvstorage.Write(nvsaddr_setup, pstb, sizeof(*pstb));
 #endif
 
   TRACE("Setup save completed.\r\n");
 }
 
+#if HAS_SPI_FLASH
+
+  TUioCfgStb spifl_stb __attribute__((aligned(4)));  // local buffer for flash loading
+
+#endif
+
 void TUioGenDevBase::LoadSetup()
 {
-  TUioCfgStb * pstb = (TUioCfgStb *)nvsaddr_setup;
+  #if HAS_SPI_FLASH
+    g_nvstorage.Read(nvsaddr_setup, &spifl_stb, sizeof(spifl_stb));
+    TUioCfgStb * pstb = &spifl_stb;
+  #else
+    TUioCfgStb * pstb = (TUioCfgStb *)nvsaddr_setup;
+  #endif
 
   TRACE("Setup size = %u\r\n", sizeof(TUioCfgStb));
 

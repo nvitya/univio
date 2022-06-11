@@ -14,6 +14,13 @@
 
 extern THwUart    traceuart;
 
+#if HAS_SPI_FLASH
+  #include "spiflash.h"
+  extern TSpiFlash  spiflash;
+
+  bool spiflash_init();
+#endif
+
 void board_traces_init();
 
 #endif /* SRC_BOARD_PINS_H_ */
