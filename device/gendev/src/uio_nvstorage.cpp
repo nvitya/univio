@@ -8,6 +8,7 @@
 #include <uio_nvstorage.h>
 #include "board_pins.h"
 #include "hwintflash.h"
+#include "string.h"
 
 TUioNvStorage g_nvstorage;
 

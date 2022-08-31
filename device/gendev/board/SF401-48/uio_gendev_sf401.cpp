@@ -1,5 +1,5 @@
 /*
- *  file:     uio_gendev_sg473.cpp
+ *  file:     uio_gendev_sf401.cpp
  *  brief:    MCU Specific implementation for the 48 pin STM32F401
  *  created:  2022-01-30
  *  authors:  nvitya
