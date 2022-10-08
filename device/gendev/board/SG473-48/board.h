@@ -10,7 +10,9 @@
 
 #define BOARD_NAME "STM32G473 48-pin"
 #define MCU_STM32G473CB
-#define EXTERNAL_XTAL_HZ   25000000
+#ifndef EXTERNAL_XTAL_HZ
+  #define EXTERNAL_XTAL_HZ   24000000
+#endif
 
 // warning the 144 MHz is not synthetisable with the 25 MHz Crystal !
 //    #define MCU_CLOCK_SPEED   144000000   // for proper 2.4 MHz SPI, it must be divisible by 2.4 MHz
