@@ -1,0 +1,147 @@
+object frm_main: Tfrm_main
+  Left = 892
+  Height = 203
+  Top = 186
+  Width = 485
+  BorderStyle = bsDialog
+  Caption = 'UnivIO PWM Control'
+  ClientHeight = 203
+  ClientWidth = 485
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 95
+    Caption = 'UnivIO COM Port:'
+  end
+  object edComPort: TEdit
+    Left = 8
+    Height = 23
+    Top = 32
+    Width = 104
+    TabOrder = 0
+    Text = 'COM14'
+  end
+  object btnConnect: TBitBtn
+    Left = 128
+    Height = 30
+    Top = 24
+    Width = 75
+    Caption = 'Connect'
+    OnClick = btnConnectClick
+    TabOrder = 1
+  end
+  object Label2: TLabel
+    Left = 224
+    Height = 15
+    Top = 8
+    Width = 62
+    Caption = 'Device Info:'
+  end
+  object txtDeviceInfo: TStaticText
+    Left = 224
+    Height = 20
+    Top = 32
+    Width = 226
+    BorderStyle = sbsSunken
+    Caption = '-'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 2
+  end
+  object pnl: TPanel
+    Left = 0
+    Height = 136
+    Top = 67
+    Width = 485
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 136
+    ClientWidth = 485
+    TabOrder = 3
+    Visible = False
+    object Label3: TLabel
+      Left = 12
+      Height = 15
+      Top = 0
+      Width = 52
+      Caption = 'LED Blink:'
+    end
+    object edLedBLP: TEdit
+      Left = 12
+      Height = 23
+      Top = 24
+      Width = 100
+      TabOrder = 0
+    end
+    object btnSetLedBLP: TBitBtn
+      Left = 126
+      Height = 30
+      Top = 19
+      Width = 75
+      Caption = 'Set'
+      OnClick = btnSetLED
+      TabOrder = 1
+    end
+    object lbPwm: TLabel
+      Left = 12
+      Height = 15
+      Top = 64
+      Width = 90
+      Caption = 'PWM Frequency:'
+    end
+    object edPWMFreq: TSpinEdit
+      Left = 12
+      Height = 23
+      Top = 88
+      Width = 84
+      Increment = 1000
+      MaxValue = 1000000
+      MinValue = 1
+      TabOrder = 2
+      Value = 1
+    end
+    object lbPWMDuty: TLabel
+      Left = 128
+      Height = 15
+      Top = 64
+      Width = 60
+      Caption = 'PWM Duty:'
+    end
+    object edPWMDuty: TSpinEdit
+      Left = 128
+      Height = 23
+      Top = 88
+      Width = 64
+      MaxValue = 100
+      TabOrder = 3
+      Value = 1
+    end
+    object Label4: TLabel
+      Left = 101
+      Height = 15
+      Top = 92
+      Width = 14
+      Caption = 'Hz'
+    end
+    object Label5: TLabel
+      Left = 200
+      Height = 15
+      Top = 92
+      Width = 10
+      Caption = '%'
+    end
+    object btnSetPWM: TBitBtn
+      Left = 222
+      Height = 30
+      Top = 84
+      Width = 75
+      Caption = 'Set'
+      OnClick = btnSetPWMClick
+      TabOrder = 4
+    end
+  end
+end

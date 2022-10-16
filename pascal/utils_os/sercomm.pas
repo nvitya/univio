@@ -65,6 +65,8 @@ type
     parity    : boolean;
     oddparity : boolean;
 
+    errormsg : string;
+
     constructor Create;
     destructor Destroy; override;
 
@@ -85,7 +87,7 @@ implementation
 constructor TSerComm.Create;
 begin
   {$ifdef WINDOWS}
-    comhandle : HANDLE;
+    comhandle := INVALID_HANDLE_VALUE;
   {$else}
     comfd := -1;
   {$endif}
@@ -103,6 +105,120 @@ begin
 end;
 
 {$ifdef WINDOWS}
+
+function TSerComm.Open(acomport : string) : boolean;
+var
+  portname : string;
+  dcb : TDCB;
+  timeouts : TCommTimeouts;
+begin
+  result := false;
+
+  comport := acomport;
+
+  portname := '\\.\' + comport;
+
+	comhandle := CreateFile( @portname[1],
+									GENERIC_READ or GENERIC_WRITE,
+									0,
+									nil,
+									OPEN_EXISTING,
+									0, //FILE_FLAG_OVERLAPPED,
+									0);
+
+	if comhandle = INVALID_HANDLE_VALUE then
+  begin
+		errormsg := 'Error opening "'+comport+'" port!';
+		EXIT;
+  end;
+
+  dcb.BaudRate := 0;
+  FillChar(dcb, sizeof(dcb), 0);
+  dcb.BaudRate := baudrate;
+	dcb.ByteSize := 8;  // oh windows..., it was 7 by default!
+	dcb.Parity := NOPARITY;
+	dcb.StopBits := ONESTOPBIT;
+  dcb.Flags := bm_DCB_fBinary;
+
+  if not SetCommState(comhandle, dcb) then
+  begin
+    errormsg := 'Error setting Com port parameters';
+    EXIT;
+  end;
+
+  // Timeouts
+	timeouts.ReadIntervalTimeout := MAXDWORD;
+	timeouts.ReadTotalTimeoutMultiplier := 0;
+	timeouts.ReadTotalTimeoutConstant := 0;
+	timeouts.WriteTotalTimeoutMultiplier := 0;
+	timeouts.WriteTotalTimeoutConstant := 0;
+
+  if not SetCommTimeouts(comhandle, timeouts) then
+  begin
+    errormsg := 'Error setting Com port timeouts';
+    EXIT;
+  end;
+
+  SetupComm(comhandle, 16384, 16384);
+
+  // kill all characters in the RX bufer
+  PurgeComm(comhandle, $F);
+
+  result := true;
+end;
+
+procedure TSerComm.Close;
+begin
+	if comhandle <> INVALID_HANDLE_VALUE then
+  begin
+  	CloseHandle(comhandle);
+		comhandle := INVALID_HANDLE_VALUE;
+	end;
+end;
+
+function TSerComm.Read(var dst; dstlen : integer) : integer;
+var
+  r : cardinal = 0;
+begin
+  if ReadFile(comhandle, dst, dstlen, r, nil) then
+  begin
+    result := integer(r);
+  end
+  else
+  begin
+    result := -GetLastError;
+  end;
+end;
+
+function TSerComm.Write(var src; len : integer) : integer;
+var
+  r : cardinal = 0;
+begin
+  if WriteFile(comhandle, src, len, r, nil) then
+  begin
+    result := integer(r);
+  end
+  else
+  begin
+    result := -GetLastError;
+  end;
+end;
+
+procedure TSerComm.FlushInput;
+begin
+  PurgeComm(comhandle, PURGE_RXCLEAR); // Discards old data in the rx buffer
+end;
+
+procedure TSerComm.FlushOutput;
+begin
+  PurgeComm(comhandle, PURGE_TXCLEAR); // Discards old data in the tx buffer
+end;
+
+function TSerComm.Opened: boolean;
+begin
+  result := (comhandle <> INVALID_HANDLE_VALUE);
+end;
+
 {$else}
 
 function TSerComm.Open(acomport : string) : boolean;

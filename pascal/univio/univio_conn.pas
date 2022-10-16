@@ -27,6 +27,7 @@ type
     iserror    : boolean;
 
     function Open(adevname : string) : boolean;
+    function Opened : boolean;
     procedure Close();
 
     function Read(aaddr  : uint16; out pdst; adstlen : word; rlen : PInteger) : uint16;
@@ -77,6 +78,11 @@ begin
     exit(false);
   end;
   result := true;
+end;
+
+function TUnivioConn.Opened : boolean;
+begin
+  result := comm.Opened;
 end;
 
 procedure TUnivioConn.Close;
@@ -211,7 +217,7 @@ begin
   	r := comm.Read(buf[bufcnt], sizeof(buf) - bufcnt);
   	if r <= 0 then
   	begin
-  		if r = -11 then  // 11 = EAGAIN
+  		if (r = 0) or (r = -11) then  // 11 = EAGAIN
   		begin
   			if nstime() - lastrecvtime > 1000000000 then //receive_timeout_us * 1000)
   			begin

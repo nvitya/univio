@@ -17,7 +17,8 @@ var
 begin
   writeln('UnivIO Communication Test');
 
-  comport := '/dev/ttyACM0';
+  //comport := '/dev/ttyACM0';
+  comport := 'COM14';
 
   conn := TUnivioConn.Create;
   if not conn.Open(comport) then
@@ -33,12 +34,16 @@ begin
 	writeln(format('ReadUint32(0x0000) result = %04X, data = %08X', [iores, u32]));
 
  	// set the led blink pattern
-	iores := conn.WriteUint32($1500, $F0F0F0F0);
+	//iores := conn.WriteUint32($1500, $F0F0F0F0);
+	iores := conn.WriteUint32($1500, $F0F0F055);
 end;
 
 begin
   RunTest;
   conn.Free;
   writeln('Test finished.');
+
+  writeln('Press ENTER to exit.');
+  readln;
 end.
 
