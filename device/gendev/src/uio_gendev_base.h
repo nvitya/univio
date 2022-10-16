@@ -82,6 +82,20 @@
 #define UIOERR_UNIT_INIT            0x5004  // unit initialization
 #define UIOERR_UNIT_PARAMS          0x5005  // wrong parameters
 
+#define UIO_INFOIDX_CBITS   0
+#define UIO_INFOIDX_DIN     1
+#define UIO_INFOIDX_DOUT    2
+#define UIO_INFOIDX_ADC     3
+#define UIO_INFOIDX_DAC     4
+#define UIO_INFOIDX_PWM     5
+#define UIO_INFOIDX_LEDBLP  6
+#define UIO_INFO_COUNT      8
+
+#define UIO_INFOCBIT_CLKOUT (1 << 0)
+#define UIO_INFOCBIT_UART   (1 << 1)
+#define UIO_INFOCBIT_SPI    (1 << 2)
+#define UIO_INFOCBIT_I2C    (1 << 3)
+
 
 typedef struct // configuration storage header
 {
@@ -183,6 +197,8 @@ public:
   TGpioPin *        dig_out[UIO_DOUT_COUNT] = {0};
   TGpioPin *        ledblp[UIO_LEDBLP_COUNT] = {0};
   THwPwmChannel *   pwmch[UIO_PWM_COUNT] = {0};
+
+  uint32_t          cfginfo[UIO_INFO_COUNT]; // bits signalize configured units
 
   void              Run();
   void              ClearConfig();

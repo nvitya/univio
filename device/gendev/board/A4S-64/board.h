@@ -25,7 +25,7 @@
 // UnivID Device settings
 
 #define UIO_FW_ID   "GenIO-A4S-64"
-#define UIO_FW_VER    ((0 << 24) | (5 << 16) | 0)
+#define UIO_FW_VER    ((0 << 24) | (6 << 16) | 0)
 #define UIO_MEM_SIZE       0x8000 // for OBJ#0002
 
 #define UIO_MAX_DATA_LEN     4096 // this MCU has lot of memory

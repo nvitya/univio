@@ -165,6 +165,8 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       pcf.hwpinflags |= PINCFG_PULLUP;
     }
+
+    cfginfo[UIO_INFOIDX_DIN] |= (1 << unitnum);
   }
 
   else if (UIO_PINTYPE_ADC_IN == pintype)
@@ -175,6 +177,8 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     }
 
     SetupAdc(&pcf);
+
+    cfginfo[UIO_INFOIDX_ADC] |= (1 << unitnum);
   }
 
   // OUTPUTS
@@ -192,6 +196,8 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
 
       ledblp[unitnum] = ppin;
       initial_1 = (0 != (ledblp_value[unitnum] & 1));
+
+      cfginfo[UIO_INFOIDX_LEDBLP] |= (1 << unitnum);
     }
     else
     {
@@ -202,6 +208,8 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
 
       dig_out[unitnum] = ppin;
       initial_1 = (0 != (dout_value & (1 << unitnum)));
+
+      cfginfo[UIO_INFOIDX_DOUT] |= (1 << unitnum);
     }
 
     pcf.hwpinflags = PINCFG_OUTPUT | PINCFG_GPIO_INIT_0;
@@ -240,6 +248,8 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       SetupDac(&pcf);
     }
+
+    cfginfo[UIO_INFOIDX_DAC] |= (1 << unitnum);
   }
   else if (UIO_PINTYPE_PWM_OUT == pintype)
   {
@@ -259,6 +269,8 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
       SetPwmDuty(unitnum, pwm_value[unitnum]);
       pwm->Enable();
     }
+
+    cfginfo[UIO_INFOIDX_PWM] |= (1 << unitnum);
   }
 
   else if (UIO_PINTYPE_SPI == pintype)
@@ -267,6 +279,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       SetupSpi(&pcf);
     }
+    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_SPI;
   }
 
   else if (UIO_PINTYPE_I2C == pintype)
@@ -275,6 +288,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       SetupI2c(&pcf);
     }
+    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_I2C;
   }
 
   else if (UIO_PINTYPE_UART == pintype)
@@ -285,6 +299,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
 				uart_active = true;  // will create the USB-UART port
 				SetupUart(&pcf);
 			}
+	    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_UART;
 		#endif
   }
 
@@ -294,6 +309,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       SetupClockOut(&pcf);
     }
+    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_CLKOUT;
   }
 
   else // unhandled config
@@ -437,6 +453,20 @@ bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
     }
     return ResponseOk(rq);
   }
+
+  // configuration info
+  if ((0x0E00 >= addr) && (addr <= 0x0E07))
+  {
+    uint8_t idx = addr - 0x0E00;
+
+    if (rq->iswrite)
+    {
+      return ResponseError(rq, UIOERR_READ_ONLY);
+    }
+
+    return ResponseU32(rq, cfginfo[idx]);
+  }
+
 
   // Non-Volatile Data
   if ((0x0F00 <= addr) && (addr < 0x0F00 + UIO_NVDATA_COUNT))  // NVDATA Value
@@ -878,7 +908,13 @@ void TUioGenDevBase::ResetConfig()
 
 void TUioGenDevBase::ConfigurePins(bool active)
 {
-  unsigned n;
+	unsigned n;
+
+  // clear config info
+	for (n = 0; n < UIO_INFO_COUNT; ++n)
+	{
+		cfginfo[n] = 0;
+	}
 
   // 1. Clear all assignments
 

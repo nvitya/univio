@@ -21,7 +21,7 @@ INCLUDES = -Isrc -I../utils_os -I../univio
 CC          = g++
 LD          = g++
 CFLAGS      = $(INCLUDES) -g3
-LDFLAGS =
+LDFLAGS = --static
 
 CFLAGS += -std=gnu++11
 
