@@ -164,6 +164,8 @@ begin
   for i := 1 to length(flist_dout)-1 do flist_dout[i].Free;
   for i := 1 to length(flist_din)-1  do flist_din[i].Free;
   for i := 1 to length(flist_ain)-1  do flist_ain[i].Free;
+  for i := 1 to length(flist_pwm)-1  do flist_pwm[i].Free;
+  for i := 1 to length(flist_ledblp)-1  do flist_ledblp[i].Free;
 end;
 
 procedure Tfrm_main.Prepare_DOUT;

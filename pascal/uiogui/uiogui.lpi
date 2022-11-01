@@ -44,7 +44,8 @@
       <Unit>
         <Filename Value="src\frame_dout.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Frame1"/>
+        <ComponentName Value="frameDOUT"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
       </Unit>
       <Unit>
@@ -55,24 +56,28 @@
         <Filename Value="src\frame_din.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frameDIN"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frameAIN"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_pwm.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="framePWM"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ledblp.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frameLEDBLP"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
       </Unit>
       <Unit>
