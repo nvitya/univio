@@ -455,15 +455,14 @@ bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
   }
 
   // configuration info
-  if ((0x0E00 >= addr) && (addr <= 0x0E07))
+  if ((0x0E00 <= addr) && (addr < 0x0E00 + UIO_INFO_COUNT))
   {
-    uint8_t idx = addr - 0x0E00;
-
     if (rq->iswrite)
     {
       return ResponseError(rq, UIOERR_READ_ONLY);
     }
 
+    uint8_t idx = addr - 0x0E00;
     return ResponseU32(rq, cfginfo[idx]);
   }
 
