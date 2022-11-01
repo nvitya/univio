@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="uiogui.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="45" Y="20"/>
+        <UsageCount Value="37"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\form_main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frm_main"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="318"/>
+        <CursorPos X="18" Y="408"/>
+        <UsageCount Value="36"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\frame_dout.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Frame1"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="77" Y="7"/>
+        <UsageCount Value="36"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\univio\iohandler_base.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="293"/>
+        <CursorPos X="84" Y="195"/>
+        <UsageCount Value="36"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uiopwmctrl\form_main.pas"/>
+        <ComponentName Value="frm_main"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="30"/>
+        <CursorPos X="64" Y="33"/>
+        <UsageCount Value="19"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\univio\univio.pas"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="36" Y="21"/>
+        <UsageCount Value="18"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\univio\univio_conn.pas"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="332"/>
+        <CursorPos Y="425"/>
+        <UsageCount Value="19"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\utils_os\sercomm.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="97"/>
+        <CursorPos X="51" Y="134"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\utils_os\util_nstime.pas"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="11"/>
+        <CursorPos X="51" Y="63"/>
+        <UsageCount Value="19"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uiopwmctrl\D:\wittvc\tools\wd3common\wd3comm.cpp"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="247"/>
+        <CursorPos X="11" Y="304"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="C++"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uiopwmctrl\C:\lazarus\fpc\3.2.2\source\rtl\win\wininc\ascdef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="83"/>
+        <CursorPos Y="117"/>
+        <UsageCount Value="8"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uiopwmctrl\n:\Vitya\wittmann\wdToolSrc\Source\wdComm2.pas"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="2941"/>
+        <CursorPos X="48" Y="3014"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uiopwmctrl\C:\lazarus\fpc\3.2.2\source\rtl\win\wininc\defines.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="3213"/>
+        <CursorPos X="17" Y="3259"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\uiopwmctrl\C:\lazarus\fpc\3.2.2\source\rtl\win\wininc\struct.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="798"/>
+        <CursorPos Y="836"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\frame_dout.pas"/>
+        <ComponentName Value="frameDOUT"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="5"/>
+        <CursorPos X="29" Y="27"/>
+        <UsageCount Value="18"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="100"/>
+        <CursorPos Y="35"/>
+        <UsageCount Value="18"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\form_main.lfm"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="73"/>
+        <CursorPos Y="168"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\frame_din.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frameDIN"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="58" Y="46"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\frame_ain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frameAIN"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="13" Y="46"/>
+        <UsageCount Value="29"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\..\..\..\usr\share\fpcsrc\3.2.2\rtl\inc\objpas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="281"/>
+        <CursorPos X="63" Y="309"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\frame_pwm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="framePWM"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="78" Y="8"/>
+        <UsageCount Value="27"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\frame_ledblp.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frameLEDBLP"/>
+        <ResourceBaseClass Value="Frame"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="44"/>
+        <UsageCount Value="27"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\form_more_info.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmMoreInfo"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="42" Y="33"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="376" TopLine="293"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="397" Column="17" TopLine="303"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="394" Column="9" TopLine="305"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="56" Column="20"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="397" TopLine="310"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="72" Column="49"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="400" Column="94" TopLine="310"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="227" Column="62" TopLine="177"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="33" Column="15"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="73"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="401" Column="61" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="400" Column="79" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="400" Column="82" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="180" Column="62" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="400" Column="63" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="72" Column="25" TopLine="23"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="403" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="405" Column="50" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="400" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="401" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="402" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="403" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="404" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="405" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="406" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="407" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="408" TopLine="319"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="400" Column="6" TopLine="320"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="412" Column="9" TopLine="320"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <Watches>
+      <Item>
+        <Expression Value="dout_lines"/>
+      </Item>
+    </Watches>
+  </Debugging>
+</CONFIG>

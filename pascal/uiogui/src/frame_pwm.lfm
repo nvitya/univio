@@ -1,0 +1,61 @@
+object framePWM: TframePWM
+  Left = 0
+  Height = 33
+  Top = 0
+  Width = 258
+  ClientHeight = 33
+  ClientWidth = 258
+  TabOrder = 0
+  DesignLeft = 1803
+  DesignTop = 325
+  object edPWMFreq: TSpinEdit
+    Left = 20
+    Height = 23
+    Top = 4
+    Width = 84
+    Increment = 1000
+    MaxValue = 20000000
+    MinValue = 1
+    TabOrder = 0
+    Value = 1
+  end
+  object Label4: TLabel
+    Left = 108
+    Height = 14
+    Top = 8
+    Width = 15
+    Caption = 'Hz'
+  end
+  object edPWMDuty: TSpinEdit
+    Left = 131
+    Height = 23
+    Top = 4
+    Width = 52
+    MaxValue = 100
+    TabOrder = 1
+    Value = 1
+  end
+  object Label5: TLabel
+    Left = 187
+    Height = 14
+    Top = 8
+    Width = 11
+    Caption = '%'
+  end
+  object btnSet: TBitBtn
+    Left = 206
+    Height = 24
+    Top = 4
+    Width = 47
+    Caption = 'Set'
+    OnClick = btnSetClick
+    TabOrder = 2
+  end
+  object lb: TLabel
+    Left = 0
+    Height = 14
+    Top = 9
+    Width = 7
+    Caption = '0'
+  end
+end

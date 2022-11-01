@@ -1,0 +1,43 @@
+object frmMoreInfo: TfrmMoreInfo
+  Left = 1535
+  Height = 250
+  Top = 744
+  Width = 523
+  Caption = 'UnivIO Device Info'
+  ClientHeight = 250
+  ClientWidth = 523
+  Position = poOwnerFormCenter
+  LCLVersion = '2.2.0.4'
+  object pnl: TPanel
+    Left = 0
+    Height = 50
+    Top = 200
+    Width = 523
+    Align = alBottom
+    BevelOuter = bvNone
+    ClientHeight = 50
+    ClientWidth = 523
+    TabOrder = 0
+    object btnClose: TBitBtn
+      Left = 248
+      Height = 30
+      Top = 12
+      Width = 99
+      DefaultCaption = True
+      Kind = bkClose
+      ModalResult = 11
+      TabOrder = 0
+    end
+  end
+  object memo: TMemo
+    Left = 0
+    Height = 200
+    Top = 0
+    Width = 523
+    Align = alClient
+    Font.Name = 'Courier New'
+    ParentFont = False
+    ScrollBars = ssAutoBoth
+    TabOrder = 1
+  end
+end

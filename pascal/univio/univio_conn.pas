@@ -34,7 +34,9 @@ type
     function Write(aaddr : uint16; const psrc; alen : word) : uint16;
 
     function ReadUint32(aaddr : word; out rdata : uint32) : uint16;
+    function ReadUint16(aaddr : word; out rdata : uint16) : uint16;
     function WriteUint32(aaddr : uint16; adata : UInt32) : uint16;
+    function WriteUint16(aaddr : uint16; adata : UInt16) : uint16;
 
   protected
     bufcnt     : integer;
@@ -401,6 +403,13 @@ begin
   result := Read(aaddr, rdata, 4, @rlen);
 end;
 
+function TUnivioConn.ReadUint16(aaddr : word; out rdata : uint16) : uint16;
+var
+  rlen : integer;
+begin
+  result := Read(aaddr, rdata, 2, @rlen);
+end;
+
 function TUnivioConn.WriteUint32(aaddr: uint16; adata : UInt32): uint16;
 var
   u32 : UInt32;
@@ -409,6 +418,13 @@ begin
   result := Write(aaddr, u32, 4);
 end;
 
+function TUnivioConn.WriteUint16(aaddr : uint16; adata : UInt16) : uint16;
+var
+  u16 : UInt16;
+begin
+  u16 := adata;
+  result := Write(aaddr, u16, 2);
+end;
 
 end.
 

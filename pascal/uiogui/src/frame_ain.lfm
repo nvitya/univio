@@ -1,0 +1,29 @@
+object frameAIN: TframeAIN
+  Left = 0
+  Height = 33
+  Top = 0
+  Width = 92
+  ClientHeight = 33
+  ClientWidth = 92
+  TabOrder = 0
+  DesignLeft = 1712
+  DesignTop = 226
+  object lb: TLabel
+    Left = 2
+    Height = 14
+    Top = 5
+    Width = 7
+    Caption = '0'
+  end
+  object txt: TStaticText
+    Left = 24
+    Height = 18
+    Top = 4
+    Width = 56
+    BorderStyle = sbsSunken
+    Caption = 'On'
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 0
+  end
+end
