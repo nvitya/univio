@@ -24,11 +24,11 @@ pinconf(A1, LEDBLP, 0, 1)
 pinconf(A2, DIG_OUT, 1)
 pinconf(A3, I2C, 0)
 pinconf(A4, I2C, 0)
-pinconf(A5, DIG_OUT, 1)
+pinconf(A5, DIG_OUT, 2)
 # A6 = trace out
-pinconf(A7, DIG_OUT, 2)
+pinconf(A7, DIG_OUT, 3)
 
-pinconf(A8,  DIG_OUT, 3)
+pinconf(A8,  DIG_OUT, 4)
 pinconf(A9,  UART, 0)  # USB-UART RX (UnivIO device input)
 pinconf(A10, UART, 0)  # USB-UART TX (UnivIO device output)
 pinconf(A11, SPI, 0)
@@ -49,7 +49,7 @@ pinconf(A23, DIG_IN, 0)
 pinconf(A24, DIG_IN, 1)
 pinconf(A25, DIG_IN, 2)
 pinconf(A26, DIG_IN, 3)
-pinconf(A27, DIG_OUT, 4)
+pinconf(A27, DIG_IN, 4)
 pinconf(A28, DIG_OUT, 5)
 pinconf(A29, DIG_OUT, 6)
 pinconf(A30, DIG_OUT, 7)
@@ -82,8 +82,8 @@ pwm_freq[0] = 2000
 # OTPUT RESET STATES
 
 dout_all = 0
-dout[0] = 1
-dout[3] = 1
+#dout[0] = 1
+#dout[3] = 1
 
 aout_all = 0x8000
 aout[0] = 16383
