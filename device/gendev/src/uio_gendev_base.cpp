@@ -497,6 +497,8 @@ bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
 
     rv32 = RqValueU32(rq);
 
+    //TRACE("DOUT(%04X) <- %08X\r\n", addr, rv32);
+
     for (n = 0; n < 16; ++n)
     {
       uint8_t idx = n + 16 * (addr - 0x1000);
