@@ -216,7 +216,7 @@ void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
-  adc_channel[pcf->unitnum-1] = 0x80 | (pinfo->adc & 15);
+  adc_channel[pcf->unitnum] = 0x80 | (pinfo->adc & 15);
   pcf->hwpinflags = PINCFG_INPUT | PINCFG_ANALOGUE;
 }
 
