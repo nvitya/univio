@@ -588,7 +588,7 @@ bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
       return ResponseU16(rq, rv16);
     }
   }
-  else if ((0x1300 <= addr) && (addr < 0x1300 + UIO_ADC_COUNT)) // Set ANA_OUT
+  else if ((0x1300 <= addr) && (addr < 0x1300 + UIO_DAC_COUNT)) // Set ANA_OUT
   {
     uint8_t idx = addr - 0x1300;
 
