@@ -6,7 +6,8 @@
  *  authors:  nvitya
 */
 
-#pragma once
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
 #include "platform.h"
 
@@ -16,4 +17,4 @@
 #define CLOCKS_TO_US(aclk)     (aclk / (MCU_CLOCK_SPEED / 1000000))
 #define CLOCKS_TO_MS(aclk)     (aclk / (MCU_CLOCK_SPEED / 1000))
 
-
+#endif

@@ -6,7 +6,8 @@
  *  authors:  nvitya
 */
 
-#pragma once
+#ifndef _UIO_DEVICE_H
+#define _UIO_DEVICE_H
 
 #include "uio_gendev_impl.h"
 
@@ -17,4 +18,4 @@ public:
 
 extern TUioDevice   g_uiodev;
 
-
+#endif

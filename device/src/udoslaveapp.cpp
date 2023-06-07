@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------------------
  * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
- * Copyright (c) 2022 Viktor Nagy, nvitya
+ * Copyright (c) 2023 Viktor Nagy, nvitya
  *
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the authors be held liable for any damages arising from
@@ -19,56 +19,30 @@
  * 3. This notice may not be removed or altered from any source distribution.
  * --------------------------------------------------------------------------- */
 /*
- *  file:     uio_nvdata.h
- *  brief:    UNIVIO GENDEV non-volatile data handling
- *  version:  1.00
- *  date:     2022-02-13
+ *  file:     udoslaveapp.cpp
+ *  brief:    UDO Slave Application Implementation for the UnivIO devices
+ *  created:  2023-05-13
  *  authors:  nvitya
 */
 
-#ifndef _UIO_NVDATA_H
-#define _UIO_NVDATA_H
+#include <udoslaveapp.h>
+#include "paramtable.h"
 
-#include "stdint.h"
-
-#define UIO_NVDATA_SIGNATURE  0x55AAAA55
-#define UIO_NVDATA_SECTORS             2
-#define UIO_NVDATA_COUNT              32
-#define UIO_NVDATA_UNLOCK     0x5ADEC0DE
-
-typedef struct
+// the udoslave_app_read_write() is called from the communication system (Serial or IP) to
+// handle the actual UDO requests
+bool udoslave_app_read_write(TUdoRequest * udorq)
 {
-  uint8_t     id;
-  uint8_t     id_not;
-  uint8_t     pad[2];
-  uint32_t    value;
-//
-} TUioNvDataChRec;
+  if (udorq->index < 0x0100)  // handle the standard UDO indexes (0x0000 - 0x0100)
+  {
+    return udoslave_handle_base_objects(udorq);
+  }
 
-typedef struct
-{
-  uint32_t         signature;
-  uint32_t         serial;
-  uint32_t         value[UIO_NVDATA_COUNT];
-//
-} TUioNvDataHead;
 
-class TUioNvData
-{
-public:
-  uint32_t     lock = 0;
-  uint32_t     sector_size = 1024;  // will be adjusted to the erase size
-  uint32_t     nvsaddr_base = 0;
+  if (param_read_write(udorq)) // try the parameter table first
+  {
+    return true;
+  }
 
-  uint8_t      sector_index = 0;
-  uint16_t     chrec_count = 0;
 
-  uint32_t     value[UIO_NVDATA_COUNT] = {0};
-
-  void         Init();
-  uint16_t     SaveValue(uint8_t aid, uint32_t avalue);
-};
-
-extern TUioNvData g_nvdata;
-
-#endif
+  return false;
+}

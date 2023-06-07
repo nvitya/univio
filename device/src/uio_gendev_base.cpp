@@ -21,8 +21,7 @@
 /*
  *  file:     uio_gendev_base.cpp
  *  brief:    UNIVIO GENDEV target independent parts
- *  version:  1.00
- *  date:     2022-02-13
+ *  created:  2022-02-13
  *  authors:  nvitya
 */
 
@@ -53,6 +52,101 @@ THwDmaChannel    g_dma_uart_rx;
 uint8_t          g_mpram[UIO_MPRAM_SIZE];
 
 TUioCfgStb       g_cfgstb;
+
+bool TUioGenDevBase::Init()
+{
+  initialized = false;
+
+  strncpy(cfg.device_id, UIO_FW_ID, sizeof(cfg.device_id));
+
+  if (!InitDevice())
+  {
+    return false;
+  }
+
+  initialized = true;
+  return true;
+}
+
+bool TUioGenDevBase::HandleRequest(TUdoRequest *rq)
+{
+  if (!initialized)
+  {
+    return udo_response_error(rq, UDOERR_INTERNAL);
+  }
+
+  uint16_t addr = rq->address;
+
+  if (addr >= 0x0100) // these are not handled here
+  {
+    if (HandleDeviceRequest(rq))
+    {
+      return true;
+    }
+    else
+    {
+      return ResponseError(rq, UIOERR_WRONG_ADDR);
+    }
+  }
+
+  if (addr < 0x0010) // read-only system data
+  {
+    switch (addr)
+    {
+      case 0x0000:  return ResponseU32(rq, 0x66CCAA55);
+      case 0x0001:  return ResponseU32(rq, UIO_MAX_DATA_LEN);
+      case 0x0002:  return ResponseU32(rq, UIO_MEM_SIZE);
+      case 0x0003:  return ResponseStr(rq, UIO_FW_ID);
+      case 0x0004:  return ResponseU32(rq, UIO_FW_VER);
+    }
+
+    return ResponseError(rq, UIOERR_WRONG_ADDR);
+  }
+
+  if (0x0010 == addr)  // RUN / CONFIG mode
+  {
+    if (!rq->iswrite)
+    {
+      return ResponseU8(rq, runmode);
+    }
+
+    uint8_t rmv = RqValueU8(rq);
+    if (rmv > 1) // special command
+    {
+      if (2 == rmv)
+      {
+        // TODO: restart
+        return ResponseError(rq, UIOERR_NOT_IMPLEMENTED);
+      }
+      return ResponseError(rq, UIOERR_VALUE);
+    }
+
+    SetRunMode(rmv);
+    return ResponseOk(rq);
+  }
+
+  // else R/W system data
+
+  if (rq->iswrite && runmode)
+  {
+    return ResponseError(rq, UIOERR_RUN_MODE);
+  }
+
+  switch (addr)
+  {
+    case 0x0011:   return HandleRw(rq, &cfg.device_id[0],     sizeof(cfg.device_id));
+    case 0x0012:   return HandleRw(rq, &cfg.usb_vendor_id,    sizeof(cfg.usb_vendor_id));
+    case 0x0013:   return HandleRw(rq, &cfg.usb_product_id,   sizeof(cfg.usb_product_id));
+    case 0x0014:   return HandleRw(rq, &cfg.manufacturer[0],  sizeof(cfg.manufacturer));
+    case 0x0015:   return HandleRw(rq, &cfg.serial_number[0], sizeof(cfg.serial_number));
+  }
+
+  return ResponseError(rq, UIOERR_WRONG_ADDR);
+}
+
+bool TUioGenDevBase::HandleDeviceRequest(TUdoRequest * rq)
+{
+}
 
 bool TUioGenDevBase::InitDevice()
 {
@@ -1029,7 +1123,7 @@ uint16_t TUioGenDevBase::I2cStart()
 {
   if (0xFFFF == i2c_result)
   {
-    return UIOERR_BUSY;
+    return UDOERR_BUSY;
   }
 
   if (!i2c)
@@ -1039,7 +1133,7 @@ uint16_t TUioGenDevBase::I2cStart()
 
   if (!i2ctra.completed)
   {
-    return UIOERR_BUSY;
+    return UDOERR_BUSY;
   }
 
   i2c_trlen = (i2c_cmd >> 16);
@@ -1163,4 +1257,16 @@ uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen)
   }
 
   return(0 - csum);
+}
+
+bool TUioGenDevBase::Init()
+{
+}
+
+bool TUioGenDevBase::HandleRequest(TUdoRequest *rq)
+{
+}
+
+bool TUioGenDevBase::HandleDeviceRequest(TUdoRequest *rq)
+{
 }

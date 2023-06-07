@@ -26,14 +26,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>univio</name>
+			<name>udo</name>
 			<type>2</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/univio</locationURI>
-		</link>
-		<link>
-			<name>vihal</name>
-			<type>2</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/vihal</locationURI>
+			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/udo</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

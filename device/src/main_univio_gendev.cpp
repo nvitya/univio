@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------------
- * This file is a part of the UNIVIO projects: https://github.com/nvitya/univio_projects
+ * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
  * Copyright (c) 2022 Viktor Nagy, nvitya
  *
  * This software is provided 'as-is', without any express or implied warranty.
@@ -19,8 +19,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  * --------------------------------------------------------------------------- */
 /*
- * file:     main_usbsensor.cpp
- * brief:    USB Sensor project start and main loop
+ * file:     main_univio_gendev.cpp
+ * brief:    UNIVIO Generic Device initialization and main loop
  * created:  2022-02-13
  * authors:  nvitya
 */
@@ -33,8 +33,10 @@
 #include "clockcnt.h"
 #include "hwusbctrl.h"
 #include "board_pins.h"
-#include "usb_univio.h"
-#include "univio_comm.h"
+
+#include "udoslaveapp.h"
+#include "usb_application.h"
+
 #include "uio_device.h"
 
 #if SPI_SELF_FLASHING
@@ -53,24 +55,13 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   // Set the interrupt vector table offset, so that the interrupts and exceptions work
   mcu_init_vector_table();
 
-
-#if defined(MCU_FIXED_SPEED)
-
-  SystemCoreClock = MCU_FIXED_SPEED;
-
-#else
-  #if 0
-    SystemCoreClock = MCU_INTERNAL_RC_SPEED;
-  #else
-    if (!hwclk_init(EXTERNAL_XTAL_HZ, MCU_CLOCK_SPEED))  // if the EXTERNAL_XTAL_HZ == 0, then the internal RC oscillator will be used
+  if (!hwclk_init(EXTERNAL_XTAL_HZ, MCU_CLOCK_SPEED))  // if the EXTERNAL_XTAL_HZ == 0, then the internal RC oscillator will be used
+  {
+    while (1)
     {
-      while (1)
-      {
-        // error
-      }
+      // error
     }
-  #endif
-#endif
+  }
 
   // the cppinit must be done with high clock speed
   // otherwise the device responds the early USB requests too slow.
@@ -119,7 +110,7 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   g_uiodev.Init();
   g_uiodev.LoadSetup();
 
-  usb_device_init();
+  usb_app_init();
 
   TRACE("\r\nStarting main cycle...\r\n");
 
@@ -134,8 +125,7 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   {
     t1 = CLOCKCNT;
 
-    usb_device_run();
-
+    usb_app_run();
     g_uiodev.Run();
 
     tracebuf.Run();

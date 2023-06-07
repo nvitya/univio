@@ -21,12 +21,12 @@
 /*
  *  file:     uio_gendev_base.h
  *  brief:    UNIVIO GENDEV target independent parts
- *  version:  1.00
  *  date:     2022-02-13
  *  authors:  nvitya
 */
 
-#pragma once
+#ifndef _UIO_GENDEV_BASE_H
+#define _UIO_GENDEV_BASE_H
 
 #include "hwpins.h"
 #include "hwadc.h"
@@ -35,9 +35,12 @@
 #include "hwi2c.h"
 #include "hwdma.h"
 
+#include "udo.h"
+#include "udoslave.h"
+
 #include "usbfunc_cdc_uart.h"
 
-#include "uio_dev_base.h"
+#define UIO_DEVICE_TYPE_ID   "UnivIO-V2"   // Index 0x0100
 
 // fix maximums
 #define UIO_PWM_COUNT       8
@@ -81,6 +84,8 @@
 #define UIOERR_UNIT_ALREADY_IN_USE  0x5003  // the selected function is not available for this pin
 #define UIOERR_UNIT_INIT            0x5004  // unit initialization
 #define UIOERR_UNIT_PARAMS          0x5005  // wrong parameters
+#define UIOERR_RUN_MODE             0x5101  // config mode required
+#define UIOERR_UNITSEL              0x5102  // the referenced unit is not existing
 
 #define UIO_INFOIDX_CBITS   0
 #define UIO_INFOIDX_DIN     1
@@ -96,18 +101,22 @@
 #define UIO_INFOCBIT_SPI    (1 << 2)
 #define UIO_INFOCBIT_I2C    (1 << 3)
 
-
-typedef struct // configuration storage header
+typedef struct
 {
   uint32_t          signature;
   uint32_t          length;
-  uint32_t          _reserved;
+  uint32_t          _reserved_008;
   uint32_t          checksum;
-//
-} TUioCfgHead;
 
-typedef struct
-{
+  uint16_t          usb_vendor_id;
+  uint16_t          usb_product_id;
+  uint32_t          _reserved_020;
+  char              manufacturer[32];
+  char              device_id[32];
+  char              serial_number[32];
+  uint32_t          _reserved_120;
+  uint32_t          _reserved_124;
+
   uint32_t          pinsetup[UIO_PIN_COUNT];
 
   uint32_t          dv_douts;
@@ -116,23 +125,6 @@ typedef struct
   uint32_t          dv_ledblp[UIO_LEDBLP_COUNT];
 
   uint32_t          pwm_freq[UIO_PWM_COUNT];
-//
-} TUioDeviceCfg;
-
-typedef struct
-{
-  uint32_t          signature;
-
-  uint32_t          base_length;
-  uint32_t          base_csum;
-
-  uint32_t          cfg_length;
-  uint32_t          cfg_csum;
-
-  TUioDevBaseCfg    basecfg;
-  TUioDeviceCfg     cfg;
-
-  uint64_t          _tail_pad;  // this must be the last, ensuring 8 byte size alignment
 //
 } TUioCfgStb;
 
@@ -147,7 +139,7 @@ typedef struct
 //
 } TPinCfg;
 
-class TUioGenDevBase: public TUioDevBase
+class TUioGenDevBase
 {
 public: // internal state
   uint8_t           blp_idx = 0;
@@ -161,7 +153,11 @@ public: // NVS info
   uint32_t          nvs_sector_size = 0;
 
 public:
-  TUioDeviceCfg     cfg;
+  uint8_t           runmode = 0;  // 0 = CONFIG mode, 1 = RUN mode
+
+  bool              initialized = false;
+
+  TUioCfgStb        cfg;
 
   uint8_t *         mpram = nullptr;
 
@@ -200,6 +196,9 @@ public:
 
   uint32_t          cfginfo[UIO_INFO_COUNT]; // bits signalize configured units
 
+  virtual           ~TUioGenDevBase() { }
+
+  bool              Init();
   void              Run();
   void              ClearConfig();
   void              ResetConfig();
@@ -213,7 +212,8 @@ public:
 
 public:  // base class mandatory implementations
   virtual bool      InitDevice();
-  virtual bool      HandleDeviceRequest(TUnivioRequest * rq);
+  virtual bool      HandleRequest(TUdoRequest * rq);
+  virtual bool      HandleDeviceRequest(TUdoRequest * rq);
   virtual void      SaveSetup();
   virtual void      LoadSetup();
   virtual void      SetRunMode(uint8_t arunmode);
@@ -231,7 +231,6 @@ public: // board specific virtuals
   virtual void      SetupClockOut(TPinCfg * pcf) { }
 
   virtual bool      LoadBuiltinConfig(uint8_t anum) { return false; }
-
 
 };
 
@@ -254,4 +253,4 @@ extern THwDmaChannel    g_dma_uart_rx;
 
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen);
 
-
+#endif
