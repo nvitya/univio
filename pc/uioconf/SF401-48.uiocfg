@@ -16,9 +16,7 @@ serialnum = "112233"
 
 # Non configurable pins / functions
 #   A8  = precise 8 MHz output
-#   A9  = VCP uart_tx (output)
-#   A10 = VCP uart_rx (input)
-#   B10 = trace output uart: 115200 baud, 8 bit, 1 stop, no parity
+#   A9  = TRACE UART, 115200 baud, 8 bit, 1 stop, no parity
 
 # PIN CONFIGURATION
 
@@ -35,7 +33,12 @@ pinconf(A6, DIG_IN, 2)
 pinconf(A7, DIG_IN, 3)
 
 pinconf(A8, CLKOUT, 0)  # fix 8 MHz output
-
+# A9 = TRACE OUT
+pinconf(A10, DIG_IN, 4)
+# A11 = USB D-
+# A12 = USB D+
+# A13 = SWDIO
+# A14 = SWDCLK
 pinconf(A15, DIG_OUT, 0)
 
 pinconf(B0, PWM, 0)
@@ -59,6 +62,8 @@ pinconf(B14, SPI, 0)  # MISO
 pinconf(B15, SPI, 0)  # MOSI
 
 pinconf(C13, LEDBLP, 0, 1)  # on-board led
+# C14 = OSC32 IN
+# C15 = OSC32 OUT
 
 # PWM
 
