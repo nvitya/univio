@@ -71,8 +71,8 @@ pwm_freq[0] = 2000
 # OTPUT RESET STATES
 
 dout_all = 0
-dout[0] = 1
-dout[3] = 1
+dout[0] = 0
+dout[3] = 0
 
 aout_all = 0x8000
 aout[0] = 16383

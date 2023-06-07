@@ -38,10 +38,9 @@
       <Unit>
         <Filename Value="..\univio\iohandler_base.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
         <TopLine Value="293"/>
-        <CursorPos X="16" Y="300"/>
+        <CursorPos X="79" Y="343"/>
         <UsageCount Value="36"/>
         <Loaded Value="True"/>
       </Unit>
@@ -114,10 +113,11 @@
       </Unit>
       <Unit>
         <Filename Value="..\univio\univio_conn.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="332"/>
-        <CursorPos Y="425"/>
+        <TopLine Value="338"/>
+        <CursorPos X="40" Y="384"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit>
@@ -177,8 +177,8 @@
       <Unit>
         <Filename Value="..\univio\uio_iohandler.pas"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="100"/>
-        <CursorPos Y="35"/>
+        <TopLine Value="30"/>
+        <CursorPos X="87" Y="53"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
       </Unit>

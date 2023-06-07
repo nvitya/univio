@@ -140,9 +140,9 @@ bool TUioGenDevImpl::InitBoard()
 
   // Init The ADC
   g_adc[0].dmaalloc = DMACH_ADC1;
-  g_adc[0].Init(1, 0xFFFF); // enable all 16 channels
+  g_adc[0].Init(1, 0x901E); // enable channels  1,2,3,4, 12, 15
   g_adc[1].dmaalloc = DMACH_ADC2;
-  g_adc[1].Init(2, 0xFFFF); // enable all 16 channels
+  g_adc[1].Init(2, 0x3018); // enable channels 3, 4, 12, 13
 
   // SPI initialization
   g_spi.manualcspin = &g_pins[SPI_CS_PIN];
@@ -216,7 +216,10 @@ void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
-  adc_channel[pcf->unitnum] = 0x80 | (pinfo->adc & 15);
+  uint8_t adcch  = (pinfo->adc & 0x1F);
+  uint8_t adcnum = ((pinfo->adc >> 8) & 3) - 1;
+
+  adc_channel[pcf->unitnum] = ( 0x80 | adcch | (adcnum << 5) );
   pcf->hwpinflags = PINCFG_INPUT | PINCFG_ANALOGUE;
 }
 
