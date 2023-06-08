@@ -62,7 +62,7 @@ bool TUsbApplication::InitDevice()
   }
   if (strlen(device_name) == 0)
   {
-    device_name = UIO_FW_ID;
+    device_name = UIO_HW_ID;
   }
   if (strlen(device_serial_number) == 0)
   {

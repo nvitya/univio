@@ -39,6 +39,7 @@
 #include "udoslave.h"
 
 #include "usbfunc_cdc_uart.h"
+#include "simple_partable.h"
 
 #define UIO_DEVICE_TYPE_ID   "UnivIO-V2"   // Index 0x0100
 
@@ -75,8 +76,7 @@
 
 #define UIO_I2C_CMD_WRITE            (1 << 8)
 
-#define UIOCFG_SIGNATURE   0xAA66CF55
-#define UIOMODE_SIGNATURE  0x5530DEAA
+#define UIOCFG_V2_SIGNATURE   0xA566CF5A
 
 // error codes
 #define UIOERR_PINTYPE              0x5001  // invalid pin type
@@ -139,7 +139,7 @@ typedef struct
 //
 } TPinCfg;
 
-class TUioGenDevBase
+class TUioGenDevBase : public TClass
 {
 public: // internal state
   uint8_t           blp_idx = 0;
@@ -212,8 +212,6 @@ public:
 
 public:  // base class mandatory implementations
   virtual bool      InitDevice();
-  virtual bool      HandleRequest(TUdoRequest * rq);
-  virtual bool      HandleDeviceRequest(TUdoRequest * rq);
   virtual void      SaveSetup();
   virtual void      LoadSetup();
   virtual void      SetRunMode(uint8_t arunmode);

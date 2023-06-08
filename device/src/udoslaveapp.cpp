@@ -32,17 +32,11 @@
 // handle the actual UDO requests
 bool udoslave_app_read_write(TUdoRequest * udorq)
 {
-  if (udorq->index < 0x0100)  // handle the standard UDO indexes (0x0000 - 0x0100)
+  if (udorq->index < 0x0100)  // handle the standard UDO indexes (0x0000 - 0x00FF)
   {
     return udoslave_handle_base_objects(udorq);
   }
 
-
-  if (param_read_write(udorq)) // try the parameter table first
-  {
-    return true;
-  }
-
-
-  return false;
+  // then handle the request with the parameter table
+  return param_read_write(udorq);
 }

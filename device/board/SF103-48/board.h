@@ -23,9 +23,7 @@
 
 // UnivID Device settings
 
-#define UIO_FW_ID   "GenIO-SF103-48"
-#define UIO_FW_VER    ((0 << 24) | (5 << 16) | 0)
-#define UIO_MEM_SIZE       0x8000 // for OBJ#0002
+#define UIO_HW_ID       "SF103-48"
 
 #define UIO_MAX_DATA_LEN     1024
 #define UIO_MPRAM_SIZE       4096

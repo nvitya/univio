@@ -27,7 +27,7 @@
 */
 
 #include "string.h"
-#include "univio.h"
+#include "udoslave.h"
 #include "uio_device.h"
 #include <uio_nvdata.h>
 #include "uio_nvstorage.h"
@@ -137,7 +137,7 @@ uint16_t TUioNvData::SaveValue(uint8_t aid, uint32_t avalue)
 {
   if (lock != UIO_NVDATA_UNLOCK)
   {
-    return UIOERR_READ_ONLY;
+    return UDOERR_READ_ONLY;
   }
 
   aid = (aid & 0x1F);  // ensure safe index

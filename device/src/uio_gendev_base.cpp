@@ -57,7 +57,7 @@ bool TUioGenDevBase::Init()
 {
   initialized = false;
 
-  strncpy(cfg.device_id, UIO_FW_ID, sizeof(cfg.device_id));
+  strncpy(cfg.device_id, UIO_HW_ID, sizeof(cfg.device_id));
 
   if (!InitDevice())
   {
@@ -66,86 +66,6 @@ bool TUioGenDevBase::Init()
 
   initialized = true;
   return true;
-}
-
-bool TUioGenDevBase::HandleRequest(TUdoRequest *rq)
-{
-  if (!initialized)
-  {
-    return udo_response_error(rq, UDOERR_INTERNAL);
-  }
-
-  uint16_t addr = rq->address;
-
-  if (addr >= 0x0100) // these are not handled here
-  {
-    if (HandleDeviceRequest(rq))
-    {
-      return true;
-    }
-    else
-    {
-      return ResponseError(rq, UIOERR_WRONG_ADDR);
-    }
-  }
-
-  if (addr < 0x0010) // read-only system data
-  {
-    switch (addr)
-    {
-      case 0x0000:  return ResponseU32(rq, 0x66CCAA55);
-      case 0x0001:  return ResponseU32(rq, UIO_MAX_DATA_LEN);
-      case 0x0002:  return ResponseU32(rq, UIO_MEM_SIZE);
-      case 0x0003:  return ResponseStr(rq, UIO_FW_ID);
-      case 0x0004:  return ResponseU32(rq, UIO_FW_VER);
-    }
-
-    return ResponseError(rq, UIOERR_WRONG_ADDR);
-  }
-
-  if (0x0010 == addr)  // RUN / CONFIG mode
-  {
-    if (!rq->iswrite)
-    {
-      return ResponseU8(rq, runmode);
-    }
-
-    uint8_t rmv = RqValueU8(rq);
-    if (rmv > 1) // special command
-    {
-      if (2 == rmv)
-      {
-        // TODO: restart
-        return ResponseError(rq, UIOERR_NOT_IMPLEMENTED);
-      }
-      return ResponseError(rq, UIOERR_VALUE);
-    }
-
-    SetRunMode(rmv);
-    return ResponseOk(rq);
-  }
-
-  // else R/W system data
-
-  if (rq->iswrite && runmode)
-  {
-    return ResponseError(rq, UIOERR_RUN_MODE);
-  }
-
-  switch (addr)
-  {
-    case 0x0011:   return HandleRw(rq, &cfg.device_id[0],     sizeof(cfg.device_id));
-    case 0x0012:   return HandleRw(rq, &cfg.usb_vendor_id,    sizeof(cfg.usb_vendor_id));
-    case 0x0013:   return HandleRw(rq, &cfg.usb_product_id,   sizeof(cfg.usb_product_id));
-    case 0x0014:   return HandleRw(rq, &cfg.manufacturer[0],  sizeof(cfg.manufacturer));
-    case 0x0015:   return HandleRw(rq, &cfg.serial_number[0], sizeof(cfg.serial_number));
-  }
-
-  return ResponseError(rq, UIOERR_WRONG_ADDR);
-}
-
-bool TUioGenDevBase::HandleDeviceRequest(TUdoRequest * rq)
-{
 }
 
 bool TUioGenDevBase::InitDevice()
@@ -446,455 +366,18 @@ uint16_t TUioGenDevBase::GetAdcValue(uint8_t adc_idx, uint16_t * rvalue)
   return 0;
 }
 
-bool TUioGenDevBase::HandleDeviceRequest(TUnivioRequest * rq)
-{
-  unsigned    n;
-  uint32_t    rv32;
-  uint16_t    rv16;
-  uint16_t    err;
-
-  uint16_t addr = rq->address;
-
-  if (addr < 0x0200) // some read-only info
-  {
-    switch (addr)
-    {
-      case 0x0100:  return ResponseU8(rq,  UIO_PIN_COUNT);
-      case 0x0101:  return ResponseU16(rq, UIO_PINS_PER_PORT);
-      case 0x0102:  return ResponseU16(rq, UIO_MPRAM_SIZE);
-
-      case 0x0110:
-      {
-        if (!rq->iswrite)  return ResponseError(rq, UIOERR_WRITE_ONLY);
-
-        if (1 == RqValueU32(rq))
-        {
-          ResetConfig();
-        }
-        return ResponseOk(rq);
-      }
-    }
-
-    return ResponseError(rq, UIOERR_WRONG_ADDR);
-  }
-
-  if (addr < 0x0300) // pin configuration
-  {
-    uint8_t pinid = addr - 0x0200;
-    if (pinid >= UIO_PIN_COUNT)
-    {
-      return ResponseError(rq, UIOERR_WRONG_ADDR);
-    }
-
-    if (rq->iswrite)
-    {
-      if (runmode)
-      {
-        return ResponseError(rq, UIOERR_RUN_MODE);
-      }
-
-      uint32_t pcf = RqValueU32(rq);
-      uint16_t err = PinSetup(pinid, pcf, false);
-      if (err)
-      {
-        return ResponseError(rq, err);
-      }
-
-      cfg.pinsetup[pinid] = pcf;
-      return ResponseOk(rq);
-    }
-    else
-    {
-      return ResponseU32(rq, cfg.pinsetup[pinid]);
-    }
-  }
-
-  if (0x0300 == addr)  // DOUT
-  {
-    return HandleRw(rq, &cfg.dv_douts, sizeof(cfg.dv_douts));
-  }
-
-  if ((0x0320 <= addr) && (addr < 0x0320 + UIO_DAC_COUNT))  // ANA_OUT / DAC
-  {
-    return HandleRw(rq, &cfg.dv_dac[addr - 0x320], sizeof(cfg.dv_dac[0]));
-  }
-
-  if ((0x0340 <= addr) && (addr < 0x0340 + UIO_PWM_COUNT))  // PWM Duty
-  {
-    return HandleRw(rq, &cfg.dv_pwm[addr - 0x340], sizeof(cfg.dv_pwm[0]));
-  }
-
-  if ((0x0360 <= addr) && (addr < 0x0360 + UIO_LEDBLP_COUNT))  // LEDBLP
-  {
-    return HandleRw(rq, &cfg.dv_ledblp[addr - 0x360], sizeof(cfg.dv_ledblp[0]));
-  }
-
-  if ((0x0700 <= addr) && (addr < 0x0700 + UIO_PWM_COUNT)) // PWM frequency setup
-  {
-    uint8_t idx = addr - 0x0700;
-
-    HandleRw(rq, &cfg.pwm_freq[idx], sizeof(cfg.pwm_freq[0]));  // save to the shadow
-
-    if (!rq->iswrite)
-    {
-      return true; // already handled
-    }
-
-    THwPwmChannel * pwm = pwmch[idx];
-    if (pwm && pwm->initialized)
-    {
-      pwm->SetFrequency(cfg.pwm_freq[idx]);  // update at the actual unit too
-    }
-    return ResponseOk(rq);
-  }
-
-  // configuration info
-  if ((0x0E00 <= addr) && (addr < 0x0E00 + UIO_INFO_COUNT))
-  {
-    if (rq->iswrite)
-    {
-      return ResponseError(rq, UIOERR_READ_ONLY);
-    }
-
-    uint8_t idx = addr - 0x0E00;
-    return ResponseU32(rq, cfginfo[idx]);
-  }
-
-
-  // Non-Volatile Data
-  if ((0x0F00 <= addr) && (addr < 0x0F00 + UIO_NVDATA_COUNT))  // NVDATA Value
-  {
-    uint8_t idx = (addr - 0x0F00);
-    if (rq->iswrite)
-    {
-      rv32 = RqValueU32(rq);
-      return ResponseError(rq, g_nvdata.SaveValue(idx, rv32));
-    }
-    else
-    {
-      return ResponseU32(rq, g_nvdata.value[idx]);
-    }
-  }
-  if (0x0F80 == addr) // NVDATA LOCK
-  {
-    return HandleRw(rq, &g_nvdata.lock, sizeof(g_nvdata.lock));
-  }
-
-  // IO Control
-
-  if ((0x1000 <= addr) && (addr <= 0x1001))  // DOUT Set/Clear
-  {
-    if (!rq->iswrite)
-    {
-      return ResponseError(rq, UIOERR_WRITE_ONLY);
-    }
-
-    rv32 = RqValueU32(rq);
-
-    //TRACE("DOUT(%04X) <- %08X\r\n", addr, rv32);
-
-    for (n = 0; n < 16; ++n)
-    {
-      uint8_t idx = n + 16 * (addr - 0x1000);
-      if (idx < UIO_DOUT_COUNT)
-      {
-        TGpioPin *  ppin = dig_out[idx];
-        if (ppin)
-        {
-          uint32_t smask = (1 << n);
-          uint32_t cmask = (1 << (n + 16));
-          if (rv32 & smask)
-          {
-            ppin->Set1();
-            dout_value |= (1 << idx);
-          }
-          else if (rv32 & cmask)
-          {
-            ppin->Set0();
-            dout_value &= ~(1 << idx);
-          }
-        }
-      }
-    }
-    return ResponseOk(rq);
-  }
-  else if (0x1010 == addr) // DOUT direct setup
-  {
-    if (!rq->iswrite)
-    {
-      return ResponseU32(rq, dout_value);
-    }
-
-    dout_value = RqValueU32(rq);
-
-    for (n = 0; n < UIO_DOUT_COUNT; ++n)
-    {
-      TGpioPin *  ppin = dig_out[n];
-      if (ppin)
-      {
-        uint32_t smask = (1 << n);
-        if (dout_value & smask)
-        {
-          ppin->Set1();
-        }
-        else
-        {
-          ppin->Set0();
-        }
-      }
-    }
-    return ResponseOk(rq);
-  }
-  else if (0x1100 == addr) // Get DIN
-  {
-    if (rq->iswrite)
-    {
-      return ResponseError(rq, UIOERR_READ_ONLY);
-    }
-
-    rv32 = 0;
-    for (n = 0; n < UIO_DIN_COUNT; ++n)
-    {
-      TGpioPin *  ppin = dig_in[n];
-      uint32_t    pmask = (1 << n);
-      if (ppin && ppin->Value())
-      {
-        rv32 |= pmask;
-      }
-    }
-    return ResponseU32(rq, rv32);
-  }
-  else if ((0x1200 <= addr) && (addr < 0x1200 + UIO_ADC_COUNT)) // Get ANA_IN
-  {
-    if (rq->iswrite)
-    {
-      return ResponseError(rq, UIOERR_READ_ONLY);
-    }
-
-    uint8_t idx = (addr - 0x1200);
-    err = GetAdcValue(idx, &rv16);
-    if (err)
-    {
-      return ResponseError(rq, err);
-    }
-    else
-    {
-      return ResponseU16(rq, rv16);
-    }
-  }
-  else if ((0x1300 <= addr) && (addr < 0x1300 + UIO_DAC_COUNT)) // Set ANA_OUT
-  {
-    uint8_t idx = addr - 0x1300;
-
-    HandleRw(rq, &dac_value[idx], sizeof(dac_value[0]));  // save to the shadow
-    if (!rq->iswrite)
-    {
-      return true; // already handled
-    }
-
-    SetDacOutput(idx,  dac_value[idx]);
-
-    return ResponseOk(rq);
-  }
-
-  else if ((0x1400 <= addr) && (addr < 0x1400 + UIO_PWM_COUNT)) // Set PWM Duty Cycle
-  {
-    uint8_t idx = addr - 0x1400;
-
-    HandleRw(rq, &pwm_value[idx], sizeof(pwm_value[0]));  // save to the shadow
-    if (!rq->iswrite)
-    {
-      return true; // already handled
-    }
-
-    SetPwmDuty(idx, pwm_value[idx]);
-    return ResponseOk(rq);
-  }
-
-  else if ((0x1500 <= addr) && (addr < 0x1500 + UIO_LEDBLP_COUNT))
-  {
-    uint8_t idx = addr - 0x1500;
-    return HandleRw(rq, &ledblp_value[idx], sizeof(ledblp_value[0]));
-  }
-
-  // SPI Control
-  else if (0x1600 == addr) // SPI Speed
-  {
-    return HandleRw(rq, &spi_speed, sizeof(spi_speed));
-  }
-  else if (0x1601 == addr) // SPI transaction length
-  {
-    return HandleRw(rq, &spi_trlen, sizeof(spi_trlen));
-  }
-  else if (0x1602 == addr) // SPI status
-  {
-    if (rq->iswrite)
-    {
-      rv32 = RqValueU32(rq);
-      if (1 == rv32)
-      {
-        // start the SPI transaction
-        err = SpiStart();
-        return ResponseError(rq, err); // will be response ok with err=0
-      }
-      else
-      {
-        return ResponseError(rq, UIOERR_VALUE);
-      }
-    }
-    else
-    {
-      return ResponseU8(rq, spi_status);
-    }
-  }
-  else if (0x1604 == addr) // SPI write data MPRAM offset
-  {
-    return HandleRw(rq, &spi_tx_offs, sizeof(spi_tx_offs));
-  }
-  else if (0x1605 == addr) // SPI read data MPRAM offset
-  {
-    return HandleRw(rq, &spi_rx_offs, sizeof(spi_rx_offs));
-  }
-
-  // I2C Conrol
-  else if (0x1620 == addr) // I2C Speed
-  {
-    return HandleRw(rq, &i2c_speed, sizeof(i2c_speed));
-  }
-  else if (0x1621 == addr) // I2C EADDR (Extra Address)
-  {
-    return HandleRw(rq, &i2c_eaddr, sizeof(i2c_eaddr));
-  }
-  else if (0x1622 == addr) // I2C Transaction Start
-  {
-    if (rq->iswrite)
-    {
-      i2c_cmd = RqValueU32(rq);
-      err = I2cStart();
-      return ResponseError(rq, err); // will be response ok with err=0
-    }
-    else
-    {
-      return ResponseU32(rq, i2c_cmd);
-    }
-  }
-  else if (0x1623 == addr) // I2C Transaction Status / Result
-  {
-    return ResponseU16(rq, i2c_result);
-  }
-  else if (0x1624 == addr) // I2C data MPRAM offset
-  {
-    return HandleRw(rq, &i2c_data_offs, sizeof(i2c_data_offs));
-  }
-
-  // MEMORY RANGE
-
-  else if ((0x8000 <= addr) && (addr + rq->length <= 0x8000 + 2 * UIO_ADC_COUNT)) // ADC
-  {
-    if (rq->iswrite)
-    {
-      return ResponseError(rq, UIOERR_READ_ONLY);
-    }
-
-    if ((addr & 1) || (rq->length & 1))  // odd addresses or length are not allowed
-    {
-      return ResponseError(rq, UIOERR_WRONG_ACCESS);
-    }
-
-    uint8_t idx = ((addr - 0x8000) >> 1);
-    uint8_t endidx = idx + (rq->length >> 1);
-    uint16_t * dp16 = (uint16_t *)&rq->data[0];
-    while (idx < endidx)
-    {
-      if (0 != GetAdcValue(idx, dp16))
-      {
-        *dp16 = UIO_ADC_ERROR_VALUE;
-      }
-
-      ++dp16;
-      ++idx;
-    }
-    return ResponseOk(rq);
-  }
-
-  else if ((0x8100 <= addr) && (addr + rq->length <= 0x8100 + 2 * UIO_DAC_COUNT)) // DAC
-  {
-    if ((addr & 1) || (rq->length & 1))  // odd addresses or length are not allowed
-    {
-      return ResponseError(rq, UIOERR_WRONG_ACCESS);
-    }
-
-    uint8_t idx = ((addr - 0x8100) >> 1);
-
-    HandleRw(rq, &dac_value[idx], rq->length);
-    if (!rq->iswrite)
-    {
-      return true; // already handled
-    }
-
-    // update the dac outputs
-    uint8_t endidx = idx + (rq->length >> 1);
-    while (idx < endidx)
-    {
-      SetDacOutput(idx, dac_value[idx]);
-      ++idx;
-    }
-
-    return ResponseOk(rq);
-  }
-
-  else if ((0x8200 <= addr) && (addr + rq->length <= 0x8200 + 2 * UIO_PWM_COUNT)) // PWM
-  {
-    if ((addr & 1) || (rq->length & 1))  // odd addresses or length are not allowed
-    {
-      return ResponseError(rq, UIOERR_WRONG_ACCESS);
-    }
-
-    uint8_t idx = ((addr - 0x8200) >> 1);
-
-    HandleRw(rq, &pwm_value[idx], rq->length);
-    if (!rq->iswrite)
-    {
-      return true; // already handled
-    }
-
-    // update the pwm outputs
-    uint8_t endidx = idx + (rq->length >> 1);
-    while (idx < endidx)
-    {
-      SetPwmDuty(idx, pwm_value[idx]);
-      ++idx;
-    }
-
-    return ResponseOk(rq);
-  }
-
-  else if ((0xC000 <= addr) && (addr + rq->length <= 0xC000 + UIO_MPRAM_SIZE)) // MPRAM
-  {
-    return HandleRw(rq, mpram + (addr - 0xC000), rq->length);
-  }
-
-  return false;
-}
-
 void TUioGenDevBase::SaveSetup()
 {
   TRACE("Saving setup...\r\n");
 
   TUioCfgStb * pstb = &g_cfgstb;  // use the ram storage
 
-  pstb->signature = UIOCFG_SIGNATURE;
+  *pstb = cfg; // copy the settings
 
-  // copy configs
-  pstb->basecfg = basecfg;
-  pstb->base_length = sizeof(basecfg);
-  pstb->base_csum = uio_content_checksum(&basecfg, sizeof(basecfg));
-
-  pstb->cfg = cfg;
-  pstb->cfg_length = sizeof(cfg);
-  pstb->cfg_csum = uio_content_checksum(&cfg, sizeof(cfg));
-
-  pstb->_tail_pad = 0x1111111111111111;
+  pstb->signature = UIOCFG_V2_SIGNATURE;
+  pstb->length = sizeof(TUioCfgStb);
+  pstb->checksum = 0;
+  pstb->checksum = uio_content_checksum(pstb, sizeof(*pstb));
 
   // save to flash
 #if 1
@@ -926,25 +409,19 @@ void TUioGenDevBase::LoadSetup()
 
   TRACE("Loading Configuration...\r\n");
 
-  if (pstb->signature != UIOCFG_SIGNATURE)
+  if (pstb->signature != UIOCFG_V2_SIGNATURE)
   {
     TRACE("  signature error: %08X\r\n", pstb->signature);
     return;
   }
 
-  if ( (pstb->base_length != sizeof(basecfg)) || (pstb->cfg_length != sizeof(cfg)) )
+  if (pstb->length != sizeof(TUioCfgStb))
   {
     TRACE("  config length difference\r\n");
     return;
   }
 
-  if ( pstb->base_csum != uio_content_checksum(&pstb->basecfg, sizeof(pstb->basecfg)) )
-  {
-    TRACE("  base config checksum error\r\n");
-    return;
-  }
-
-  if ( pstb->cfg_csum != uio_content_checksum(&pstb->cfg, sizeof(pstb->cfg)) )
+  if (0 != uio_content_checksum(&pstb, sizeof(TUioCfgStb)))
   {
     TRACE("  config checksum error\r\n");
     return;
@@ -952,9 +429,7 @@ void TUioGenDevBase::LoadSetup()
 
   TRACE("Saved setup ok, activating.\r\n");
 
-  basecfg = pstb->basecfg;
-  cfg = pstb->cfg;
-
+  cfg = *pstb; // copy to the active configuration
 
   // TODO: load runmode
   runmode = 1;
@@ -1092,7 +567,7 @@ uint16_t TUioGenDevBase::SpiStart()
 {
   if (spi_status)
   {
-    return UIOERR_BUSY;
+    return UDOERR_BUSY;
   }
 
   if (!spi)
@@ -1257,16 +732,4 @@ uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen)
   }
 
   return(0 - csum);
-}
-
-bool TUioGenDevBase::Init()
-{
-}
-
-bool TUioGenDevBase::HandleRequest(TUdoRequest *rq)
-{
-}
-
-bool TUioGenDevBase::HandleDeviceRequest(TUdoRequest *rq)
-{
 }

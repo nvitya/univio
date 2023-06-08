@@ -48,33 +48,49 @@
 ******************************************************************************************************************/
 // range tables must come before the main
 
-PARAMTABLE_DEF pt_2000_app[] =  // 0x2000
-{
-/* +00*/{ PAR_INT32_RO,  (void *)&g_device.irq_period_ns,      nullptr, nullptr },
-/* +01*/{ PAR_UINT16_RO, (void *)&g_device.irq_cycle_counter,  nullptr, nullptr },
-/* +02*/{ PAR_INT32_RO,  (void *)&g_device.func_i32_1,         nullptr, nullptr },
-/* +03*/{ PAR_INT32_RO,  (void *)&g_device.func_i32_2,         nullptr, nullptr },
-/* +04*/{ PAR_INT16_RO,  (void *)&g_device.func_i16_1,         nullptr, nullptr },
-/* +05*/{ PAR_INT16_RO,  (void *)&g_device.func_i16_2,         nullptr, nullptr },
-/* +06*/{ PAR_FLOAT_RO,  (void *)&g_device.func_fl_1,          nullptr, nullptr },
-/* +07*/{ PAR_FLOAT_RO,  (void *)&g_device.func_fl_2,          nullptr, nullptr },
-/* +08*/{ PAR_INT32_RW,  (void *)&g_device.par_dummy_i32,      nullptr, nullptr },
-/* +09*/{ PAR_INT16_RW,  (void *)&g_device.par_dummy_i16,      nullptr, nullptr },
-
-///* +0A*/{ PTENTRY_SPECIALFUNC(0, &g_device, PWdParMethod(&TDevice::pfn_big_data)) }, //
-};
-
-
 /*****************************************************************************************************************
                                        THE MAIN RANGE TABLE
 ******************************************************************************************************************/
 
 const TParamRangeDef  param_range_table[] =
 {
-	{0x1000, 0x1018, nullptr, &g_device, PParRangeMethod(&TDevice::prfn_canobj_1008_1018) }, // some RO device identifiactions
+  {0x0100, 0x017F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_0100_DevId) }, // some RO device identifiactions
+  {0x0180, 0x019F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_0180_DevConf) },
 
-	PAR_TABLE(0x2000, pt_2000_app),   // main application parameters
-	PAR_TABLE(0x5000, pt_5000_scope), // scope parameters
+  // pin configuration
+  {0x01FF, 0x01FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_PinCfgReset) },
+  {0x0200, 0x02FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_PinConfig) },
+
+  // output default values
+  {0x0300, 0x0300, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DefValue_DigOut) },
+  {0x0320, 0x033F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DefValue_AnaOut) },
+  {0x0340, 0x035F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DefValue_PwmDuty) },
+  {0x0360, 0x037F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DefValue_LedBlp) },
+  {0x0700, 0x071F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DefValue_PwmFreq) },
+
+  // configuration info
+  {0x0E00, 0x0EFF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_ConfigInfo) },
+  // Non-Volatile Data
+  {0x0F00, 0x0FFF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_NvData) },
+
+  // IO Access
+  {0x1000, 0x1001, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DigOutSetClr) },
+  {0x1010, 0x1010, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DigOutDirect) },
+  {0x1100, 0x1100, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DigInValues) },
+  {0x1200, 0x121F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_AnaInValues) },
+  {0x1300, 0x13FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_AnaOutCtrl) },
+  {0x1400, 0x14FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_PwmControl) },
+  {0x1500, 0x15FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_LedBlpCtrl) },
+
+  // SPI, I2C
+  {0x1600, 0x16FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_SpiControl) },
+  {0x1700, 0x17FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_I2cControl) },
+
+  // MPRAM
+  {0xC000, 0xC000, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_Mpram) },
+
+	//PAR_TABLE(0x0100, pt_0100),   // main application parameters
+	//PAR_TABLE(0x5000, pt_5000_scope), // scope parameters
 
 	// close the list
 	{0, 0, nullptr, nullptr, nullptr}
