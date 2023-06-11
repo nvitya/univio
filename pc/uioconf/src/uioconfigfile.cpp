@@ -5,9 +5,11 @@
  *      Author: vitya
  */
 
+#include "string.h"
 #include <string>
 #include "general.h"
 #include "uioconfigfile.h"
+#include "udo_comm.h"
 
 using namespace std;
 
@@ -392,20 +394,17 @@ bool TUioConfig::SaveToFile(const char * afname)
 	return false;
 }
 
-bool TUioConfig::LoadFromDevice(TUnivioConn * aconn)
+bool TUioConfig::LoadFromDevice()
 {
-	conn = aconn;
 	return false;
 }
 
-bool TUioConfig::SaveToDevice(TUnivioConn * aconn)
+bool TUioConfig::SaveToDevice()
 {
 	unsigned n;
 	uint16_t err;
 	uint16_t rlen;
 	uint32_t v;
-
-	conn = aconn;
 
 	if (!CheckDevice())
 	{
@@ -413,78 +412,47 @@ bool TUioConfig::SaveToDevice(TUnivioConn * aconn)
 	}
 
 	printf("Entering config mode...\n");
-
 	// set CONFIG mode
-	err = conn->WriteUint(0x0010, 0, 1);  // turn off RUN mode
-	if (err)
-	{
-		printf("  error entering CONFIG mode: %04X\n", err);
-		return false;
-	}
+	udocomm.UdoWriteInt(0x0180, 0, 0);  // turn off RUN mode, set to CONFIG mode
+	printf("  OK.\n");
 
-	err = conn->WriteUint(0x0110, 1, 1);  // reset configuration
-	if (err)
-	{
-		printf("  error resetting configuration: %04X\n", err);
-		return false;
-	}
-
+	printf("Resetting configuration...\n");
+	udocomm.UdoWriteInt(0x01FF, 0, 1);  // reset configuration
 	printf("  OK.\n");
 
 	printf("Setting device identifications...\n");
 
 	printf("  Device id:      \"%s\"\n", &deviceid[0]);
-	err = conn->Write(0x0011, &deviceid[0], deviceid.size());
-	if (err)
-	{
-		printf("  error: %04X\n", err);
-		return false;
-	}
+	udocomm.UdoWrite(0x0181, 0, &deviceid[0], deviceid.size());
 
 	printf("  Manufacturer:   \"%s\"\n", &manufacturer[0]);
-	err = conn->Write(0x0014, &manufacturer[0], manufacturer.size());
-	if (err)
-	{
-		printf("  error: %04X\n", err);
-		return false;
-	}
+	udocomm.UdoWrite(0x0184, 0, &manufacturer[0], manufacturer.size());
 
 	printf("  USB vendor id:  0x%04X\n", usb_vid);
-	err = conn->Write(0x0012, &usb_vid, sizeof(usb_vid));
-	if (err)
-	{
-		printf("  error: %04X\n", err);
-		return false;
-	}
+	udocomm.UdoWrite(0x0182, 0, &usb_vid, sizeof(usb_vid));
 
 	printf("  USB product id: 0x%04X\n", usb_pid);
-	err = conn->Write(0x0013, &usb_pid, sizeof(usb_pid));
-	if (err)
-	{
-		printf("  error: %04X\n", err);
-		return false;
-	}
+	udocomm.UdoWrite(0x0183, 0, &usb_pid, sizeof(usb_pid));
 
 	printf("  Serial number:  \"%s\"\n", &serialnum[0]);
-	err = conn->Write(0x0015, &serialnum[0], serialnum.size());
-	if (err)
-	{
-		printf("  error: %04X\n", err);
-		return false;
-	}
+	udocomm.UdoWrite(0x0185, 0, &serialnum[0], serialnum.size());
 
 	printf("Configuring Pins...\n");
 	// confiure pins
 	bool cfgerr = false;
+
 	for (n = 0; n < dev_max_pins; ++n)
 	{
 		if (pinconf[n])
 		{
-			err = conn->WriteUint(0x0200 + n, pinconf[n], 4);
-			if (err)
+			try
+			{
+			  udocomm.UdoWrite(0x0200 + n, 0, &pinconf[n], 4);
+			}
+			catch (EUdoAbort & e)
 			{
 				string pinname = GetPinName(n);
-				printf("  PIN-%s config error: %04X\n", &pinname[0], err);
+				printf("  PIN-%s config error: %04X\n", &pinname[0], e.ecode);
 				cfgerr = true;
 			}
 		}
@@ -497,65 +465,74 @@ bool TUioConfig::SaveToDevice(TUnivioConn * aconn)
 	printf("  OK.\n");
 
 	printf("Setting output defaults...\n");
-
-	err = conn->WriteUint(0x0300, dout_value, 4);
-	if (err)
+	try
 	{
-		printf("  DOUT error: %04X\n", err);
+		udocomm.UdoWrite(0x0300, 0, &dout_value, 4);
+	}
+	catch (EUdoAbort & e)
+	{
+		printf("  DOUT error: %04X\n", e.ecode);
 		cfgerr = true;
 	}
 
 	for (n = 0; n < UIO_DAC_COUNT; ++n)
 	{
-		err = conn->WriteUint(0x0320 + n, aout_value[n], sizeof(aout_value[0]));
-		if (err)
+		try
 		{
-			printf("  DAC-%u error: %04X\n", n, err);
+  		udocomm.UdoWrite(0x0320 + n, 0, &aout_value[n], sizeof(aout_value[0]));
+		}
+		catch (EUdoAbort & e)
+		{
+			printf("  DAC-%u error: %04X\n", n, e.ecode);
 			cfgerr = true;
 		}
 	}
 
 	for (n = 0; n < UIO_PWM_COUNT; ++n)
 	{
-		err = conn->WriteUint(0x0340 + n, pwm_value[n], sizeof(pwm_value[0]));
-		if (err)
+		try
 		{
-			printf("  PWM-%u value error: %04X\n", n, err);
+  		udocomm.UdoWrite(0x0340 + n, 0, &pwm_value[n], sizeof(pwm_value[0]));
+		}
+		catch (EUdoAbort & e)
+		{
+			printf("  PWM-%u value error: %04X\n", n, e.ecode);
 			cfgerr = true;
 		}
 
-		err = conn->WriteUint(0x0700 + n, pwm_freq[n], sizeof(pwm_freq[0]));
-		if (err)
+		try
 		{
-			printf("  PWM-%u freq error: %04X\n", n, err);
+  		udocomm.UdoWrite(0x0700 + n, 0, &pwm_freq[n], sizeof(pwm_freq[0]));
+		}
+		catch (EUdoAbort & e)
+		{
+			printf("  PWM-%u freq error: %04X\n", n, e.ecode);
 			cfgerr = true;
 		}
 	}
 
 	for (n = 0; n < UIO_LEDBLP_COUNT; ++n)
 	{
-		err = conn->WriteUint(0x0360 + n, ledblp_value[n], sizeof(ledblp_value[0]));
-		if (err)
+		try
 		{
-			printf("  LEDBLP-%u error: %04X\n", n, err);
+  		udocomm.UdoWrite(0x0360 + n, 0, &ledblp_value[n], sizeof(ledblp_value[0]));
+		}
+		catch (EUdoAbort & e)
+		{
+			printf("  LEDBLP-%u error: %04X\n", n, e.ecode);
 			cfgerr = true;
 		}
 	}
 
 	if (cfgerr)
 	{
+		printf("Configuration error, staying in CONFIG mode.\n");
 		return false;
 	}
 	printf("  OK.\n");
 
 	printf("Entering RUN mode...\n");
-	err = conn->WriteUint(0x0010, 1, 1);
-	if (err)
-	{
-		printf("  error: %04X\n", err);
-		return false;
-	}
-
+	udocomm.UdoWriteInt(0x0180, 0, 1);
 	printf("  OK.\n");
 
 	return true;
@@ -564,43 +541,53 @@ bool TUioConfig::SaveToDevice(TUnivioConn * aconn)
 bool TUioConfig::CheckDevice()
 {
 	// check comm basics
+	int r;
 	uint16_t err;
 	uint16_t rlen;
 	uint32_t v;
 
 	printf("Checking device...\n");
 
-	err = conn->ReadUint32(0x0000, &v);
-	if (err)
+	try
 	{
-		printf("  Comm Test (addr 0x0000) error: %04X\n", err);
+		r = udocomm.UdoRead(0x0100, 0, &databuf[0], sizeof(databuf));
+	}
+	catch (EUdoAbort & e)
+	{
+		printf("  Error getting UnivIO identifier: %04X\n", e.ecode);
 		return false;
 	}
 
-	if (v != 0x66CCAA55)
+	if (strcmp((const char *)&databuf[0], "UnivIO-V2") != 0)
 	{
-		printf("  Comm Test value error: %08X\n", v);
+		printf("  Unexpected device type: \"%s\"\n", &databuf[0]);
 		return false;
 	}
 
-	err = conn->Read(0x0003, &databuf[0], 32, &rlen);
-	if (err)
+	try
 	{
-		printf("  Error reading FWID: %04X\n", err);
+		r = udocomm.UdoRead(0x0101, 0, &databuf[0], sizeof(databuf));
+	}
+	catch (EUdoAbort & e)
+	{
+		printf("  Error Reading DIID: %04X\n", e.ecode);
 		return false;
 	}
 
 	string lfwid = string((const char *)&databuf[0]);
 	if (lfwid != fwid)
 	{
-		printf("  FWID \"%s\" is not compatible with the configuration file (\"%s\")\n", &lfwid[0], &fwid[0]);
+		printf("  DIID \"%s\" is not compatible with the configuration file (\"%s\")\n", &lfwid[0], &fwid[0]);
 		return false;
 	}
 
-	err = conn->Read(0x0100, &dev_max_pins, 1, nullptr);
-	if (err)
+	try
 	{
-		printf("  Error reading max pins: %04X\n", err);
+		r = udocomm.UdoRead(0x0110, 0, &dev_max_pins, 1);
+	}
+	catch (EUdoAbort & e)
+	{
+		printf("  Error reading max pins: %04X\n", e.ecode);
 		return false;
 	}
 

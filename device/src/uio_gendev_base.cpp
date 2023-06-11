@@ -57,7 +57,13 @@ bool TUioGenDevBase::Init()
 {
   initialized = false;
 
+  // initialize configuration defaults
+  cfg.usb_vendor_id = 0xDEAD;
+  cfg.usb_product_id = 0xBEEF;
+
   strncpy(cfg.device_id, UIO_HW_ID, sizeof(cfg.device_id));
+  strncpy(cfg.manufacturer, "github.com/nvitya/univio", sizeof(cfg.manufacturer));
+  strncpy(cfg.serial_number, "1", sizeof(cfg.serial_number));
 
   if (!InitDevice())
   {

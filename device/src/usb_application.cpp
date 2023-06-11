@@ -58,21 +58,16 @@ bool TUsbApplication::InitDevice()
   device_serial_number = &g_uiodev.cfg.serial_number[0];
   if (strlen(manufacturer_name) == 0)
   {
-    manufacturer_name = "UnivIO";
+    manufacturer_name = "github.com/nvitya/udo";
   }
   if (strlen(device_name) == 0)
   {
-    device_name = UIO_HW_ID;
+    device_name = "UDO-USB Device";
   }
   if (strlen(device_serial_number) == 0)
   {
     device_serial_number = "1";
   }
-
-
-  manufacturer_name = "github.com/nvitya/udo";
-  device_name = "UDO-USB Device";
-  device_serial_number = "1";
 
   AddFunction(&usb_func_udo);
 

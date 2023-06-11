@@ -10,11 +10,10 @@
 #include <string>
 
 #include "uioconfigfile.h"
-#include "univio_conn.h"
+#include "udo_comm.h"
+#include "commh_udosl.h"
 
 using namespace std;
-
-TUnivioConn conn;
 
 string confname = "";
 
@@ -64,16 +63,33 @@ int main(int argc, char * const * argv)
 		printf("  OK.\n");
 	}
 
-	if (!conn.Open(argv[2]))
+	udosl_commh.devstr = string(argv[2]);
+	udocomm.SetHandler(&udosl_commh);
+
+	printf("Connecting to device at \"%s\"...\n", udosl_commh.devstr.c_str());
+	try
 	{
+		udocomm.Open();
+	}
+	catch (exception & e)
+	{
+		printf("Exception: %s\n", e.what());
 		exit(1);
 	}
 
-	bool err = !uioconfig.SaveToDevice(&conn);
+	bool cfgerr = true;
+	try
+	{
+  	cfgerr = !uioconfig.SaveToDevice();
+	}
+	catch (exception & e)
+	{
+		printf("Exception: %s\n", e.what());
+	}
 
-	conn.Close();
+	udocomm.Close();
 
-	if (err)
+	if (cfgerr)
 	{
 	  printf("Errors detected, device is not configured properly!\n");
 	  exit(1);

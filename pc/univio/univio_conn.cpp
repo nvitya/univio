@@ -174,10 +174,88 @@ void TUnivioConn::ExecRequest()
 	int r;
 	uint8_t  b;
 
+	uint8_t metalen;
+
 	bufcnt = 0;
 	crc = 0;
 
 	comm.Flush();
+
+
+  b = 0x55; // sync
+  AddTx(&b, 1);
+
+	uint8_t offslen;
+  if      (moffset =      0)  offslen = 0;
+  else if (moffset > 0xFFFF)  offslen = 4;
+  else if (moffset >   0xFF)  offslen = 2;
+  else                        offslen = 1;
+
+  if      mmetadata =     0  then metalen := 0
+  else if mmetadata > $FFFF  then metalen := 4
+  else if mmetadata >   $FF  then metalen := 2
+  else                            metalen := 1;
+
+
+  b = (rqcmd & 0x8F); // use the request command except data length
+
+  if (rq.result)  // prepare error response
+  {
+    b |= (6 << 4);  // invalid length signalizes error response
+  }
+  else
+  {
+    // normal response
+    if (rq.iswrite)
+    {
+      rq.anslen = 0;
+    }
+    else  // rq.anslen is already set
+    {
+      if      ( 3  > rq.anslen)  { b |= (rq.anslen << 4);  }
+      else if ( 4 == rq.anslen)  { b |= (3 << 4); }
+      else if ( 8 == rq.anslen)  { b |= (4 << 4); }
+      else if (16 == rq.anslen)  { b |= (5 << 4); }
+      else
+      {
+        b |= (7 << 4);
+        extlen = rq.anslen;
+      }
+    }
+  }
+
+
+
+  AddTx(&b, 1);  // command / length info
+  if (extlen)
+  {
+    AddTx(&extlen, 2);
+  }
+  AddTx(&rq.index, 2); // echo the address back
+  if (offslen)
+  {
+    AddTx(&rq.offset, offslen);
+  }
+  if (rq.metalen)
+  {
+    AddTx(&rq.metadata, rq.metalen);
+  }
+
+  if (rq.result)
+  {
+    AddTx(&rq.result, 2); // send the result
+  }
+  else if (rq.anslen)
+  {
+    AddTx(rq.dataptr, rq.anslen);
+  }
+
+  b = txcrc;
+  AddTx(&b, 1); // then send the crc
+
+
+
+
 
 	// prepare the request
 

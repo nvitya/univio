@@ -14,7 +14,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.290190015" name="Default" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="org.eclipse.cdt.build.core.emptycfg">
+				<configuration artifactName="${ProjName}" buildProperties="" description="" id="cdt.managedbuild.toolchain.gnu.base.290190015" name="Default" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=" parent="org.eclipse.cdt.build.core.emptycfg">
 					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.290190015.1903002907" name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1814919196" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base">
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.GNU_ELF" id="cdt.managedbuild.target.gnu.platform.base.1349241900" name="Debug Platform" osList="linux,hpux,aix,qnx" superClass="cdt.managedbuild.target.gnu.platform.base"/>
@@ -38,6 +38,21 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="cdt.managedbuild.toolchain.gnu.base.290190015.1571500364" name="/" resourcePath="udo/cpp/udomaster">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.base.1948806168" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.base" unusedChildren="">
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.138858335" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base.641496555"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.base.263647291" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.base.1883757618"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.base.431425470" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.base.667091174"/>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1113673100" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base.2067641464"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.606105486" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base.2066125013"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.323318686" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base.2036167116"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="udo" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udomaster"/>
+					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>

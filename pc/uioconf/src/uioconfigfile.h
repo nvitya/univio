@@ -9,7 +9,7 @@
 #define SRC_UIOCONFIGFILE_H_
 
 #include <string>
-#include "univio_conn.h"
+#include "udo_comm.h"
 #include "configfileparser.h"
 
 #define UIO_MAX_PINS      256
@@ -64,16 +64,15 @@ public:
   bool           ParsePinConf();
 
 public:
-  TUnivioConn *  conn = nullptr;
   uint8_t        dev_max_pins = 0;
 
-  uint8_t        databuf[UNIVIO_MAX_DATA_LEN];
+  uint8_t        databuf[UDO_MAX_DATALEN];
 
   bool           CheckDevice();
 
   bool           SaveToFile(const char * afname);
-  bool           LoadFromDevice(TUnivioConn * aconn);
-  bool           SaveToDevice(TUnivioConn * aconn);
+  bool           LoadFromDevice();
+  bool           SaveToDevice();
 
   string         GetPinName(uint8_t apinnum);
 };
