@@ -40,7 +40,8 @@ public: // platform dependent functions:
 	void  Close();
 	int   Read(void * dst, unsigned len);
 	int   Write(void * src, unsigned len);
-	void  Flush();
+	void  FlushInput();
+	void  FlushOutput();
 	bool  Opened();
 
 };

@@ -246,9 +246,14 @@ int TSerComm::Write(void * src, unsigned len)
 	}
 }
 
-void TSerComm::Flush()
+void TSerComm::FlushInput()
 {
 	tcflush(comfd, TCIFLUSH);   // Discards old data in the rx buffer
+}
+
+void TSerComm::FlushOutput()
+{
+	tcflush(comfd, TCOFLUSH);   // Discards old data in the rx buffer
 }
 
 bool TSerComm::Opened()
