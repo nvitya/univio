@@ -20,9 +20,9 @@ bool TUioConfig::ParseConfigLine(string idstr)
 	unsigned n;
 	int i, idx;
 
-	if ("FWID" == idstr)
+	if (("FWID" == idstr) || ("DIID" == idstr))
 	{
-		fwid = ParseStringAssignment();
+		diid = ParseStringAssignment();
 	}
 	else if (("DEVICEID" == idstr) || ("DEVID" == idstr))
 	{
@@ -368,7 +368,7 @@ void TUioConfig::ResetConfig()
 
 	pins_per_port = 0;
 	deviceid = "";
-	fwid = "";
+	diid = "";
 	for (n = 0; n < UIO_MAX_PINS; ++n)
 	{
 		pinconf[n] = 0;
@@ -575,9 +575,9 @@ bool TUioConfig::CheckDevice()
 	}
 
 	string lfwid = string((const char *)&databuf[0]);
-	if (lfwid != fwid)
+	if (lfwid != diid)
 	{
-		printf("  DIID \"%s\" is not compatible with the configuration file (\"%s\")\n", &lfwid[0], &fwid[0]);
+		printf("  DIID \"%s\" is not compatible with the configuration file (\"%s\")\n", &lfwid[0], &diid[0]);
 		return false;
 	}
 

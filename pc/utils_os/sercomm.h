@@ -23,9 +23,9 @@ class TSerComm
 {
 public:
 #ifdef WIN32
-	HANDLE comhandle;
+	HANDLE comhandle = INVALID_HANDLE_VALUE;
 #else
-	int    comfd;
+	int    comfd = -1;
 #endif
 
 	int     baudrate = 115200;

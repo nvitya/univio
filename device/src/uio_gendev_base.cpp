@@ -427,7 +427,7 @@ void TUioGenDevBase::LoadSetup()
     return;
   }
 
-  if (0 != uio_content_checksum(&pstb, sizeof(TUioCfgStb)))
+  if (0 != uio_content_checksum(pstb, sizeof(TUioCfgStb)))
   {
     TRACE("  config checksum error\r\n");
     return;

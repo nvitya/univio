@@ -25,7 +25,7 @@ void print_usage()
 
 int main(int argc, char * const * argv)
 {
-  printf("UnivIO Configurator - v1.0\n");
+  printf("UnivIO Configurator - v2.0\n");
 
   //printf("argv[0]=%s\n", argv[0]);
 
@@ -47,12 +47,13 @@ int main(int argc, char * const * argv)
 
 	printf("  OK.\n");
 
-	if (argc < 2)
+	if (argc < 3)
 	{
+		printf("No device address privided, exiting.\n");
 		return 0; // that was it
 	}
 
-	if (argc > 2)
+	if (argc > 3)
 	{
 		printf("Reading Command line arguments...\n");
 		if (!uioconfig.ParseCommandLine(argc, argv, 3))

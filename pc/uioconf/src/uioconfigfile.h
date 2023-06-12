@@ -38,7 +38,7 @@
 class TUioConfig : public TConfigFileParser
 {
 public:
-	string         fwid = "";
+	string         diid = "";
 	string         deviceid = "";
 	string         manufacturer = "UnivIO";
 	string         serialnum = "1";
