@@ -22,8 +22,6 @@
    brief:    multi-platform serial communication unit
    date:     2022-03-30
    authors:  nvitya
-   notes:
-     Work in progress, It is tested with Linux + FreePascal so far
 *)
 
 unit sercomm;
@@ -73,8 +71,8 @@ type
     function Open(acomport : string) : boolean;
     procedure Close;
 
-    function Read(var dst; dstlen : integer) : integer;
-    function Write(var src; len : integer) : integer;
+    function Read(out dst; dstlen : integer) : integer;
+    function Write(const src; len : integer) : integer;
     procedure FlushInput;
     procedure FlushOutput;
     function Opened : boolean;
@@ -132,7 +130,7 @@ begin
 		EXIT;
   end;
 
-  dcb.BaudRate := 0;
+  dcb.BaudRate := 0; // to avoid FPC hint
   FillChar(dcb, sizeof(dcb), 0);
   dcb.BaudRate := baudrate;
 	dcb.ByteSize := 8;  // oh windows..., it was 7 by default!
@@ -159,10 +157,10 @@ begin
     EXIT;
   end;
 
-  SetupComm(comhandle, 16384, 16384);
+  SetupComm(comhandle, COMM_BUFFER_SIZE, COMM_BUFFER_SIZE);
 
   // kill all characters in the RX bufer
-  PurgeComm(comhandle, $F);
+  PurgeComm(comhandle, $0F);
 
   result := true;
 end;
@@ -336,12 +334,12 @@ begin
 	end;
 end;
 
-function TSerComm.Read(var dst; dstlen : integer) : integer;
+function TSerComm.Read(out dst; dstlen : integer) : integer;
 begin
   result := FileRead(comfd, dst, dstlen);
 end;
 
-function TSerComm.Write(var src; len : integer) : integer;
+function TSerComm.Write(const src; len : integer) : integer;
 begin
   result := FileWrite(comfd, src, len);
 end;

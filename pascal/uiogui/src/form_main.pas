@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, ExtCtrls,
-  univio_conn, uio_iohandler, frame_dout, frame_din, frame_ain, frame_pwm, frame_ledblp;
+  udo_comm, commh_udosl, commh_udoip, uio_iohandler,
+  frame_dout, frame_din, frame_ain, frame_pwm, frame_ledblp;
 
 type
 
@@ -44,7 +45,6 @@ type
   private
 
   public
-    uio : TUnivioConn;
     ioh : TUnivioHandler;
 
     flist_dout : array of TframeDOUT;
@@ -93,8 +93,7 @@ end;
 
 procedure Tfrm_main.FormCreate(Sender : TObject);
 begin
-  uio := TUnivioConn.Create();
-  ioh := TUnivIoHandler.Create(uio);
+  ioh := TUnivIoHandler.Create(udocomm);
   flist_dout := [];
 
 {$ifndef WINDOWS}
@@ -122,36 +121,40 @@ end;
 
 procedure Tfrm_main.Connect;
 begin
-  if uio.Opened then EXIT;
+  if udocomm.Opened then EXIT;
 
-  if uio.Open(edComPort.Text) then
-  begin
-    pnl.Visible := true;
-    btnMoreInfo.Visible := true;;
-
-    ReadDeviceId;
-
-    ioh.LoadConfigFromDevice;
-
-    Prepare_DOUT;
-    Prepare_DIN;
-    Prepare_AIN;
-    Prepare_PWM;
-    Prepare_LEDBLP;
-
-    ReadStatus;
-
-    timer.Enabled := True;
-  end
-  else
-  begin
-    MessageDlg('Comm Error', 'Error opening comport '+edComPort.Text, mtError, [mbAbort], 0);
+  udosl_commh.devstr := edComPort.Text;
+  udocomm.SetHandler(udosl_commh);
+  try
+    udocomm.Open();
+  except on e : Exception do
+    begin
+      MessageDlg('Comm Error', 'Error opening comport '+edComPort.Text+': '+e.Message, mtError, [mbAbort], 0);
+      EXIT;
+    end;
   end;
+
+  pnl.Visible := true;
+  btnMoreInfo.Visible := true;;
+
+  ReadDeviceId;
+
+  ioh.LoadConfigFromDevice;
+
+  Prepare_DOUT;
+  Prepare_DIN;
+  Prepare_AIN;
+  Prepare_PWM;
+  Prepare_LEDBLP;
+
+  ReadStatus;
+
+  timer.Enabled := True;
 end;
 
 procedure Tfrm_main.Disconnect;
 begin
-  uio.Close;
+  udocomm.Close;
   pnl.Visible := false;
   btnMoreInfo.Visible := false;
   CleanupFrames;
@@ -380,16 +383,22 @@ var
 begin
   s := '';
   SetLength(s, 1024);
-  if uio.Read(aobj, s[1], length(s), @rlen) = 0
-  then
-      result := trim(copy(s, 1, rlen))
-  else
-      result := '[read error]';
+  try
+    rlen := udocomm.UdoRead(aobj, 0, s[1], length(s));
+  except
+    on e : Exception do
+    begin
+      result := '[read error: '+e.message+']';
+      exit;
+    end;
+  end;
+
+  result := trim(copy(s, 1, rlen))
 end;
 
 procedure Tfrm_main.ReadDeviceId;
 begin
-  txtDeviceInfo.Caption := ReadString($0011);
+  txtDeviceInfo.Caption := ReadString($0181);
 end;
 
 procedure Tfrm_main.btnMoreInfoClick(Sender : TObject);
@@ -399,14 +408,14 @@ begin
   Application.CreateForm(TfrmMoreInfo, frm);
   frm.memo.Clear;
 
-  frm.memo.Append('Device FW ID: "'+ReadString($0003)+'", version: '+IntToHex(ioh.ReadUint32($0004)));
+  frm.memo.Append('Device Implementation ID: "'+ReadString($0101)+'", version: '+IntToHex(udocomm.ReadUint32($0102, 0)));
   frm.memo.Append('');
-  frm.memo.Append('Device ID:    "'+ReadString($0011)+'"');
+  frm.memo.Append('Device ID:    "'+ReadString($0181)+'"');
   frm.memo.Append('');
-  frm.memo.Append('USB Vendor ID:  '+IntToHex(ioh.ReadUint32($0012)));
-  frm.memo.Append('USB Product ID: '+IntToHex(ioh.ReadUint32($0013)));
-  frm.memo.Append('Manufacturer Name: "'+ReadString($0014)+'"');
-  frm.memo.Append('Serial Number:     "'+ReadString($0015)+'"');
+  frm.memo.Append('USB Vendor ID:  '+IntToHex(udocomm.ReadUint32($0182, 0)));
+  frm.memo.Append('USB Product ID: '+IntToHex(udocomm.ReadUint32($0183, 0)));
+  frm.memo.Append('Manufacturer Name: "'+ReadString($0184)+'"');
+  frm.memo.Append('Serial Number:     "'+ReadString($0185)+'"');
   frm.memo.Append('');
 
   frm.ShowModal;
