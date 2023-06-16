@@ -264,13 +264,6 @@ bool TUioDevice::prfn_DigOutSetClr(TUdoRequest * rq, TParamRangeDef * prdef)
 
 bool TUioDevice::prfn_DigOutDirect(TUdoRequest * rq, TParamRangeDef * prdef)
 {
-  unsigned idx = (rq->index & 0x01);
-
-  if (!rq->iswrite)
-  {
-    return udo_response_error(rq, UDOERR_WRITE_ONLY);
-  }
-
   if (!rq->iswrite)
   {
     return udo_ro_uint(rq, dout_value, 4);
