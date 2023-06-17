@@ -81,21 +81,21 @@ type
     function  UdoRead(index : uint16; offset : uint32; out dataptr; maxdatalen : uint32) : integer;
     procedure UdoWrite(index : uint16; offset : uint32; const dataptr; datalen : uint32);
 
-    function  UdoReadBlob(index : uint16; offset : uint32; out dataptr; maxdatalen : uint32) : integer;
-    procedure UdoWriteBlob(index : uint16; offset : uint32; const dataptr; datalen : uint32);
-
   public // some helper functions
-    function  ReadInt32(index : uint16; offset : uint32) : int32;
-    function  ReadInt16(index : uint16; offset : uint32) : int16;
-    function  ReadUInt32(index : uint16; offset : uint32) : uint32;
-    function  ReadUInt16(index : uint16; offset : uint32) : uint16;
-    function  ReadUInt8(index : uint16; offset : uint32) : uint8;
+    function  ReadBlob(index : uint16; offset : uint32; out dataptr; maxdatalen : uint32) : integer;
+    procedure WriteBlob(index : uint16; offset : uint32; const dataptr; datalen : uint32);
 
-    procedure WriteInt32(index : uint16; offset : uint32; avalue : int32);
-    procedure WriteInt16(index : uint16; offset : uint32; avalue : int16);
-    procedure WriteUInt32(index : uint16; offset : uint32; avalue : uint32);
-    procedure WriteUInt16(index : uint16; offset : uint32; avalue : uint16);
-    procedure WriteUInt8(index : uint16; offset : uint32; avalue : uint8);
+    function  ReadI32(index : uint16; offset : uint32) : int32;
+    function  ReadI16(index : uint16; offset : uint32) : int16;
+    function  ReadU32(index : uint16; offset : uint32) : uint32;
+    function  ReadU16(index : uint16; offset : uint32) : uint16;
+    function  ReadU8(index : uint16; offset : uint32) : uint8;
+
+    procedure WriteI32(index : uint16; offset : uint32; avalue : int32);
+    procedure WriteI16(index : uint16; offset : uint32; avalue : int16);
+    procedure WriteU32(index : uint16; offset : uint32; avalue : uint32);
+    procedure WriteU16(index : uint16; offset : uint32; avalue : uint16);
+    procedure WriteU8(index : uint16; offset : uint32; avalue : uint8);
 
   end;
 
@@ -279,7 +279,7 @@ begin
   commh.UdoWrite(index, offset, dataptr, datalen);
 end;
 
-function TUdoComm.UdoReadBlob(index : uint16; offset : uint32; out dataptr; maxdatalen : uint32) : integer;
+function TUdoComm.ReadBlob(index : uint16; offset : uint32; out dataptr; maxdatalen : uint32) : integer;
 var
   chunksize : integer;
   remaining : integer;
@@ -312,7 +312,7 @@ begin
   end;
 end;
 
-procedure TUdoComm.UdoWriteBlob(index : uint16; offset : uint32; const dataptr; datalen : uint32);
+procedure TUdoComm.WriteBlob(index : uint16; offset : uint32; const dataptr; datalen : uint32);
 var
   chunksize : integer;
   remaining : integer;
@@ -335,7 +335,7 @@ begin
   end;
 end;
 
-function TUdoComm.ReadInt32(index : uint16; offset : uint32) : int32;
+function TUdoComm.ReadI32(index : uint16; offset : uint32) : int32;
 var
   rvalue : int32 = 0;
 begin
@@ -343,7 +343,7 @@ begin
   result := rvalue;
 end;
 
-function TUdoComm.ReadInt16(index : uint16; offset : uint32) : int16;
+function TUdoComm.ReadI16(index : uint16; offset : uint32) : int16;
 var
   rvalue : int16 = 0;
 begin
@@ -351,7 +351,7 @@ begin
   result := rvalue;
 end;
 
-function TUdoComm.ReadUInt32(index : uint16; offset : uint32) : uint32;
+function TUdoComm.ReadU32(index : uint16; offset : uint32) : uint32;
 var
   rvalue : uint32 = 0;
 begin
@@ -359,7 +359,7 @@ begin
   result := rvalue;
 end;
 
-function TUdoComm.ReadUInt16(index : uint16; offset : uint32) : uint16;
+function TUdoComm.ReadU16(index : uint16; offset : uint32) : uint16;
 var
   rvalue : uint16 = 0;
 begin
@@ -367,7 +367,7 @@ begin
   result := rvalue;
 end;
 
-function TUdoComm.ReadUInt8(index : uint16; offset : uint32) : uint8;
+function TUdoComm.ReadU8(index : uint16; offset : uint32) : uint8;
 var
   rvalue : uint16 = 0;
 begin
@@ -375,7 +375,7 @@ begin
   result := rvalue;
 end;
 
-procedure TUdoComm.WriteInt32(index : uint16; offset : uint32; avalue : int32);
+procedure TUdoComm.WriteI32(index : uint16; offset : uint32; avalue : int32);
 var
   lvalue : int32;
 begin
@@ -383,7 +383,7 @@ begin
   commh.UdoWrite(index, offset, lvalue, 4);
 end;
 
-procedure TUdoComm.WriteInt16(index : uint16; offset : uint32; avalue : int16);
+procedure TUdoComm.WriteI16(index : uint16; offset : uint32; avalue : int16);
 var
   lvalue : int16;
 begin
@@ -391,7 +391,7 @@ begin
   commh.UdoWrite(index, offset, lvalue, 2);
 end;
 
-procedure TUdoComm.WriteUInt32(index : uint16; offset : uint32; avalue : uint32);
+procedure TUdoComm.WriteU32(index : uint16; offset : uint32; avalue : uint32);
 var
   lvalue : uint32;
 begin
@@ -399,7 +399,7 @@ begin
   commh.UdoWrite(index, offset, lvalue, 4);
 end;
 
-procedure TUdoComm.WriteUInt16(index : uint16; offset : uint32; avalue : uint16);
+procedure TUdoComm.WriteU16(index : uint16; offset : uint32; avalue : uint16);
 var
   lvalue : uint16;
 begin
@@ -407,7 +407,7 @@ begin
   commh.UdoWrite(index, offset, lvalue, 2);
 end;
 
-procedure TUdoComm.WriteUInt8(index : uint16; offset : uint32; avalue : uint8);
+procedure TUdoComm.WriteU8(index : uint16; offset : uint32; avalue : uint8);
 var
   lvalue : int8;
 begin

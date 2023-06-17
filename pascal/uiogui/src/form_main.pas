@@ -408,12 +408,12 @@ begin
   Application.CreateForm(TfrmMoreInfo, frm);
   frm.memo.Clear;
 
-  frm.memo.Append('Device Implementation ID: "'+ReadString($0101)+'", version: '+IntToHex(udocomm.ReadUint32($0102, 0)));
+  frm.memo.Append('Device Implementation ID: "'+ReadString($0101)+'", version: '+IntToHex(udocomm.ReadU32($0102, 0)));
   frm.memo.Append('');
   frm.memo.Append('Device ID:    "'+ReadString($0181)+'"');
   frm.memo.Append('');
-  frm.memo.Append('USB Vendor ID:  '+IntToHex(udocomm.ReadUint32($0182, 0)));
-  frm.memo.Append('USB Product ID: '+IntToHex(udocomm.ReadUint32($0183, 0)));
+  frm.memo.Append('USB Vendor ID:  '+IntToHex(udocomm.ReadU32($0182, 0)));
+  frm.memo.Append('USB Product ID: '+IntToHex(udocomm.ReadU32($0183, 0)));
   frm.memo.Append('Manufacturer Name: "'+ReadString($0184)+'"');
   frm.memo.Append('Serial Number:     "'+ReadString($0185)+'"');
   frm.memo.Append('');

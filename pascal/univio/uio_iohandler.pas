@@ -76,7 +76,7 @@ var
 begin
   ClearLines;
 
-  cbits := comm.ReadUint32($0E01, 0); // get the DINs
+  cbits := comm.ReadU32($0E01, 0); // get the DINs
   for unitid := 0 to 31 do
   begin
     if (cbits and (1 shl unitid)) <> 0 then
@@ -86,7 +86,7 @@ begin
     end;
   end;
 
-  cbits := comm.ReadUint32($0E02, 0); // get the DOUTs
+  cbits := comm.ReadU32($0E02, 0); // get the DOUTs
   for unitid := 0 to 31 do
   begin
     if (cbits and (1 shl unitid)) <> 0 then
@@ -96,7 +96,7 @@ begin
     end;
   end;
 
-  cbits := comm.ReadUint32($0E03, 0); // get the AINs / ADC
+  cbits := comm.ReadU32($0E03, 0); // get the AINs / ADC
   for unitid := 0 to 31 do
   begin
     if (cbits and (1 shl unitid)) <> 0 then
@@ -106,7 +106,7 @@ begin
     end;
   end;
 
-  cbits := comm.ReadUint32($0E04, 0); // get the AOUTs / DAC
+  cbits := comm.ReadU32($0E04, 0); // get the AOUTs / DAC
   for unitid := 0 to 31 do
   begin
     if (cbits and (1 shl unitid)) <> 0 then
@@ -116,7 +116,7 @@ begin
     end;
   end;
 
-  cbits := comm.ReadUint32($0E05, 0); // get the PWMs
+  cbits := comm.ReadU32($0E05, 0); // get the PWMs
   for unitid := 0 to 31 do
   begin
     if (cbits and (1 shl unitid)) <> 0 then
@@ -126,7 +126,7 @@ begin
     end;
   end;
 
-  cbits := comm.ReadUint32($0E06, 0); // get the LEDBLPs
+  cbits := comm.ReadU32($0E06, 0); // get the LEDBLPs
   for unitid := 0 to 31 do
   begin
     if (cbits and (1 shl unitid)) <> 0 then
@@ -155,14 +155,14 @@ begin
   v := (1 shl (aline.unitid and $0F));
   if not avalue then v := v shl 16;
 
-  comm.WriteUint32(objid, 0, v);
+  comm.WriteU32(objid, 0, v);
 end;
 
 function TUnivIoHandler.GetDigOutValue(aline : TIoLine) : boolean;
 var
   v : uint32;
 begin
-  v := comm.ReadUint32($1010, 0);
+  v := comm.ReadU32($1010, 0);
   result := (0 <> (v and (1 shl aline.unitid)));
 end;
 
@@ -170,53 +170,53 @@ function TUnivIoHandler.GetDigInValue(aline : TIoLine) : boolean;
 var
   v : uint32;
 begin
-  v := comm.ReadUint32($1100, 0);
+  v := comm.ReadU32($1100, 0);
   result := (0 <> (v and (1 shl aline.unitid)));
 end;
 
 function TUnivIoHandler.GetAnaInValue(aline : TIoLine) : integer;
 begin
-  result := comm.ReadUint16($1200 + aline.unitid, 0);
+  result := comm.ReadU16($1200 + aline.unitid, 0);
 end;
 
 function TUnivIoHandler.GetAnaOutValue(aline : TIoLine) : integer;
 begin
-  result := comm.ReadUint16($1300 + aline.unitid, 0);
+  result := comm.ReadU16($1300 + aline.unitid, 0);
 end;
 
 procedure TUnivIoHandler.SetAnaOutValue(aline : TIoLine; avalue : integer);
 begin
-  comm.WriteUint16($1300 + aline.unitid, 0, avalue);
+  comm.WriteU16($1300 + aline.unitid, 0, avalue);
 end;
 
 function TUnivIoHandler.GetPwmFrequency(aline : TIoLine) : integer;
 begin
-  result := comm.ReadUint32($0700 + aline.unitid, 0);
+  result := comm.ReadU32($0700 + aline.unitid, 0);
 end;
 
 procedure TUnivIoHandler.SetPwmFrequency(aline : TIoLine; avalue : integer);
 begin
-  comm.WriteUint32($0700 + aline.unitid, 0, avalue);
+  comm.WriteU32($0700 + aline.unitid, 0, avalue);
 end;
 
 function TUnivIoHandler.GetPwmDuty(aline : TIoLine) : uint16;
 begin
-  result := comm.ReadUint16($1400 + aline.unitid, 0);
+  result := comm.ReadU16($1400 + aline.unitid, 0);
 end;
 
 procedure TUnivIoHandler.SetPwmDuty(aline : TIoLine; avalue : uint16);
 begin
-  comm.WriteUint16($1400 + aline.unitid, 0, avalue);
+  comm.WriteU16($1400 + aline.unitid, 0, avalue);
 end;
 
 function TUnivIoHandler.GetLedBlpValue(aline : TIoLine) : uint32;
 begin
-  result := comm.ReadUint32($1500 + aline.unitid, 0);
+  result := comm.ReadU32($1500 + aline.unitid, 0);
 end;
 
 procedure TUnivIoHandler.SetLedBlpValue(aline : TIoLine; avalue : uint32);
 begin
-  comm.WriteUint32($1500 + aline.unitid, 0, avalue);
+  comm.WriteU32($1500 + aline.unitid, 0, avalue);
 end;
 
 

@@ -413,11 +413,11 @@ bool TUioConfig::SaveToDevice()
 
 	printf("Entering config mode...\n");
 	// set CONFIG mode
-	udocomm.UdoWriteInt(0x0180, 0, 0);  // turn off RUN mode, set to CONFIG mode
+	udocomm.WriteU8(0x0180, 0, 0);  // turn off RUN mode, set to CONFIG mode
 	printf("  OK.\n");
 
 	printf("Resetting configuration...\n");
-	udocomm.UdoWriteInt(0x01FF, 0, 1);  // reset configuration
+	udocomm.WriteU8(0x01FF, 0, 1);  // reset configuration
 	printf("  OK.\n");
 
 	printf("Setting device identifications...\n");
@@ -532,7 +532,7 @@ bool TUioConfig::SaveToDevice()
 	printf("  OK.\n");
 
 	printf("Entering RUN mode...\n");
-	udocomm.UdoWriteInt(0x0180, 0, 1);
+	udocomm.WriteU8(0x0180, 0, 1);
 	printf("  OK.\n");
 
 	return true;

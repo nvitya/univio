@@ -19,7 +19,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="337"/>
+        <TopLine Value="335"/>
         <CursorPos X="3" Y="366"/>
         <UsageCount Value="38"/>
         <Loaded Value="True"/>
@@ -175,10 +175,9 @@
       </Unit>
       <Unit>
         <Filename Value="..\univio\uio_iohandler.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="134"/>
-        <CursorPos X="35" Y="165"/>
+        <TopLine Value="132"/>
+        <CursorPos X="32" Y="165"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
       </Unit>
@@ -199,10 +198,11 @@
       </Unit>
       <Unit>
         <Filename Value="..\udomaster\udo_comm.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="14"/>
-        <CursorPos X="45" Y="53"/>
+        <TopLine Value="40"/>
+        <CursorPos X="16" Y="86"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -216,111 +216,10 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="1"/>
+    </General>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="98" Column="73" TopLine="49"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="88" Column="9" TopLine="43"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="372" Column="18" TopLine="293"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="146" Column="34" TopLine="105"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="121" TopLine="91"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="141" TopLine="7"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="79" Column="36" TopLine="34"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="129" Column="36" TopLine="62"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="219" Column="45" TopLine="134"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="97" Column="35" TopLine="51"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="47" TopLine="2"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="96" Column="21" TopLine="50"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="123" Column="6" TopLine="66"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="10" Column="3"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="126" Column="8" TopLine="79"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="8" Column="85"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="156" Column="40" TopLine="94"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="132" Column="86" TopLine="83"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="136" TopLine="85"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="388" Column="28" TopLine="331"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="386" Column="22" TopLine="331"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="390" TopLine="331"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="391" Column="47" TopLine="337"/>
-      </Position>
-      <Position>
-        <Filename Value="..\univio\uio_iohandler.pas"/>
-        <Caret Line="219" Column="45" TopLine="134"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\commh_udosl.pas"/>
-        <Caret Line="456" TopLine="411"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\commh_udosl.pas"/>
-        <Caret Line="153" TopLine="108"/>
-      </Position>
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="153" TopLine="108"/>
@@ -336,6 +235,110 @@
       <Position>
         <Filename Value="..\univio\uio_iohandler.pas"/>
         <Caret Line="77" Column="3"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="165" Column="35" TopLine="132"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="338" Column="24" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="88" Column="22" TopLine="43"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="346" Column="24" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="89" Column="22" TopLine="44"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="354" Column="24" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="90" Column="22" TopLine="45"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="362" Column="24" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="91" Column="22" TopLine="46"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="370" Column="24" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="92" Column="21" TopLine="47"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="378" Column="26" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="94" Column="23" TopLine="49"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="386" Column="26" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="95" Column="23" TopLine="50"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="394" Column="26" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="96" Column="23" TopLine="51"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="402" Column="26" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="97" Column="23" TopLine="52"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="410" Column="26" TopLine="324"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="98" Column="22" TopLine="53"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="373" Column="53" TopLine="335"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="84" Column="15" TopLine="47"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="328" Column="53" TopLine="282"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="85" Column="23" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="..\udomaster\udo_comm.pas"/>
+        <Caret Line="86" Column="24" TopLine="40"/>
       </Position>
     </JumpHistory>
     <RunParams>
