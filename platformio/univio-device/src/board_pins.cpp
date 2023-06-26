@@ -13,8 +13,7 @@
 
 #include "WiFi.h"
 #include "udo_ip_comm.h"
-
-#include "nvconfig.h"
+#include "uio_device.h"
 
 bool          g_wifi_connected = false;
 
@@ -45,7 +44,7 @@ void board_pins_init()
 
 void board_net_init()
 {
-  TCfgStb * pcfg = &g_config.data;
+  TUioCfgStb * pcfg = &g_uiodev.cfg;
 
   IPAddress     local_IP(pcfg->ip_address.u8);
   IPAddress     gateway(pcfg->gw_address.u8);

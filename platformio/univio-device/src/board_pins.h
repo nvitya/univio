@@ -8,6 +8,8 @@
 #ifndef SRC_BOARD_PINS_H_
 #define SRC_BOARD_PINS_H_
 
+#include "Arduino.h"
+
 #define  SCOPE_DATA_BUFFER_SIZE  (32 * 1024)
 
 #if defined(ARDUINO_LOLIN_C3_MINI)

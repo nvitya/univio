@@ -10,7 +10,7 @@
 
 #include <cmdline_base.h>
 #include "strparse.h"
-#include "nvconfig.h"
+#include "uio_gendev_base.h"
 
 class TCmdLineApp: public TCmdLineBase
 {

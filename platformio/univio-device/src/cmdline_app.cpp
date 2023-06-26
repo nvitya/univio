@@ -8,6 +8,7 @@
 #include "cmdline_app.h"
 #include "WiFi.h"
 #include "traces.h"
+#include "uio_device.h"
 
 TCmdLineApp g_cmdline;
 
@@ -33,7 +34,7 @@ bool TCmdLineApp::ParseCmd() // sp is already prepared
 
   if (sp.UCComparePrev("SAVE"))
   {
-    g_config.Save();
+    g_uiodev.SaveSetup();
     return true;
   }
 
@@ -82,7 +83,7 @@ bool TCmdLineApp::ParseCmdNet()
     {
       return true;
     }
-    g_config.data.ip_address = ipaddr;
+    g_uiodev.cfg.ip_address = ipaddr;
     ShowNetInfo(idptr, idlen);
     return true;
   }
@@ -93,7 +94,7 @@ bool TCmdLineApp::ParseCmdNet()
     {
       return true;
     }
-    g_config.data.net_mask = ipaddr;
+    g_uiodev.cfg.net_mask = ipaddr;
     ShowNetInfo(idptr, idlen);
     return true;
   }
@@ -104,7 +105,7 @@ bool TCmdLineApp::ParseCmdNet()
     {
       return true;
     }
-    g_config.data.gw_address = ipaddr;
+    g_uiodev.cfg.gw_address = ipaddr;
     ShowNetInfo(idptr, idlen);
     return true;
   }
@@ -116,14 +117,14 @@ bool TCmdLineApp::ParseCmdNet()
       return true;
     }
 
-    g_config.data.dns = ipaddr;
+    g_uiodev.cfg.dns = ipaddr;
     ShowNetInfo(idptr, idlen);
     return true;
   }
 
   if (PCharUCCompare(&ridp, idlen, "WLSSID"))
   {
-    if (!ParseString(g_config.data.wifi_ssid, sizeof(g_config.data.wifi_ssid)))
+    if (!ParseString(g_uiodev.cfg.wifi_ssid, sizeof(g_uiodev.cfg.wifi_ssid)))
     {
       return true;
     }
@@ -134,7 +135,7 @@ bool TCmdLineApp::ParseCmdNet()
 
   if (PCharUCCompare(&ridp, idlen, "WLPW"))
   {
-    if (!ParseString(g_config.data.wifi_password, sizeof(g_config.data.wifi_password)))
+    if (!ParseString(g_uiodev.cfg.wifi_password, sizeof(g_uiodev.cfg.wifi_password)))
     {
       return true;
     }
@@ -156,7 +157,7 @@ void TCmdLineApp::ShowNetAdapterInfo()
 
 void TCmdLineApp::ShowNetInfo(char * idptr, unsigned idlen)
 {
-  TCfgStb * pcfg = &g_config.data;
+  TUioCfgStb * pcfg = &g_uiodev.cfg;
 
   TIp4Addr ip;
 

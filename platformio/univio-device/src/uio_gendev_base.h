@@ -36,6 +36,10 @@
 #include "simple_partable.h"
 #include "board.h"
 
+#include "hwpins.h"
+#include "hwadc.h"
+#include "hwpwm.h"
+
 #define UIO_DEVICE_TYPE_ID   "UnivIO-V2"   // Index 0x0100
 
 // fix maximums
@@ -112,7 +116,7 @@ typedef struct
     u8[3] = a3;
   }
 //
-} TIp4Addr, * PIp4Addr
+} TIp4Addr, * PIp4Addr;
 
 typedef struct
 {
@@ -184,25 +188,6 @@ public:
 
   uint8_t *         mpram = nullptr;
 
-  THwSpi *          spi = nullptr;
-  uint16_t          spi_rx_offs = 0;
-  uint16_t          spi_tx_offs = 0;
-  uint32_t          spi_speed = 1000000;
-  uint16_t          spi_trlen = 0;
-  uint8_t           spi_status = 0;
-
-  THwI2c *          i2c = nullptr;
-  TI2cTransaction   i2ctra;
-  uint16_t          i2c_data_offs = 0;
-  uint32_t          i2c_speed = 100000;
-  uint32_t          i2c_eaddr = 0;
-  uint32_t          i2c_cmd = 0;
-  uint16_t          i2c_trlen = 0;
-  uint16_t          i2c_result = 0;
-
-  THwUart *         uart = nullptr;
-  bool              uart_active = false;
-
   // inputs
   TGpioPin *        dig_in[UIO_DIN_COUNT] = {0};
   uint8_t           adc_channel[UIO_ADC_COUNT] = {0};
@@ -261,17 +246,6 @@ extern THwAdc           g_adc[UIOMCU_ADC_COUNT];
 extern THwPwmChannel    g_pwm[UIO_PWM_COUNT];
 extern TGpioPin         g_pins[UIO_PIN_COUNT];
 
-extern THwSpi           g_spi;
-extern THwI2c           g_i2c;
-extern THwUart          g_uart;
-
-extern THwDmaChannel    g_dma_spi_tx;
-extern THwDmaChannel    g_dma_spi_rx;
-extern THwDmaChannel    g_dma_i2c_tx;
-extern THwDmaChannel    g_dma_i2c_rx;
-extern THwDmaChannel    g_dma_uart_tx;
-extern THwDmaChannel    g_dma_uart_rx;
-
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen);
 
-#endif
+#endif  // dnef  _UIO_GENDEV_BASE_H

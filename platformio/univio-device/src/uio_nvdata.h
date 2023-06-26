@@ -36,32 +36,10 @@
 #define UIO_NVDATA_COUNT              32
 #define UIO_NVDATA_UNLOCK     0x5ADEC0DE
 
-typedef struct
-{
-  uint8_t     id;
-  uint8_t     id_not;
-  uint8_t     pad[2];
-  uint32_t    value;
-//
-} TUioNvDataChRec;
-
-typedef struct
-{
-  uint32_t         signature;
-  uint32_t         serial;
-  uint32_t         value[UIO_NVDATA_COUNT];
-//
-} TUioNvDataHead;
-
 class TUioNvData
 {
 public:
   uint32_t     lock = 0;
-  uint32_t     sector_size = 1024;  // will be adjusted to the erase size
-  uint32_t     nvsaddr_base = 0;
-
-  uint8_t      sector_index = 0;
-  uint16_t     chrec_count = 0;
 
   uint32_t     value[UIO_NVDATA_COUNT] = {0};
 

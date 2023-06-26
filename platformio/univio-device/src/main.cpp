@@ -5,7 +5,6 @@
 #include "SPIFFS.h"
 
 #include "board_pins.h"
-#include "device.h"
 #include "udo_ip_comm.h"
 #include "udoslaveapp.h"
 #include "cmdline_app.h"
@@ -49,8 +48,6 @@ void setup()
     TRACE("Error initializing UDO-IP communication !\n");
   }
 
-  g_device.Init();  // starts the periodic IRQ / task
-
   TRACE("\r\n");
 
   TRACE("\r\n");
@@ -65,7 +62,7 @@ void IRAM_ATTR loop()
   //vTaskDelayUntil(pxPreviousWakeTime, xTimeIncrement)
 
   g_udoip_comm.Run();
-  g_device.Run();
+  g_uiodev.Run();
   g_cmdline.Run();
 
   if (t - last_hb_time > 1000*1000)

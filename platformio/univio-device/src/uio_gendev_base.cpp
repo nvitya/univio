@@ -33,12 +33,9 @@
 #include "traces.h"
 #include "SPIFFS.h"
 
-//THwSpi           g_spi;
-//THwI2c           g_i2c;
-//THwUart          g_uart;
-//THwAdc           g_adc[UIOMCU_ADC_COUNT];
-//THwPwmChannel    g_pwm[UIO_PWM_COUNT];
-//TGpioPin         g_pins[UIO_PIN_COUNT];
+THwAdc           g_adc[UIOMCU_ADC_COUNT];
+THwPwmChannel    g_pwm[UIO_PWM_COUNT];
+TGpioPin         g_pins[UIO_PIN_COUNT];
 
 uint8_t          g_mpram[UIO_MPRAM_SIZE];
 
@@ -78,12 +75,6 @@ bool TUioGenDevBase::InitDevice()
 
   mpram = &g_mpram[0];
 
-  spi = &g_spi;
-  i2c = &g_i2c;
-  uart = &g_uart;
-
-  i2ctra.completed = true;
-
   // prepare g_pins
 
   for (n = 0; n < UIO_PIN_COUNT; ++n)
@@ -91,7 +82,7 @@ bool TUioGenDevBase::InitDevice()
     uint8_t   portnum = (n / UIO_PINS_PER_PORT);
     uint8_t   pinnum  = (n & (UIO_PINS_PER_PORT - 1));
 
-    g_pins[n].Assign(portnum, pinnum, false);
+    g_pins[n].Assign(pinnum, false);
   }
 
   if (!InitBoard())
@@ -121,7 +112,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
   pcf.pincfg = pincfg;
   pcf.unitnum = unitnum;
   pcf.flags = ((pincfg >> 16) & 0xFFFF);
-  pcf.hwpinflags = PINCFG_INPUT | PINCFG_PULLUP;
+  pcf.hwpinflags = PINCFG_INPUT | PINCFG_PULLUP;  // for passive pins
 
   pcf.pintype = 0; // check for reserved pins first
   if (!PinFuncAvailable(&pcf))  // do not touch reserved pins !
@@ -132,7 +123,6 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     }
     else
     {
-      __NOP();
       return UIOERR_FUNC_NOT_AVAIL;
     }
   }
@@ -146,13 +136,12 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
   pcf.pintype = pintype;
   if (!PinFuncAvailable(&pcf))
   {
-    __NOP();
     return UIOERR_FUNC_NOT_AVAIL;
   }
 
   if (UIO_PINTYPE_PASSIVE == pintype) // passive = input with pullup
   {
-
+    // keep the previously set passive value
   }
 
   // INPUTS
@@ -235,7 +224,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
 
     if (0x0001 & pcf.flags) // inverted ?
     {
-      ppin->Assign(ppin->portnum, ppin->pinnum, true);   // reassign required because of the inverted
+      ppin->Assign(ppin->pinnum, true);   // reassign required because of the inverted
       if (!initial_1)
       {
         pcf.hwpinflags |= PINCFG_GPIO_INIT_1;
@@ -243,7 +232,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     }
     else
     {
-      ppin->Assign(ppin->portnum, ppin->pinnum, false);  // reassign required because of the inverted
+      ppin->Assign(ppin->pinnum, false);  // reassign required because of the inverted
       if (initial_1)
       {
         pcf.hwpinflags |= PINCFG_GPIO_INIT_1;
@@ -448,8 +437,6 @@ void TUioGenDevBase::ClearConfig()
 {
   unsigned n;
 
-  uart_active = false;
-
   for (n = 0; n < UIO_PIN_COUNT; ++n)
   {
     cfg.pinsetup[n] = 0;
@@ -480,8 +467,6 @@ void TUioGenDevBase::ResetConfig()
   unsigned n;
 
   ConfigurePins(false); // set all pins passive
-
-
 }
 
 void TUioGenDevBase::ConfigurePins(bool active)
@@ -571,82 +556,6 @@ void TUioGenDevBase::SetDacOutput(uint8_t adacnum, uint16_t avalue)
   //TODO: implement
 }
 
-uint16_t TUioGenDevBase::SpiStart()
-{
-  if (spi_status)
-  {
-    return UDOERR_BUSY;
-  }
-
-  if (!spi)
-  {
-    return UIOERR_UNITSEL;
-  }
-
-  if ((0 == spi_speed) || (spi_trlen == 0)
-       || (spi_trlen > UIO_MPRAM_SIZE - spi_rx_offs) || (spi_trlen > UIO_MPRAM_SIZE - spi_tx_offs))
-  {
-    return UIOERR_UNIT_PARAMS;
-  }
-
-  if (spi->speed != spi_speed)
-  {
-    spi->speed = spi_speed;
-    spi->Init(spi->devnum); // re-init the device
-  }
-
-  spi->StartTransfer(0, 0, 0, spi_trlen, &mpram[spi_tx_offs], &mpram[spi_rx_offs]);
-
-  spi_status = 1;
-
-  return 0;
-}
-
-uint16_t TUioGenDevBase::I2cStart()
-{
-  if (0xFFFF == i2c_result)
-  {
-    return UDOERR_BUSY;
-  }
-
-  if (!i2c)
-  {
-    return UIOERR_UNITSEL;
-  }
-
-  if (!i2ctra.completed)
-  {
-    return UDOERR_BUSY;
-  }
-
-  i2c_trlen = (i2c_cmd >> 16);
-  uint32_t edata_len = ((i2c_cmd >> 12) & 3);
-
-  if ((0 == i2c_speed) || (i2c_trlen == 0) || (i2c_trlen > UIO_MPRAM_SIZE - i2c_data_offs))
-  {
-    return UIOERR_UNIT_PARAMS;
-  }
-
-  if (i2c->speed != i2c_speed)
-  {
-    i2c->speed = i2c_speed;
-    i2c->Init(i2c->devnum); // re-init the device
-  }
-
-  if (i2c_cmd & UIO_I2C_CMD_WRITE)
-  {
-    i2c->StartWrite(&i2ctra, i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
-  }
-  else
-  {
-    i2c->StartRead(&i2ctra, i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
-  }
-
-  i2c_result = 0xFFFF;
-
-  return 0;
-}
-
 void TUioGenDevBase::SetRunMode(uint8_t arunmode)
 {
   // TODO: Save Config
@@ -666,9 +575,9 @@ void TUioGenDevBase::SetRunMode(uint8_t arunmode)
 void TUioGenDevBase::Run() // handle led blink patterns
 {
   unsigned n;
-  unsigned t0 = CLOCKCNT;
+  unsigned t0 = micros();
 
-  if (t0 - last_blp_time >= blp_bit_clocks)
+  if (t0 - last_blp_us >= blp_bit_us)
   {
     blp_idx = ((blp_idx + 1) & 0x1F);
     blp_mask = (1 << blp_idx);
@@ -689,29 +598,8 @@ void TUioGenDevBase::Run() // handle led blink patterns
       }
     }
 
-    last_blp_time = t0;
+    last_blp_us = t0;
   }
-
-  // check SPI
-  if (spi_status)
-  {
-    spi->Run();
-    if (spi->finished)
-    {
-      spi_status = 0;
-    }
-  }
-
-  // check I2C
-  if (0xFFFF == i2c_result)
-  {
-    i2c->Run();
-    if (i2ctra.completed)
-    {
-      i2c_result = i2ctra.error;
-    }
-  }
-
 }
 
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen)
