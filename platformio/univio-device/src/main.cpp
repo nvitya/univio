@@ -21,18 +21,17 @@ void setup()
   board_pins_init();
   traces_init();
 
-  digitalWrite(PIN_LED, 1);
   delay(500);
 
-  TRACE("\n\n--------------------------------\n");
+  TRACE("\r\n\r\n--------------------------------\r\n");
   TRACE("Initializing file system...\r\n");
   if (SPIFFS.begin(true))  // formatOnFail = true
   {
-    TRACE("SPIFFS initialized.\n");
+    TRACE("SPIFFS initialized.\r\n");
   }
   else
   {
-    TRACE("Error initializing SPIFFS!\n");
+    TRACE("Error initializing SPIFFS!\r\n");
   }
 
   g_uiodev.Init();
@@ -45,7 +44,7 @@ void setup()
 
   if (!g_udoip_comm.Init())
   {
-    TRACE("Error initializing UDO-IP communication !\n");
+    TRACE("Error initializing UDO-IP communication !\r\n");
   }
 
   TRACE("\r\n");
@@ -64,14 +63,6 @@ void IRAM_ATTR loop()
   g_udoip_comm.Run();
   g_uiodev.Run();
   g_cmdline.Run();
-
-  if (t - last_hb_time > 1000*1000)
-  {
-    ++g_hbcounter;
-    digitalWrite(PIN_LED, g_hbcounter & 1);
-
-    last_hb_time = t;
-  }
 
   taskYIELD();
 }

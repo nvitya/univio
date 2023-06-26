@@ -25,6 +25,28 @@ typedef struct
 #define UIOADC(adcnum, innum)     (0x80000000 | (adcnum << 8) | (innum << 0))
 #define UIOPWM(chnum)             (0x80000000 | (chnum << 0))
 
+#if defined(ARDUINO_LOLIN_C3_MINI)
+  #define PIN_LED        7
+  #define PIN_IRQ        0
+  #define PIN_IRQ_TASK   1
+#elif defined(ARDUINO_ESP32C3_DEV)
+  #define PIN_LED       18
+  #define PIN_IRQ        0
+  #define PIN_IRQ_TASK   1
+  #define NO_FLOAT       1
+#elif defined(ARDUINO_LOLIN_S2_MINI)
+  #define PIN_LED       15
+  #define PIN_IRQ        3
+  #define PIN_IRQ_TASK   5
+#elif defined(ARDUINO_ESP32S3_DEV)
+  #define PIN_LED        2
+  #define PIN_IRQ       16
+  #define PIN_IRQ_TASK  17
+#else
+  #error "unknown board!"
+#endif
+
+
 const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 {
 /*  0 */ { 1,   UIOADC(1, 0), 0 },

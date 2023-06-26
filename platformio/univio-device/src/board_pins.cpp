@@ -37,14 +37,11 @@ void wifi_event_handler(WiFiEvent_t event)
 
 void board_pins_init()
 {
-  pinMode(PIN_LED, OUTPUT);
-  pinMode(PIN_IRQ, OUTPUT);
-  pinMode(PIN_IRQ_TASK, OUTPUT);
 }
 
 void board_net_init()
 {
-  TUioCfgStb * pcfg = &g_uiodev.cfg;
+  TUioCfgStb *  pcfg = &g_uiodev.cfg;
 
   IPAddress     local_IP(pcfg->ip_address.u8);
   IPAddress     gateway(pcfg->gw_address.u8);
