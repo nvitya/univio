@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, ExtCtrls,
   udo_comm, commh_udosl, commh_udoip, uio_iohandler,
-  frame_dout, frame_din, frame_ain, frame_pwm, frame_ledblp;
+  frame_dout, frame_din, frame_ain, frame_pwm, frame_ledblp, jsontools;
 
 type
 
@@ -15,7 +15,7 @@ type
 
   Tfrm_main = class(TForm)
     btnConnect : TBitBtn;
-    edComPort : TEdit;
+    edDevAddr : TEdit;
     Label1 : TLabel;
     Label2 : TLabel;
     pnl : TPanel;
@@ -69,6 +69,9 @@ type
     procedure ReadDeviceId;
     procedure ReadStatus;
 
+    procedure LoadSetup;
+    procedure SaveSetup;
+
     function ReadString(aobj : uint16) : string;
   end;
 
@@ -96,9 +99,7 @@ begin
   ioh := TUnivIoHandler.Create(udocomm);
   flist_dout := [];
 
-{$ifndef WINDOWS}
-  edComPort.Text := '/dev/ttyACM0';
-{$endif}
+  LoadSetup;
 end;
 
 procedure Tfrm_main.timerTimer(Sender : TObject);
@@ -123,16 +124,27 @@ procedure Tfrm_main.Connect;
 begin
   if udocomm.Opened then EXIT;
 
-  udosl_commh.devstr := edComPort.Text;
-  udocomm.SetHandler(udosl_commh);
+  if string(edDevAddr.Text).indexof('.') >= 0 then
+  begin
+    udoip_commh.ipaddrstr := edDevAddr.Text;
+    udocomm.SetHandler(udoip_commh);
+  end
+  else
+  begin
+    udosl_commh.devstr := edDevAddr.Text;
+    udocomm.SetHandler(udosl_commh);
+  end;
+
   try
     udocomm.Open();
   except on e : Exception do
     begin
-      MessageDlg('Comm Error', 'Error opening comport '+edComPort.Text+': '+e.Message, mtError, [mbAbort], 0);
+      MessageDlg('Comm Error', 'Error opening UnivIO Device at '+edDevAddr.Text+': '+e.Message, mtError, [mbAbort], 0);
       EXIT;
     end;
   end;
+
+  SaveSetup;
 
   pnl.Visible := true;
   btnMoreInfo.Visible := true;;
@@ -376,6 +388,31 @@ begin
   UpdateData;
 end;
 
+procedure Tfrm_main.LoadSetup;
+var
+  jroot, jn : TJsonNode;
+begin
+  jroot := TJsonNode.Create;
+  try
+    jroot.LoadFromFile('uiogui.conf');
+  except
+    ;
+  end;
+
+  if jroot.Find('DEVADDR', jn) then edDevAddr.Text := jn.AsString;
+  jroot.Free;
+end;
+
+procedure Tfrm_main.SaveSetup;
+var
+  jroot : TJsonNode;
+begin
+  jroot := TJsonNode.Create;
+  jroot.Add('DEVADDR', edDevAddr.Text);
+  jroot.SaveToFile('uiogui.conf');
+  jroot.Free;
+end;
+
 function Tfrm_main.ReadString(aobj : uint16) : string;
 var
   s : string;
@@ -421,7 +458,6 @@ begin
   frm.ShowModal;
   frm.Free;
 end;
-
 
 end.
 

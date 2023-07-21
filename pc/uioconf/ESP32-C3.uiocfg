@@ -24,13 +24,13 @@ pinconf(A1, ANA_IN,  1)
 pinconf(A2, ANA_IN,  2)
 pinconf(A3, DIG_OUT, 0)
 pinconf(A4, DIG_OUT, 1)
-pinconf(A5, DIG_OUT, 2)
+pinconf(A5, LEDBLP,  0)
 pinconf(A6, PWM, 0)
 pinconf(A7, PWM, 1)
 
-pinconf(A8,  DIG_OUT, 3)
-pinconf(A9,  DIG_OUT, 4)
-pinconf(A10, DIG_OUT, 5)
+pinconf(A8,  DIG_OUT, 2)
+pinconf(A9,  DIG_OUT, 3)
+pinconf(A10, DIG_OUT, 4)
 # 11: SPIFL-VDD
 # 12: SPIFL-HD
 # 13: SPIFL-WP
@@ -54,7 +54,7 @@ pwm_freq[0] = 2000
 # OTPUT RESET STATES
 
 dout_all = 0
-dout[0] = 1
+dout[0] = 0
 
 pwm_all = 0
 pwm[0] = 32767
