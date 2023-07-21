@@ -12,6 +12,7 @@
 #include "uioconfigfile.h"
 #include "udo_comm.h"
 #include "commh_udosl.h"
+#include "commh_udoip.h"
 
 using namespace std;
 
@@ -64,10 +65,19 @@ int main(int argc, char * const * argv)
 		printf("  OK.\n");
 	}
 
-	udosl_commh.devstr = string(argv[2]);
-	udocomm.SetHandler(&udosl_commh);
+	string connstr = argv[2];
+	if (connstr.find('.') != string::npos)  // IP address contains a dot
+	{
+		udoip_commh.ipaddrstr = connstr;
+		udocomm.SetHandler(&udoip_commh);
+	}
+	else // serial connection
+	{
+		udosl_commh.devstr = string(argv[2]);
+		udocomm.SetHandler(&udosl_commh);
+	}
 
-	printf("Connecting to device at \"%s\"...\n", udosl_commh.devstr.c_str());
+	printf("Connecting to device at \"%s\"...\n", udocomm.commh->ConnString().c_str());
 	try
 	{
 		udocomm.Open();

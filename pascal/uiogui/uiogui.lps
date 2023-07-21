@@ -176,7 +176,6 @@
       <Unit>
         <Filename Value="..\univio\uio_iohandler.pas"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="132"/>
         <CursorPos X="32" Y="165"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>

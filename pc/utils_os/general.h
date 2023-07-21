@@ -1,4 +1,10 @@
-// general.h
+/*
+ *  file:     general.h
+ *  brief:    Some generic C++ utilities for Linux and Windows
+ *  created:  2023-05-13
+ *  authors:  nvitya
+ *  license:  public domain
+*/
 
 #ifndef __GENERAL_H_
 #define __GENERAL_H_

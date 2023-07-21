@@ -1,4 +1,10 @@
-// general.cpp
+/*
+ *  file:     general.cpp
+ *  brief:    Some generic C++ utilities for Linux and Windows
+ *  created:  2023-05-13
+ *  authors:  nvitya
+ *  license:  public domain
+*/
 
 #include <stdexcept>
 #include <sstream>
