@@ -37,6 +37,10 @@ void TGpioPin::Setup(uint32_t aflags)
     {
       Set1();
     }
+    else
+    {
+      Set0();
+    }
     pinMode(pinnum, OUTPUT);
   }
   else

@@ -100,6 +100,8 @@
 #define UIO_INFOCBIT_SPI    (1 << 2)
 #define UIO_INFOCBIT_I2C    (1 << 3)
 
+#define IGNORE_PINFLAGS  0xFFFFFFFF
+
 typedef struct
 {
   union

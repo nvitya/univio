@@ -9,7 +9,7 @@
         <Filename Value="uiogui.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="45" Y="20"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,11 +18,10 @@
         <ComponentName Value="frm_main"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="102"/>
-        <CursorPos X="28" Y="154"/>
-        <UsageCount Value="39"/>
+        <TopLine Value="371"/>
+        <CursorPos X="3" Y="461"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -34,15 +33,15 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="29" Y="27"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit>
       <Unit>
         <Filename Value="..\univio\iohandler_base.pas"/>
         <IsPartOfProject Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="293"/>
-        <CursorPos X="79" Y="343"/>
-        <UsageCount Value="39"/>
+        <TopLine Value="244"/>
+        <CursorPos X="3" Y="246"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -54,7 +53,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="58" Y="46"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="35"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ain.pas"/>
@@ -64,7 +63,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="46"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="33"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_pwm.pas"/>
@@ -72,9 +71,11 @@
         <ComponentName Value="framePWM"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="78" Y="8"/>
-        <UsageCount Value="30"/>
+        <EditorIndex Value="2"/>
+        <CursorPos Y="40"/>
+        <UsageCount Value="31"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ledblp.pas"/>
@@ -84,7 +85,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="44"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="31"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_more_info.pas"/>
@@ -94,7 +95,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="42" Y="33"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="26"/>
       </Unit>
       <Unit>
         <Filename Value="..\uiopwmctrl\form_main.pas"/>
@@ -176,17 +177,18 @@
       </Unit>
       <Unit>
         <Filename Value="..\univio\uio_iohandler.pas"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="32" Y="165"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="126"/>
+        <CursorPos X="19" Y="209"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_main.lfm"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="73"/>
-        <CursorPos Y="168"/>
-        <UsageCount Value="9"/>
+        <TopLine Value="107"/>
+        <CursorPos X="39" Y="126"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -198,10 +200,11 @@
       </Unit>
       <Unit>
         <Filename Value="..\udomaster\udo_comm.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="40"/>
-        <CursorPos X="16" Y="86"/>
+        <TopLine Value="333"/>
+        <CursorPos X="55" Y="349"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -224,35 +227,10 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="1"/>
+    </General>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="354" Column="24" TopLine="324"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="90" Column="22" TopLine="45"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="362" Column="24" TopLine="324"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="91" Column="22" TopLine="46"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="370" Column="24" TopLine="324"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="92" Column="21" TopLine="47"/>
-      </Position>
-      <Position>
-        <Filename Value="..\udomaster\udo_comm.pas"/>
-        <Caret Line="378" Column="26" TopLine="324"/>
-      </Position>
       <Position>
         <Filename Value="..\udomaster\udo_comm.pas"/>
         <Caret Line="94" Column="23" TopLine="49"/>
@@ -344,6 +322,34 @@
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="73" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="155" Column="28" TopLine="103"/>
+      </Position>
+      <Position>
+        <Filename Value="src\frame_pwm.pas"/>
+        <Caret Line="8" Column="78"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\iohandler_base.pas"/>
+        <Caret Line="241" Column="3" TopLine="239"/>
+      </Position>
+      <Position>
+        <Filename Value="src\frame_pwm.pas"/>
+        <Caret Line="40" Column="17"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="209" Column="19" TopLine="126"/>
+      </Position>
+      <Position>
+        <Filename Value="src\frame_pwm.pas"/>
+        <Caret Line="40" Column="17"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="209" Column="19" TopLine="126"/>
       </Position>
     </JumpHistory>
     <RunParams>

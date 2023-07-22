@@ -172,6 +172,7 @@ bool TUioDevice::prfn_DefValue_PwmFreq(TUdoRequest * rq, TParamRangeDef * prdef)
   if (pwm && pwm->initialized)
   {
     pwm->SetFrequency(cfg.pwm_freq[unitid]);  // update at the actual unit too
+    SetPwmDuty(unitid, pwm_value[unitid]);
   }
   return udo_response_ok(rq);
 }

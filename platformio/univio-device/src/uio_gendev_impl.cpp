@@ -145,7 +145,10 @@ void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
   const TPinInfo *  pinfo = &g_pininfo[pcf->pinid];
   THwPwmChannel *   pwm = &g_pwm[pcf->unitnum];
 
-  if (!pwm->Init(0, pinfo->pwm & 0xF))
+  pcf->hwpinflags = IGNORE_PINFLAGS;  // instructs the caller to not change the pin settings
+
+  unsigned chnum = (pinfo->pwm & 0xF);
+  if (!pwm->Init(pcf->pinid, chnum))
   {
     return;
   }

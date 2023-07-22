@@ -322,7 +322,10 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
 
   if (active)
   {
-    ppin->Setup(pcf.hwpinflags);
+    if (IGNORE_PINFLAGS != pcf.hwpinflags)
+    {
+      ppin->Setup(pcf.hwpinflags);
+    }
   }
   else
   {

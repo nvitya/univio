@@ -174,15 +174,7 @@ object frm_main: Tfrm_main
       ClientWidth = 271
       TabOrder = 4
       inline framePWM0: TframePWM
-        Left = 8
-        Height = 29
-        ClientHeight = 29
-        inherited edPWMFreq: TSpinEdit
-          Height = 24
-        end
-        inherited edPWMDuty: TSpinEdit
-          Height = 24
-        end
+        Left = 7
       end
     end
   end
