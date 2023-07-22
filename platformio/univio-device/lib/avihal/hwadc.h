@@ -15,10 +15,10 @@ class THwAdc
 public:	// settings
 	bool 					 initialized = false;
 
-	int      			 devnum = -1;
+	uint32_t       pin_map = 0;
 
-	bool           Init(int adevnum, uint32_t achannel_map);
-	uint16_t       ChValue(uint8_t ach);
+	bool           Init(uint32_t apin_map);
+	uint16_t       ChValue(uint8_t apin);
 };
 
 #endif

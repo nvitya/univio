@@ -43,6 +43,10 @@ void TGpioPin::Setup(uint32_t aflags)
     }
     pinMode(pinnum, OUTPUT);
   }
+  else if (flags & PINCFG_ANALOGUE)
+  {
+    adcAttachPin(pinnum);
+  }
   else
   {
     pinMode(pinnum, INPUT);

@@ -49,7 +49,7 @@ typedef struct
 
 const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 {
-/*  0 */ { 1,   UIOADC(1, 0), 0 },
+/*  0 */ { 1,   UIOADC(1, 0), 0 },  // does not work always
 /*  1 */ { 1,   UIOADC(1, 1), 0 },
 /*  2 */ { 1,   UIOADC(1, 2), 0 },
 /*  3 */ { 1,   UIOADC(1, 3), 0 },

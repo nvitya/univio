@@ -7,15 +7,23 @@
 
 #include "hwadc.h"
 
-bool THwAdc::Init(int adevnum, uint32_t achannel_map)
+bool THwAdc::Init(uint32_t apin_map)
 {
-  devnum = adevnum;
+  pin_map = apin_map;
+
+  for (unsigned n = 0; n < 31; ++n)
+  {
+    if (pin_map & (1 << n))
+    {
+      adcAttachPin(n);
+    }
+  }
 
   initialized = true;
   return true;
 }
 
-uint16_t THwAdc::ChValue(uint8_t ach)
+uint16_t THwAdc::ChValue(uint8_t apin)
 {
-  return 0;
+  return (analogRead(apin) << 4);
 }
