@@ -419,6 +419,46 @@ bool TUioDevice::prfn_LedBlpCtrl(TUdoRequest * rq, TParamRangeDef * prdef)
 
 bool TUioDevice::prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef)
 {
+  uint8_t idx  = (rq->index & 0xFF);
+
+  if (0x00 == idx) // SPI Speed
+  {
+    return udo_rw_data(rq, &spi_speed, sizeof(spi_speed));
+  }
+  else if (0x01 == idx) // SPI transaction length
+  {
+    return udo_rw_data(rq, &spi_trlen, sizeof(spi_trlen));
+  }
+  else if (0x02 == idx) // SPI status
+  {
+    if (rq->iswrite)
+    {
+      uint32_t rv32 = udorq_uintvalue(rq);
+      if (1 == rv32)
+      {
+        // start the SPI transaction
+        uint16_t err = SpiStart();
+        return udo_response_error(rq, err); // will be response ok with err=0
+      }
+      else
+      {
+        return udo_response_error(rq, UDOERR_WRITE_VALUE);
+      }
+    }
+    else
+    {
+      return udo_ro_uint(rq, spi_status, 1);
+    }
+  }
+  else if (0x04 == idx) // SPI write data MPRAM offset
+  {
+    return udo_rw_data(rq, &spi_tx_offs, sizeof(spi_tx_offs));
+  }
+  else if (0x05 == idx) // SPI read data MPRAM offset
+  {
+    return udo_rw_data(rq, &spi_rx_offs, sizeof(spi_rx_offs));
+  }
+
   return udo_response_error(rq, UDOERR_INDEX);
 }
 

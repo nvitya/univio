@@ -3,6 +3,7 @@
 #define UIO_GENDEV_H_
 
 #include <uio_gendev_base.h>
+#include "driver/spi_master.h"
 
 class TUioGenDevImpl : public TUioGenDevBase
 {
@@ -23,6 +24,8 @@ public:
   virtual void      SetupClockOut(TPinCfg * pcf);
 
   virtual bool      LoadBuiltinConfig(uint8_t anum);
+
+  virtual void      SetupSpecialPeripherals(bool active);
 };
 
 #endif /* UIO_GENDEV_H_ */

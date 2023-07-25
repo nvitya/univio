@@ -40,6 +40,8 @@
 #include "hwadc.h"
 #include "hwpwm.h"
 
+#include "driver/spi_master.h"
+
 #define UIO_DEVICE_TYPE_ID   "UnivIO-V2"   // Index 0x0100
 
 // fix maximums
@@ -206,6 +208,22 @@ public:
 
   uint32_t          cfginfo[UIO_INFO_COUNT]; // bits signalize configured units
 
+public:
+  // SPI
+  bool              spi_active = false;
+  uint16_t          spi_rx_offs = 0;
+  uint16_t          spi_tx_offs = 0;
+  uint32_t          spi_speed = 1000000;
+  uint16_t          spi_trlen = 0;
+  uint8_t           spi_status = 0;
+
+  spi_device_handle_t            spih = nullptr;
+  spi_bus_config_t               spi_buscfg = {0};
+  spi_device_interface_config_t  spi_devcfg = {0};
+  spi_transaction_t              spi_trans  = {0};
+
+public:
+
   virtual           ~TUioGenDevBase() { }
 
   bool              Init();
@@ -240,6 +258,7 @@ public: // board specific virtuals
 
   virtual bool      LoadBuiltinConfig(uint8_t anum) { return false; }
 
+  virtual void      SetupSpecialPeripherals(bool active) { }
 };
 
 extern uint8_t          g_mpram[UIO_MPRAM_SIZE];

@@ -46,6 +46,10 @@ typedef struct
   #error "unknown board!"
 #endif
 
+#define SPI_PIN_CS     8
+#define SPI_PIN_CLK    9
+#define SPI_PIN_MOSI  10
+#define SPI_PIN_MISO   7
 
 const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 {
@@ -56,11 +60,11 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /*  4 */ { 1,   UIOADC(1, 4), 0 },
 /*  5 */ { 1,   0, UIOPWM(0) },
 /*  6 */ { 1,   0, UIOPWM(1) },
-/*  7 */ { 1,   0, UIOPWM(2) },
+/*  7 */ { 1 | UIOFUNC_SPI,   0, UIOPWM(2) },  // SPI_MISO
 
-/*  8 */ { 1,   0, UIOPWM(3) },
-/*  9 */ { 1,   0, UIOPWM(4) },
-/* 10 */ { 1,   0, UIOPWM(5) },
+/*  8 */ { 1 | UIOFUNC_SPI,   0, UIOPWM(3) },  // SPI_CS
+/*  9 */ { 1 | UIOFUNC_SPI,   0, UIOPWM(4) },  // SPI_CLK
+/* 10 */ { 1 | UIOFUNC_SPI,   0, UIOPWM(5) },  // SPI_MOSI - also available as neopixel
 /* 11 */ { RESERVED },  // SPIFL-VDD
 /* 12 */ { RESERVED },  // SPIFL-HD
 /* 13 */ { RESERVED },  // SPIFL-WP
@@ -126,6 +130,23 @@ bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
   }
 }
 
+void TUioGenDevImpl::SetupSpecialPeripherals(bool active)
+{
+  if (active && spi_active)
+  {
+    if (spi_buscfg.max_transfer_sz) // was already initialized ?
+    {
+      spi_bus_free(SPI2_HOST);
+    }
+
+    spi_buscfg.quadwp_io_num   = -1;
+    spi_buscfg.quadhd_io_num   = -1;
+    spi_buscfg.max_transfer_sz = int(UIO_MPRAM_SIZE * 8) + 8;
+
+    spi_bus_initialize(SPI2_HOST, &spi_buscfg, SPI_DMA_CH_AUTO);  
+  }
+}
+
 void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
@@ -156,7 +177,24 @@ void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
 
 void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
 {
-  TGpioPin * ppin = &g_pins[pcf->pinid];
+  if (SPI_PIN_CS == pcf->pinid)
+  {
+    spi_devcfg.spics_io_num = SPI_PIN_CS;
+  }
+  else if (SPI_PIN_CLK == pcf->pinid)
+  {
+    spi_buscfg.sclk_io_num = SPI_PIN_CLK;
+  }
+  else if (SPI_PIN_MOSI == pcf->pinid)
+  {
+    spi_buscfg.mosi_io_num = SPI_PIN_MOSI;
+  }
+  else if (SPI_PIN_MISO == pcf->pinid)
+  {
+    spi_buscfg.miso_io_num = SPI_PIN_MISO;
+  }
+
+  pcf->hwpinflags = IGNORE_PINFLAGS;  // instructs the caller to not change the pin settings
 }
 
 void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)

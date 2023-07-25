@@ -280,6 +280,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
   {
     if (active)
     {
+      spi_active = true;
       SetupSpi(&pcf);
     }
     cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_SPI;
@@ -476,6 +477,13 @@ void TUioGenDevBase::ConfigurePins(bool active)
 {
 	unsigned n;
 
+  // clear SPI pin configurations
+  spi_active = false;
+  spi_devcfg.spics_io_num    = -1;  //PIN_SPI_CS;  // CS pin
+  spi_buscfg.mosi_io_num     = -1; // PIN_SPI_MOSI;
+  spi_buscfg.miso_io_num     = -1; // PIN_SPI_MISO;
+  spi_buscfg.sclk_io_num     = -1; // PIN_SPI_CLK;
+
   // clear config info
 	for (n = 0; n < UIO_INFO_COUNT; ++n)
 	{
@@ -534,6 +542,57 @@ void TUioGenDevBase::ConfigurePins(bool active)
       PinSetup(n, 0, false); // set passive
     }
   }
+
+  // 3. setup special peripherals, like SPI, I2C, as they have own pin routing
+  SetupSpecialPeripherals(active);
+}
+
+uint16_t TUioGenDevBase::SpiStart()
+{
+  if (spi_status)
+  {
+    return UDOERR_BUSY;
+  }
+
+  if (!spih)
+  {
+    return UIOERR_UNITSEL;
+  }
+
+  if ((0 == spi_speed) || (spi_trlen == 0)
+       || (spi_trlen > UIO_MPRAM_SIZE - spi_rx_offs) || (spi_trlen > UIO_MPRAM_SIZE - spi_tx_offs))
+  {
+    return UIOERR_UNIT_PARAMS;
+  }
+
+  if ((0 == spi_devcfg.clock_speed_hz) || (spi_devcfg.clock_speed_hz != spi_speed))
+  {
+    if (spi_devcfg.clock_speed_hz)
+    {
+      spi_bus_remove_device(spih);
+    }
+
+    spi_devcfg.mode = 0;                      // SPI mode 0
+    spi_devcfg.clock_speed_hz = spi_speed;  
+    //spi_devcfg.spics_io_num = ...;          // was already set before
+    spi_devcfg.queue_size = 4;              
+
+    spi_bus_add_device(SPI2_HOST, &spi_devcfg, &spih);
+  }
+
+  memset(&spi_trans, 0, sizeof(spi_trans));
+  spi_trans.user = (void*)0;
+  spi_trans.flags = 0;
+  spi_trans.tx_buffer = &mpram[spi_tx_offs];
+  spi_trans.rx_buffer = &mpram[spi_rx_offs];
+  spi_trans.length = spi_trlen * 8;
+
+  spi_device_transmit(spih, &spi_trans);
+
+  //spi_status = 1;
+  spi_status = 0;
+
+  return 0;
 }
 
 void TUioGenDevBase::SetPwmDuty(uint8_t apwmnum, uint16_t aduty)
