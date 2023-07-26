@@ -554,7 +554,7 @@ uint16_t TUioGenDevBase::SpiStart()
     return UDOERR_BUSY;
   }
 
-  if (!spih)
+  if (!spi_active)
   {
     return UIOERR_UNITSEL;
   }
@@ -567,10 +567,12 @@ uint16_t TUioGenDevBase::SpiStart()
 
   if ((0 == spi_devcfg.clock_speed_hz) || (spi_devcfg.clock_speed_hz != spi_speed))
   {
+    /* remove is not necessary 
     if (spi_devcfg.clock_speed_hz)
     {
       spi_bus_remove_device(spih);
     }
+    */
 
     spi_devcfg.mode = 0;                      // SPI mode 0
     spi_devcfg.clock_speed_hz = spi_speed;  
@@ -587,10 +589,11 @@ uint16_t TUioGenDevBase::SpiStart()
   spi_trans.rx_buffer = &mpram[spi_rx_offs];
   spi_trans.length = spi_trlen * 8;
 
-  spi_device_transmit(spih, &spi_trans);
+  spi_device_queue_trans(spih, &spi_trans, portMAX_DELAY);
+  spi_status = 1;  // activates the completition polling
 
-  //spi_status = 1;
-  spi_status = 0;
+  //spi_device_transmit(spih, &spi_trans); // this blocks until finishes
+  //spi_status = 0;
 
   return 0;
 }
@@ -661,6 +664,15 @@ void TUioGenDevBase::Run() // handle led blink patterns
     }
 
     last_blp_us = t0;
+  }
+
+  if (spi_status)
+  {
+    spi_transaction_t * rtrans;
+    if (ESP_OK == spi_device_get_trans_result(spih, &rtrans, 0))
+    {
+      spi_status = 0;      
+    }
   }
 }
 
