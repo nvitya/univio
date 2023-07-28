@@ -224,23 +224,22 @@ bool TUioDevice::prfn_NvData(TUdoRequest * rq, TParamRangeDef * prdef)
 
 bool TUioDevice::prfn_DigOutSetClr(TUdoRequest * rq, TParamRangeDef * prdef)
 {
-  unsigned idx = (rq->index & 0x01);
-
   if (!rq->iswrite)
   {
     return udo_response_error(rq, UDOERR_WRITE_ONLY);
   }
 
+  unsigned idx = (rq->index & 0x01);
   uint32_t rv32 = udorq_uintvalue(rq);
 
-  //TRACE("DOUT(%04X) <- %08X\r\n", addr, rv32);
+  //TRACE("DOUT(%04X) <- %08X\r\n", rq->index, rv32);
 
   for (unsigned n = 0; n < 16; ++n)
   {
-    uint8_t idx = n + 16 * idx;
-    if (idx < UIO_DOUT_COUNT)
+    unsigned pnum = n + (16 * idx);
+    if (pnum < UIO_DOUT_COUNT)
     {
-      TGpioPin *  ppin = dig_out[idx];
+      TGpioPin *  ppin = dig_out[pnum];
       if (ppin)
       {
         uint32_t smask = (1 << n);
@@ -248,12 +247,12 @@ bool TUioDevice::prfn_DigOutSetClr(TUdoRequest * rq, TParamRangeDef * prdef)
         if (rv32 & smask)
         {
           ppin->Set1();
-          dout_value |= (1 << idx);
+          dout_value |= (1 << pnum);
         }
         else if (rv32 & cmask)
         {
           ppin->Set0();
-          dout_value &= ~(1 << idx);
+          dout_value &= ~(1 << pnum);
         }
       }
     }

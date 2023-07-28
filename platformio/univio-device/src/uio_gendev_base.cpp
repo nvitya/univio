@@ -225,18 +225,15 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     if (0x0001 & pcf.flags) // inverted ?
     {
       ppin->Assign(ppin->pinnum, true);   // reassign required because of the inverted
-      if (!initial_1)
-      {
-        pcf.hwpinflags |= PINCFG_GPIO_INIT_1;
-      }
     }
     else
     {
       ppin->Assign(ppin->pinnum, false);  // reassign required because of the inverted
-      if (initial_1)
-      {
-        pcf.hwpinflags |= PINCFG_GPIO_INIT_1;
-      }
+    }
+
+    if (initial_1)
+    {
+      pcf.hwpinflags |= PINCFG_GPIO_INIT_1;
     }
   }
 

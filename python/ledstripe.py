@@ -1,4 +1,7 @@
-import univio
+from udo_comm import *
+from commh_udoip import udoip_commh
+#from commh_udosl import *
+
 import sys
 import time
 
@@ -11,11 +14,11 @@ class UioLedStripe:
 	def __init__(self, aconn, aledcount):
 		self.conn = aconn
 		self.ledcount = aledcount
-		self.resetbytes = 30
-		self.tailresetbytes = 30
+		self.resetbytes = 15
+		self.tailresetbytes = 15
 		self.spidata = bytearray()
 		self.SetLedCount(aledcount)
-		self.conn.write_uint(0x1600, 2400000, 4)  # set SPI speed to 2.4 MHz
+		self.conn.WriteU32(0x1600, 0, 2400000)  # set SPI speed to 2.4 MHz
 
 	def SetLedCount(self, aledcount):
 		self.spidata = bytearray()
@@ -27,7 +30,7 @@ class UioLedStripe:
 		for n in range(0, self.tailresetbytes):
 			self.spidata.extend([0])
 		#/
-		conn.write_uint(0x1601, len(self.spidata), 2)  # length
+		self.conn.WriteU16(0x1601, 0, len(self.spidata))  # length
 
 	def SetLed(self, aidx, ar, ag, ab):
 		ldata = bytearray([0,0,0, 0,0,0, 0,0,0])
@@ -48,23 +51,23 @@ class UioLedStripe:
 		#/
 
 	def Update(self):
-		while conn.read_uint(0x1602) == 1:
+		while self.conn.ReadU8(0x1602, 0) != 0:
 			pass
-		conn.write(0xC000, self.spidata)  # upload the SPI data
+		self.conn.WriteBlob(0xC000, 0, self.spidata)  # upload the SPI data
 		#conn.write_uint(0x1601, len(self.spidata), 2)  # length
-		conn.write_uint(0x1602, 1, 1)  # start
+		self.conn.WriteU8(0x1602, 0, 1)  # start
 	#/
 #/  class UioLedStripe
 
 print("Led stripe test")
-conn = univio.UioComm()
-#conn.open("/dev/ttyUSB0")
-conn.open("/dev/ttyACM1")
-conn.write_uint(0x1500, 0xFFFFFFFC, 4)
 
-ledcnt = 200
+udoip_commh.ipaddrstr = '10.90.13.40'
+udocomm.SetHandler(udoip_commh)
+udocomm.Open();
 
-ls = UioLedStripe(conn, ledcnt)
+ledcnt = 31
+
+ls = UioLedStripe(udocomm, ledcnt)
 
 for n in range(0, ledcnt):
 	ls.SetLed(n, 0, 0, 0)
@@ -82,6 +85,8 @@ while True:
 		#/
 	#/
 	ls.Update()
+
+	#time.sleep(0.2)
 	#
 	if upcnt:
 		if cnt < ledcnt - 1:

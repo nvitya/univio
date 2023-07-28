@@ -174,7 +174,7 @@ begin
 	end;
 end;
 
-function TSerComm.Read(var dst; dstlen : integer) : integer;
+function TSerComm.Read(out dst; dstlen : integer) : integer;
 var
   r : cardinal = 0;
 begin
@@ -188,7 +188,7 @@ begin
   end;
 end;
 
-function TSerComm.Write(var src; len : integer) : integer;
+function TSerComm.Write(const src; len : integer) : integer;
 var
   r : cardinal = 0;
 begin
