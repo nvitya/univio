@@ -25,6 +25,10 @@ LD          = g++
 CFLAGS      = $(INCLUDES) -g3
 LDFLAGS = --static
 
+ifeq ($(OS),Windows_NT)     # is Windows_NT on XP, 2000, 7, Vista, 10...
+    LDFLAGS += -lwsock32
+endif
+
 CFLAGS += -std=gnu++11
 
 # option to generate a .d (.h dependency list) files during compilation (they go into build dir too)
@@ -33,7 +37,7 @@ CFLAGS     += -MMD
 # LINKING
 
 $(PROG_NAME): $(BUILD_DIR) $(OBJ_MAIN) $(OBJ_UTILS_OS) $(OBJ_UDO) $(OBJ_UDOMASTER)
-	$(LD) $(LDFLAGS) -o $(PROG_NAME) $(OBJ_MAIN) $(OBJ_UTILS_OS) $(OBJ_UDO) $(OBJ_UDOMASTER)
+	$(LD) -o $(PROG_NAME) $(OBJ_MAIN) $(OBJ_UTILS_OS) $(OBJ_UDO) $(OBJ_UDOMASTER) $(LDFLAGS)
 
 # COMPILE
 

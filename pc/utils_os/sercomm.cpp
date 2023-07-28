@@ -115,9 +115,14 @@ int TSerComm::Write(void * src, unsigned len)
 	}
 }
 
-void TSerComm::Flush()
+void TSerComm::FlushInput()
 {
-  PurgeComm(comhandle, 0xF);
+  PurgeComm(comhandle, PURGE_RXCLEAR | PURGE_RXABORT);
+}
+
+void TSerComm::FlushOutput()
+{
+  PurgeComm(comhandle, PURGE_TXCLEAR | PURGE_TXABORT);
 }
 
 bool TSerComm::Opened()
