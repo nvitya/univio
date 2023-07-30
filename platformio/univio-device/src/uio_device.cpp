@@ -464,7 +464,47 @@ bool TUioDevice::prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef)
 
 bool TUioDevice::prfn_I2cControl(TUdoRequest * rq, TParamRangeDef * prdef)
 {
-  return udo_response_error(rq, UDOERR_INDEX);
+uint8_t idx  = (rq->index & 0xFF);
+
+  if (0x00 == idx) // I2C Speed
+  {
+    return udo_rw_data(rq, &i2c_speed, sizeof(i2c_speed));
+  }
+  else if (0x01 == idx) // I2C EADDR (Extra Address)
+  {
+    return udo_rw_data(rq, &i2c_eaddr, sizeof(i2c_eaddr));
+  }
+  else if (0x02 == idx) // I2C Transaction Parameters / Start
+  {
+    if (rq->iswrite && i2c_running)
+    {
+      return udo_response_error(rq, UDOERR_BUSY);
+    }
+
+    if (!udo_rw_data(rq, &i2c_transpar, sizeof(i2c_transpar)))
+    {
+      return false;
+    }
+
+    if (rq->iswrite)
+    {
+      // start the I2C transaction
+      uint16_t err = I2cStart();
+      return udo_response_error(rq, err); // will be response ok with err=0
+    }
+
+    return true;  // the read already processed successfully    
+  }
+  else if (0x03 == idx) // I2C transaction status
+  {
+    return udo_rw_data(rq, &i2c_status, sizeof(i2c_status));
+  }
+  else if (0x04 == idx) // I2C data MPRAM offset
+  {
+    return udo_rw_data(rq, &i2c_data_offs, sizeof(i2c_data_offs));
+  }
+
+  return udo_response_error(rq, UDOERR_INDEX);    
 }
 
 bool TUioDevice::prfn_Mpram(TUdoRequest * rq, TParamRangeDef * prdef)

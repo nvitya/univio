@@ -51,11 +51,14 @@ typedef struct
 #define SPI_PIN_MOSI  10
 #define SPI_PIN_MISO   7
 
+#define I2C_PIN_SCL    1
+#define I2C_PIN_SDA    2
+
 const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 {
 /*  0 */ { 1,   UIOADC(1, 0), 0 },  // does not work always
-/*  1 */ { 1,   UIOADC(1, 1), 0 },
-/*  2 */ { 1,   UIOADC(1, 2), 0 },
+/*  1 */ { 1 | UIOFUNC_I2C,   UIOADC(1, 1), 0 },
+/*  2 */ { 1 | UIOFUNC_I2C,   UIOADC(1, 2), 0 },
 /*  3 */ { 1,   UIOADC(1, 3), 0 },
 /*  4 */ { 1,   UIOADC(1, 4), 0 },
 /*  5 */ { 1,   0, UIOPWM(0) },
@@ -145,6 +148,17 @@ void TUioGenDevImpl::SetupSpecialPeripherals(bool active)
 
     spi_bus_initialize(SPI2_HOST, &spi_buscfg, SPI_DMA_CH_AUTO);  
   }
+
+  if (active && i2c_active)
+  {    
+    i2c_conf.mode = I2C_MODE_MASTER;
+    i2c_conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
+    i2c_conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
+    i2c_conf.master.clk_speed = 100000;
+    i2c_conf.clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL; //Any one clock source that is available for the specified frequency may be choosen
+
+    i2c_driver_install(i2c_port, i2c_conf.mode, 0, 0, 0);
+  }
 }
 
 void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
@@ -199,7 +213,16 @@ void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
 
 void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)
 {
-  TGpioPin * ppin = &g_pins[pcf->pinid];
+  if (I2C_PIN_SCL == pcf->pinid)
+  {
+    i2c_conf.scl_io_num = (gpio_num_t)I2C_PIN_SCL;
+  }
+  else if (I2C_PIN_SDA == pcf->pinid)
+  {
+    i2c_conf.sda_io_num = (gpio_num_t)I2C_PIN_SDA;
+  }
+
+  pcf->hwpinflags = IGNORE_PINFLAGS;  // instructs the caller to not change the pin settings
 }
 
 void TUioGenDevImpl::SetupUart(TPinCfg * pcf)

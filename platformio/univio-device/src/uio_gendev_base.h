@@ -41,6 +41,7 @@
 #include "hwpwm.h"
 
 #include "driver/spi_master.h"
+#include "driver/i2c.h"
 
 #define UIO_DEVICE_TYPE_ID   "UnivIO-V2"   // Index 0x0100
 
@@ -221,6 +222,21 @@ public:
   spi_bus_config_t               spi_buscfg = {0};
   spi_device_interface_config_t  spi_devcfg = {0};
   spi_transaction_t              spi_trans  = {0};
+
+public:
+  // I2C
+  bool              i2c_active = false;
+  volatile bool     i2c_running = false;
+  i2c_port_t        i2c_port = 0;
+  uint16_t          i2c_data_offs = 0;
+  uint32_t          i2c_speed = 100000;
+  uint32_t          i2c_eaddr = 0;
+  uint32_t          i2c_transpar = 0;
+  uint16_t          i2c_status = 0;
+  i2c_cmd_handle_t  i2c_cmdh = nullptr;
+  i2c_config_t      i2c_conf;
+
+  void              I2cWorkerThread();
 
 public:
 

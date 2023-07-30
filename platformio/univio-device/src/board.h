@@ -7,7 +7,7 @@
 // UnivID Device settings
 
 #define UIO_MAX_DATA_LEN     1024
-#define UIO_MPRAM_SIZE       4096
+#define UIO_MPRAM_SIZE       8192
 
 // UnivIO Generic Device settings
 

@@ -287,6 +287,7 @@ uint16_t TUioGenDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
   {
     if (active)
     {
+      i2c_active = true;
       SetupI2c(&pcf);
     }
     cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_I2C;
@@ -481,6 +482,10 @@ void TUioGenDevBase::ConfigurePins(bool active)
   spi_buscfg.miso_io_num     = -1; // PIN_SPI_MISO;
   spi_buscfg.sclk_io_num     = -1; // PIN_SPI_CLK;
 
+  i2c_active = false;
+  i2c_conf.scl_io_num = -1;
+  i2c_conf.sda_io_num = -1;
+
   // clear config info
 	for (n = 0; n < UIO_INFO_COUNT; ++n)
 	{
@@ -586,11 +591,103 @@ uint16_t TUioGenDevBase::SpiStart()
   spi_trans.rx_buffer = &mpram[spi_rx_offs];
   spi_trans.length = spi_trlen * 8;
 
-  spi_device_queue_trans(spih, &spi_trans, portMAX_DELAY);
+  spi_device_queue_trans(spih, &spi_trans, portMAX_DELAY);  // will run in the background
   spi_status = 1;  // activates the completition polling
 
   //spi_device_transmit(spih, &spi_trans); // this blocks until finishes
   //spi_status = 0;
+
+  return 0;
+}
+
+/*
+
+    i2c_conf.mode = I2C_MODE_MASTER;
+    i2c_conf.scl_io_num = (gpio_num_t)PIN_I2C_SCL;
+    i2c_conf.sda_io_num = (gpio_num_t)PIN_I2C_SDA;
+    i2c_conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
+    i2c_conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
+    i2c_conf.master.clk_speed = 100000;
+    i2c_conf.clk_flags = I2C_SCLK_SRC_FLAG_FOR_NOMAL; //Any one clock source that is available for the specified frequency may be choosen
+
+    ret = i2c_driver_install((i2c_port_t)I2C_DEV_NUM, conf.mode, 0, 0, 0);
+    Serial.printf("I2C driver install result=%i\r\n", ret);
+
+*/
+
+void TUioGenDevBase::I2cWorkerThread()
+{
+  i2c_conf.master.clk_speed = i2c_speed;
+  i2c_param_config(i2c_port, &i2c_conf);
+
+  i2c_cmdh = i2c_cmd_link_create();
+
+  unsigned  ealen = ((i2c_transpar >> 12) & 3);
+  unsigned  trlen = (i2c_transpar >> 16);
+  bool      iswrite = ((i2c_transpar & 1) != 0);
+  uint8_t   devaddr_x2 = (i2c_transpar & 0xFE);
+
+  i2c_master_start(i2c_cmdh);
+
+  if (!iswrite && (0 == ealen))
+  {
+    // issue the read only
+    i2c_master_write_byte(i2c_cmdh, devaddr_x2 | I2C_MASTER_READ, true);
+    i2c_master_read(i2c_cmdh, &mpram[i2c_data_offs], trlen, I2C_MASTER_LAST_NACK);
+  }
+  else // write first
+  {
+    i2c_master_write_byte(i2c_cmdh, devaddr_x2 | I2C_MASTER_WRITE, true);
+    if (ealen)
+    {
+      i2c_master_write(i2c_cmdh, (const uint8_t *)&i2c_eaddr, ealen, true);
+    }
+    if (!iswrite)
+    {
+      i2c_master_start(i2c_cmdh);
+      i2c_master_write_byte(i2c_cmdh, devaddr_x2 | I2C_MASTER_READ, true);
+      i2c_master_read(i2c_cmdh, &mpram[i2c_data_offs], trlen, I2C_MASTER_LAST_NACK);      
+    }
+    else
+    {
+      i2c_master_write(i2c_cmdh, &mpram[i2c_data_offs], trlen, true);
+    }
+  }
+
+  i2c_master_stop(i2c_cmdh);
+
+  esp_err_t ret = i2c_master_cmd_begin(i2c_port, i2c_cmdh, 1000 / portTICK_RATE_MS);  
+
+  // cleanup
+  i2c_cmd_link_delete(i2c_cmdh);
+  i2c_status = ret;
+  i2c_running = false;
+  vTaskDelete(nullptr); // deletes this task
+}
+
+void thead_i2c_proc(void * arg)
+{
+  ((TUioGenDevBase *)arg)->I2cWorkerThread();
+}
+
+uint16_t TUioGenDevBase::I2cStart()
+{
+  if (i2c_running)
+  {
+    return UDOERR_BUSY;
+  }
+
+  unsigned i2c_trlen = (i2c_transpar >> 16);
+
+  if ((0 == i2c_speed) || (i2c_trlen == 0) || (i2c_trlen > UIO_MPRAM_SIZE - i2c_data_offs))
+  {
+    return UIOERR_UNIT_PARAMS;
+  }
+
+  i2c_running = true;
+  i2c_status = 0xFFFF;  // signalize running status
+
+  xTaskCreate(thead_i2c_proc, "I2C-Worker", 4096, this, 10, nullptr);
 
   return 0;
 }
