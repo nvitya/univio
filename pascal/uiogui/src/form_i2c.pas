@@ -38,7 +38,6 @@ type
   private
 
   public
-    comm     : TUdoComm;
 
     procedure LoadSetup;
     procedure SaveSetup;
@@ -48,17 +47,16 @@ type
 var
   frmI2c : TfrmI2c;
 
-procedure ShowI2cWindow(acomm : TUdoComm);
+procedure ShowI2cWindow();
 
 implementation
 
-procedure ShowI2cWindow(acomm : TUdoComm);
+procedure ShowI2cWindow();
 begin
   if frmI2c = nil then
   begin
     Application.CreateForm(TfrmI2c, frmI2c);
   end;
-  frmI2c.comm := acomm;
   frmI2c.Show;
 end;
 
@@ -75,7 +73,7 @@ end;
 
 procedure TfrmI2c.FormActivate(Sender : TObject);
 begin
-  edSpeed.Value := comm.ReadU32($1700, 0);
+  edSpeed.Value := udocomm.ReadU32($1700, 0);
 end;
 
 procedure TfrmI2c.btnStartClick(Sender : TObject);
@@ -145,16 +143,16 @@ begin
     memoLog.Append(' >>> '+s);
   end;
 
-  comm.WriteU32($1700, 0, edSpeed.Value);
-  comm.WriteU32($1701, 0, exaddr);
-  comm.WriteU16($1704, 0, edMPRAMOffs.Value);
+  udocomm.WriteU32($1700, 0, edSpeed.Value);
+  udocomm.WriteU32($1701, 0, exaddr);
+  udocomm.WriteU16($1704, 0, edMPRAMOffs.Value);
 
   if rbWrite.Checked then
   begin
-    comm.WriteBlob($C000, edMPRAMOffs.Value, wbytes[0], length(wbytes));
+    udocomm.WriteBlob($C000, edMPRAMOffs.Value, wbytes[0], length(wbytes));
   end;
 
-  comm.WriteU32($1702, 0, cmd);
+  udocomm.WriteU32($1702, 0, cmd);
 
   timerStatus.Interval := 50;  // shorter wait time first
   timerStatus.Enabled := True;
@@ -170,7 +168,7 @@ begin
 
   timerStatus.Enabled := false;
   try
-    st := comm.ReadU16($1703, 0);
+    st := udocomm.ReadU16($1703, 0);
   except
     on e : Exception do
     begin
@@ -194,8 +192,7 @@ begin
     begin
       rdata := [];
       SetLength(rdata, edReadCount.Value);
-      comm.UdoRead($C000, edMPRAMOffs.Value, rdata[0], length(rdata));
-      SetLength(rdata, edReadCount.Value);
+      udocomm.ReadBlob($C000, edMPRAMOffs.Value, rdata[0], length(rdata));
       s := '';
       for b in rdata do s := s + format(' %.2X', [b]);
       memoLog.Append(' <<< '+s);

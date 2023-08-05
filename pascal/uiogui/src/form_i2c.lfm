@@ -1,5 +1,5 @@
 object frmI2c: TfrmI2c
-  Left = 1674
+  Left = 1642
   Height = 314
   Top = 418
   Width = 466
@@ -24,6 +24,7 @@ object frmI2c: TfrmI2c
     Height = 24
     Top = 24
     Width = 74
+    Alignment = taRightJustify
     Increment = 100000
     MaxValue = 3000000
     MinValue = 10000
@@ -86,6 +87,7 @@ object frmI2c: TfrmI2c
     Height = 24
     Top = 61
     Width = 48
+    Alignment = taRightJustify
     MaxValue = 256
     MinValue = 1
     TabOrder = 5
@@ -163,6 +165,7 @@ object frmI2c: TfrmI2c
     Height = 24
     Top = 24
     Width = 74
+    Alignment = taRightJustify
     Increment = 256
     MaxValue = 32768
     TabOrder = 9

@@ -29,13 +29,13 @@ type
 var
   frmMoreInfo : TfrmMoreInfo;
 
-procedure ShowMoreInfo(acomm : TUdoComm);
+procedure ShowMoreInfo();
 
 implementation
 
 {$R *.lfm}
 
-procedure ShowMoreInfo(acomm : TUdoComm);
+procedure ShowMoreInfo();
 begin
   if frmMoreInfo = nil then
   begin

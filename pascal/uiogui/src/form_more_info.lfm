@@ -1,11 +1,11 @@
 object frmMoreInfo: TfrmMoreInfo
   Left = 1508
-  Height = 451
+  Height = 487
   Top = 598
-  Width = 523
+  Width = 558
   Caption = 'UnivIO Device Info'
-  ClientHeight = 451
-  ClientWidth = 523
+  ClientHeight = 487
+  ClientWidth = 558
   OnClose = FormClose
   OnShow = FormShow
   Position = poOwnerFormCenter
@@ -13,18 +13,19 @@ object frmMoreInfo: TfrmMoreInfo
   object pnl: TPanel
     Left = 0
     Height = 50
-    Top = 401
-    Width = 523
+    Top = 437
+    Width = 558
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 50
-    ClientWidth = 523
+    ClientWidth = 558
     TabOrder = 0
     object btnClose: TBitBtn
-      Left = 248
-      Height = 30
-      Top = 12
-      Width = 99
+      Left = 212
+      Height = 34
+      Top = 10
+      Width = 158
+      Anchors = [akTop, akLeft, akRight]
       DefaultCaption = True
       Kind = bkClose
       ModalResult = 11
@@ -33,9 +34,9 @@ object frmMoreInfo: TfrmMoreInfo
   end
   object memo: TMemo
     Left = 0
-    Height = 401
+    Height = 437
     Top = 0
-    Width = 523
+    Width = 558
     Align = alClient
     Font.Name = 'Courier New'
     ParentFont = False

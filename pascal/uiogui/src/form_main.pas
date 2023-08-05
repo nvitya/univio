@@ -45,6 +45,7 @@ type
     procedure edADCRangeChange(Sender : TObject);
     procedure btnMoreInfoClick(Sender : TObject);
     procedure btnI2cClick(Sender : TObject);
+    procedure btnSpiClick(Sender : TObject);
   private
 
   public
@@ -82,7 +83,7 @@ var
 implementation
 
 uses
-  iohandler_base, form_more_info, form_i2c;
+  iohandler_base, form_more_info, form_i2c, form_spi;
 
 {$R *.lfm}
 
@@ -424,12 +425,17 @@ end;
 
 procedure Tfrm_main.btnMoreInfoClick(Sender : TObject);
 begin
-  ShowMoreInfo(ioh.comm);
+  ShowMoreInfo();
 end;
 
 procedure Tfrm_main.btnI2cClick(Sender : TObject);
 begin
-  ShowI2cWindow(ioh.comm);
+  ShowI2cWindow();
+end;
+
+procedure Tfrm_main.btnSpiClick(Sender : TObject);
+begin
+  ShowSpiWindow();
 end;
 
 end.
