@@ -8,8 +8,7 @@
       <Unit>
         <Filename Value="uiogui.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <CursorPos X="71" Y="6"/>
+        <CursorPos X="80" Y="3"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit>
@@ -21,9 +20,10 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
         <TopLine Value="4"/>
-        <CursorPos X="53" Y="86"/>
+        <CursorPos X="36" Y="33"/>
         <UsageCount Value="52"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_dout.pas"/>
@@ -119,6 +119,7 @@
       <Unit>
         <Filename Value="src\udo_utils.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos Y="26"/>
         <UsageCount Value="26"/>
@@ -226,9 +227,8 @@
       <Unit>
         <Filename Value="src\form_main.lfm"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="121"/>
-        <CursorPos X="27" Y="186"/>
-        <UsageCount Value="9"/>
+        <CursorPos X="50" Y="11"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -283,11 +283,7 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="src\form_i2c.pas"/>
-        <Caret Line="195" Column="10" TopLine="150"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="438" Column="19" TopLine="352"/>
