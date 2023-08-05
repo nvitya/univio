@@ -233,7 +233,7 @@ repeat_send:
   r := fpsendto(fdsocket, @rqbuf[0], headsize + mrqlen, 0, @server_addr, sizeof(server_addr));
   if r <= 0
   then
-    raise EUdoAbort.Create(UDOERR_CONNECTION, '%s request error: %d', [opstring, r]);
+      raise EUdoAbort.Create(UDOERR_CONNECTION, '%s request error: %d', [opstring, r]);
 
 repeat_recv:
 

@@ -1,12 +1,12 @@
 object frm_main: Tfrm_main
-  Left = 1506
-  Height = 396
-  Top = 133
-  Width = 631
+  Left = 1512
+  Height = 385
+  Top = 0
+  Width = 628
   BorderStyle = bsDialog
   Caption = 'UnivIO GUI'
-  ClientHeight = 396
-  ClientWidth = 631
+  ClientHeight = 385
+  ClientWidth = 628
   OnCreate = FormCreate
   Position = poScreenCenter
   LCLVersion = '2.2.6.0'
@@ -56,12 +56,12 @@ object frm_main: Tfrm_main
   object pnl: TPanel
     Left = 0
     Height = 331
-    Top = 65
-    Width = 631
+    Top = 54
+    Width = 628
     Align = alBottom
     BevelOuter = bvNone
     ClientHeight = 331
-    ClientWidth = 631
+    ClientWidth = 628
     TabOrder = 3
     Visible = False
     object grpDOUT: TGroupBox
@@ -149,11 +149,11 @@ object frm_main: Tfrm_main
     end
     object grpLEDBLP: TGroupBox
       Left = 348
-      Height = 160
+      Height = 124
       Top = 4
       Width = 273
       Caption = 'LED Blinking Pattern'
-      ClientHeight = 145
+      ClientHeight = 109
       ClientWidth = 271
       TabOrder = 3
       inline frameLEDBLP0: TframeLEDBLP
@@ -167,7 +167,7 @@ object frm_main: Tfrm_main
     object grpPWM: TGroupBox
       Left = 348
       Height = 157
-      Top = 171
+      Top = 136
       Width = 273
       Caption = 'PWM'
       ClientHeight = 142
@@ -175,7 +175,32 @@ object frm_main: Tfrm_main
       TabOrder = 4
       inline framePWM0: TframePWM
         Left = 7
+        inherited edPWMFreq: TSpinEdit
+          Height = 24
+        end
+        inherited edPWMDuty: TSpinEdit
+          Height = 24
+        end
       end
+    end
+    object btnSpi: TButton
+      Left = 492
+      Height = 25
+      Top = 300
+      Width = 55
+      Anchors = [akLeft, akBottom]
+      Caption = 'SPI'
+      TabOrder = 5
+    end
+    object btnI2c: TButton
+      Left = 564
+      Height = 25
+      Top = 300
+      Width = 55
+      Anchors = [akLeft, akBottom]
+      Caption = 'I2C'
+      OnClick = btnI2cClick
+      TabOrder = 6
     end
   end
   object btnMoreInfo: TSpeedButton

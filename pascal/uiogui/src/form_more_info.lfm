@@ -1,17 +1,19 @@
 object frmMoreInfo: TfrmMoreInfo
-  Left = 1535
-  Height = 250
-  Top = 744
+  Left = 1508
+  Height = 451
+  Top = 598
   Width = 523
   Caption = 'UnivIO Device Info'
-  ClientHeight = 250
+  ClientHeight = 451
   ClientWidth = 523
+  OnClose = FormClose
+  OnShow = FormShow
   Position = poOwnerFormCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.6.0'
   object pnl: TPanel
     Left = 0
     Height = 50
-    Top = 200
+    Top = 401
     Width = 523
     Align = alBottom
     BevelOuter = bvNone
@@ -31,7 +33,7 @@ object frmMoreInfo: TfrmMoreInfo
   end
   object memo: TMemo
     Left = 0
-    Height = 200
+    Height = 401
     Top = 0
     Width = 523
     Align = alClient

@@ -132,10 +132,10 @@ void TUdoIpCommBase::ProcessUdpRequest(TUdoIpRequest * ucrq)
 	mudorq.index  = prqh->index;
 	mudorq.offset = prqh->offset;
 	mudorq.rqlen = (prqh->len_cmd & 0x7FF);
+	mudorq.maxanslen = mudorq.rqlen;
 	mudorq.iswrite = ((prqh->len_cmd >> 15) & 1);
 	mudorq.metalen = ((0x8420 >> ((prqh->len_cmd >> 13) & 3) * 4) & 0xF);
 	mudorq.metadata = prqh->metadata;
-
 
 	if (mudorq.iswrite)
 	{
@@ -146,7 +146,6 @@ void TUdoIpCommBase::ProcessUdpRequest(TUdoIpRequest * ucrq)
 	else
 	{
 		// read
-		mudorq.maxanslen = UDOIP_MAX_RQ_SIZE - sizeof(TUdoIpRqHeader);
 		mudorq.dataptr = pansdata;
 	}
 

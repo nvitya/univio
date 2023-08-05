@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Buttons, ExtCtrls,
-  udo_comm, commh_udosl, commh_udoip, uio_iohandler,
+  udo_comm, commh_udosl, commh_udoip, uio_iohandler, udo_utils,
   frame_dout, frame_din, frame_ain, frame_pwm, frame_ledblp, jsontools;
 
 type
@@ -36,12 +36,15 @@ type
     edADCRange : TEdit;
     Label6 : TLabel;
     btnMoreInfo : TSpeedButton;
+    btnSpi : TButton;
+    btnI2c : TButton;
     procedure btnConnectClick(Sender : TObject);
 
     procedure FormCreate(Sender : TObject);
     procedure timerTimer(Sender : TObject);
     procedure edADCRangeChange(Sender : TObject);
     procedure btnMoreInfoClick(Sender : TObject);
+    procedure btnI2cClick(Sender : TObject);
   private
 
   public
@@ -71,8 +74,6 @@ type
 
     procedure LoadSetup;
     procedure SaveSetup;
-
-    function ReadString(aobj : uint16) : string;
   end;
 
 var
@@ -81,7 +82,7 @@ var
 implementation
 
 uses
-  iohandler_base, form_more_info;
+  iohandler_base, form_more_info, form_i2c;
 
 {$R *.lfm}
 
@@ -158,6 +159,9 @@ begin
   Prepare_AIN;
   Prepare_PWM;
   Prepare_LEDBLP;
+
+  btnSpi.Visible := ioh.spi_active;
+  btnI2c.Visible := ioh.i2c_active;
 
   ReadStatus;
 
@@ -413,50 +417,19 @@ begin
   jroot.Free;
 end;
 
-function Tfrm_main.ReadString(aobj : uint16) : string;
-var
-  s : string;
-  rlen : integer;
-begin
-  s := '';
-  SetLength(s, 1024);
-  try
-    rlen := udocomm.UdoRead(aobj, 0, s[1], length(s));
-  except
-    on e : Exception do
-    begin
-      result := '[read error: '+e.message+']';
-      exit;
-    end;
-  end;
-
-  result := trim(copy(s, 1, rlen))
-end;
-
 procedure Tfrm_main.ReadDeviceId;
 begin
-  txtDeviceInfo.Caption := ReadString($0181);
+  txtDeviceInfo.Caption := UdoReadString($0181);
 end;
 
 procedure Tfrm_main.btnMoreInfoClick(Sender : TObject);
-var
-  frm : TfrmMoreInfo;
 begin
-  Application.CreateForm(TfrmMoreInfo, frm);
-  frm.memo.Clear;
+  ShowMoreInfo(ioh.comm);
+end;
 
-  frm.memo.Append('Device Implementation ID: "'+ReadString($0101)+'", version: '+IntToHex(udocomm.ReadU32($0102, 0)));
-  frm.memo.Append('');
-  frm.memo.Append('Device ID:    "'+ReadString($0181)+'"');
-  frm.memo.Append('');
-  frm.memo.Append('USB Vendor ID:  '+IntToHex(udocomm.ReadU32($0182, 0)));
-  frm.memo.Append('USB Product ID: '+IntToHex(udocomm.ReadU32($0183, 0)));
-  frm.memo.Append('Manufacturer Name: "'+ReadString($0184)+'"');
-  frm.memo.Append('Serial Number:     "'+ReadString($0185)+'"');
-  frm.memo.Append('');
-
-  frm.ShowModal;
-  frm.Free;
+procedure Tfrm_main.btnI2cClick(Sender : TObject);
+begin
+  ShowI2cWindow(ioh.comm);
 end;
 
 end.

@@ -22,6 +22,13 @@ type
     pwm_lines  : array of TPwmLine;
     ledblp_lines : array of TLedBlpLine;
 
+    infobits   : cardinal;
+
+    uart_active : boolean;
+    clkout_active : boolean;
+    i2c_active : boolean;
+    spi_active : boolean;
+
     constructor Create(acomm : TUdoComm); reintroduce;
 
     procedure ClearLines; override;
@@ -66,6 +73,12 @@ begin
   aout_lines := [];
   pwm_lines := [];
   ledblp_lines := [];
+
+  infobits   := 0;
+  clkout_active := false;
+  uart_active := false;
+  spi_active := false;
+  i2c_active := false;
 end;
 
 procedure TUnivIoHandler.LoadConfigFromDevice;
@@ -75,6 +88,12 @@ var
   line   : TIoLine;
 begin
   ClearLines;
+
+  infobits := comm.ReadU32($0E00, 0);
+  clkout_active := ((infobits and (1 shl 0)) <> 0);
+  uart_active   := ((infobits and (1 shl 1)) <> 0);
+  spi_active    := ((infobits and (1 shl 2)) <> 0);
+  i2c_active    := ((infobits and (1 shl 3)) <> 0);
 
   cbits := comm.ReadU32($0E01, 0); // get the DINs
   for unitid := 0 to 31 do

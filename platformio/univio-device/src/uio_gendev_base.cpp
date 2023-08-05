@@ -660,7 +660,16 @@ void TUioGenDevBase::I2cWorkerThread()
 
   // cleanup
   i2c_cmd_link_delete(i2c_cmdh);
-  i2c_status = ret;
+
+  if (ret != 0)
+  {
+    i2c_status = 0x1001;  // some ack or other error happened
+  }
+  else
+  {
+    i2c_status = 0;  // finished successfully
+  }
+  
   i2c_running = false;
   vTaskDelete(nullptr); // deletes this task
 }
