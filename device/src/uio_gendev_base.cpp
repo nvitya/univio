@@ -628,16 +628,21 @@ uint16_t TUioGenDevBase::I2cStart()
   if (i2c->speed != i2c_speed)
   {
     i2c->speed = i2c_speed;
-    i2c->Init(i2c->devnum); // re-init the device
   }
+
+  // RP2040 bug: re-init (? reset) required sometimes
+  i2c->Init(i2c->devnum); // re-init the device
+
+  uint8_t   addr   = (i2c_cmd >> 1) & 0x7F;
+  uint32_t  extra  = (i2c_eaddr & 0xFFFFFF) | (edata_len << 24);
 
   if (i2c_cmd & UIO_I2C_CMD_WRITE)
   {
-    i2c->StartWrite(&i2ctra, i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
+    i2c->StartWrite(&i2ctra, addr, extra, &mpram[i2c_data_offs], i2c_trlen);
   }
   else
   {
-    i2c->StartRead(&i2ctra, i2c_cmd & 0x7F, i2c_eaddr | (edata_len << 24), &mpram[i2c_data_offs], i2c_trlen);
+    i2c->StartRead(&i2ctra,  addr, extra, &mpram[i2c_data_offs], i2c_trlen);
   }
 
   i2c_result = 0xFFFF;

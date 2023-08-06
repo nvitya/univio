@@ -232,6 +232,12 @@ begin
   if jroot.Find('EXADDR',    jn) then edExAddr.Text := jn.AsString;
   if jroot.Find('WRITEDATA', jn) then edWriteData.Text := jn.AsString;
 
+  if jroot.Find('ISWRITE', jn) then
+  begin
+    rbWrite.Checked := jn.AsBoolean;
+    rbRead.Checked  := not rbWrite.Checked;
+  end;
+
   jroot.Free;
 end;
 

@@ -74,7 +74,7 @@
 #define UIO_PINFLAG_PWM_INVERT       (0x0001 << 16)
 #define UIO_PINFLAG_LEDBLP_INVERT    (0x0001 << 16)
 
-#define UIO_I2C_CMD_WRITE            (1 << 8)
+#define UIO_I2C_CMD_WRITE            (1 << 0)
 
 #define UIOCFG_V2_SIGNATURE   0xA566CF5A
 

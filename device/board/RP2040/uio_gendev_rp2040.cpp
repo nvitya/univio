@@ -75,6 +75,44 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 // TUnivioDevice Implementations
 //------------------------------------------------------------------------------------------------------
 
+#define TEST_I2C 0
+
+#if TEST_I2C
+
+#include "traces.h"
+
+TI2cTransaction  g_i2ctra;
+
+void test_i2c_basic()
+{
+  TRACE("I2C basic test\r\n");
+
+  unsigned devaddr = 0x77;
+  unsigned addr = 0xD0;
+  unsigned len = 1;
+
+  uint8_t  rxbuf[64];
+
+  TRACE("Reading memory at %04X...\r\n", addr);
+
+  //g_i2c.Init(1);
+
+  g_i2c.StartRead(&g_i2ctra, devaddr, addr | I2CEX_1, &rxbuf[0], len);
+  g_i2c.WaitFinish(&g_i2ctra);
+  if (g_i2ctra.error)
+  {
+    TRACE("  I2C error = %i\r\n", g_i2ctra.error);
+  }
+  else
+  {
+    TRACE("  OK.\r\n");
+  }
+
+  TRACE("I2C test finished.\r\n");
+}
+
+#endif
+
 bool TUioGenDevImpl::InitBoard()
 {
   unsigned n;
@@ -120,6 +158,18 @@ bool TUioGenDevImpl::InitBoard()
   g_dma_i2c_rx.Init( DMACH_I2C_RX, DREQ_I2C1_RX);
   g_i2c.DmaAssign(true,  &g_dma_i2c_tx);
   g_i2c.DmaAssign(false, &g_dma_i2c_rx);
+
+#if TEST_I2C
+
+  hwpinctrl.PinSetup(0, 2, PINCFG_AF_3 | PINCFG_PULLUP); // I2C1_SDA
+  hwpinctrl.PinSetup(0, 3, PINCFG_AF_3 | PINCFG_PULLUP); // I2C1_SCL
+
+  test_i2c_basic();
+  //test_i2c_basic();
+
+  //TRACE_FLUSH();
+
+#endif
 
   // UART1 Initialization
   g_uart.Init(1);

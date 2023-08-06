@@ -9,7 +9,7 @@
         <Filename Value="uiogui.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="80" Y="3"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="54"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -21,7 +21,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="4"/>
         <CursorPos X="36" Y="33"/>
-        <UsageCount Value="52"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,7 +33,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="29" Y="27"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="37"/>
       </Unit>
       <Unit>
         <Filename Value="..\univio\iohandler_base.pas"/>
@@ -42,7 +42,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="244"/>
         <CursorPos X="3" Y="246"/>
-        <UsageCount Value="52"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -54,7 +54,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="58" Y="46"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="48"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ain.pas"/>
@@ -64,7 +64,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="46"/>
-        <UsageCount Value="45"/>
+        <UsageCount Value="46"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_pwm.pas"/>
@@ -74,7 +74,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="3"/>
         <CursorPos Y="40"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -85,7 +85,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="44"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="44"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_more_info.pas"/>
@@ -96,7 +96,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="13"/>
         <CursorPos X="50" Y="23"/>
-        <UsageCount Value="38"/>
+        <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -106,10 +106,11 @@
         <ComponentName Value="frmI2c"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="127"/>
-        <CursorPos X="28" Y="169"/>
-        <UsageCount Value="32"/>
+        <TopLine Value="172"/>
+        <CursorPos X="43" Y="239"/>
+        <UsageCount Value="33"/>
         <Bookmarks Count="1">
           <Item0 X="41" Y="227" ID="1"/>
         </Bookmarks>
@@ -121,7 +122,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos Y="26"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -133,7 +134,7 @@
         <EditorIndex Value="6"/>
         <TopLine Value="89"/>
         <CursorPos X="88" Y="107"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -274,7 +275,6 @@
       </Unit>
       <Unit>
         <Filename Value="..\utils_os\strparseobj.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <WindowIndex Value="1"/>
         <TopLine Value="15"/>
@@ -286,7 +286,7 @@
     <General>
       <ActiveWindowIndexAtStart Value="1"/>
     </General>
-    <JumpHistory HistoryIndex="28">
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="438" Column="19" TopLine="352"/>
@@ -402,6 +402,10 @@
       <Position>
         <Filename Value="uiogui.lpr"/>
         <Caret Line="24" Column="89"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_i2c.pas"/>
+        <Caret Line="169" Column="28" TopLine="127"/>
       </Position>
     </JumpHistory>
     <RunParams>
