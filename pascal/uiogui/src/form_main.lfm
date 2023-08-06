@@ -22,11 +22,11 @@ object frm_main: Tfrm_main
     Left = 8
     Height = 26
     Top = 27
-    Width = 104
+    Width = 108
     TabOrder = 0
   end
   object btnConnect: TBitBtn
-    Left = 128
+    Left = 124
     Height = 30
     Top = 24
     Width = 75
@@ -35,7 +35,7 @@ object frm_main: Tfrm_main
     TabOrder = 1
   end
   object Label2: TLabel
-    Left = 224
+    Left = 232
     Height = 14
     Top = 8
     Width = 64
@@ -43,10 +43,10 @@ object frm_main: Tfrm_main
     ParentColor = False
   end
   object txtDeviceInfo: TStaticText
-    Left = 224
+    Left = 232
     Height = 20
     Top = 32
-    Width = 366
+    Width = 358
     BorderStyle = sbsSunken
     Caption = '-'
     Font.Style = [fsBold]
@@ -67,7 +67,7 @@ object frm_main: Tfrm_main
     object grpDOUT: TGroupBox
       Left = 8
       Height = 324
-      Top = 7
+      Top = 4
       Width = 108
       Caption = 'DOUT'
       ClientHeight = 309

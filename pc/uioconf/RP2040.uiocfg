@@ -1,8 +1,8 @@
 
 # UnivIO Configuration for the RP2040
 
-# the device fw must report exactly this:
-fwid = "GenIO-RP2040"
+# the device implementation id must report exactly this:
+diid = "GenIO-RP2040"
 
 # Unique identifier for this configuration
 deviceid = "GenIO-RP2040-def"

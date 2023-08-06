@@ -38,7 +38,7 @@ bool TUioDevice::prfn_0100_DevId(TUdoRequest * rq, TParamRangeDef * prdef)
   switch (index)
   {
     case 0x0100:  return udo_response_cstring(rq, UIO_DEVICE_TYPE_ID);
-    case 0x0101:  return udo_response_cstring(rq, UIO_HW_ID);
+    case 0x0101:  return udo_response_cstring(rq, UIO_FW_ID);
     case 0x0102:  return udo_ro_uint(rq, UIO_VERSION_INTEGER, 4);
 
     case 0x0110:  return udo_ro_uint(rq, UIO_PIN_COUNT, 1);

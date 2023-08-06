@@ -2,7 +2,6 @@
 
 #include "hwintflash.h"
 #include "hwspi.h"
-#include "univio_comm.h"
 #include "uio_device.h"
 
 

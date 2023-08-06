@@ -61,7 +61,7 @@ bool TUioGenDevBase::Init()
   cfg.usb_vendor_id = 0xDEAD;
   cfg.usb_product_id = 0xBEEF;
 
-  strncpy(cfg.device_id, UIO_HW_ID, sizeof(cfg.device_id));
+  strncpy(cfg.device_id, UIO_FW_ID, sizeof(cfg.device_id));
   strncpy(cfg.manufacturer, "github.com/nvitya/univio", sizeof(cfg.manufacturer));
   strncpy(cfg.serial_number, "1", sizeof(cfg.serial_number));
 

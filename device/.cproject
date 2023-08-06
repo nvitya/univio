@@ -103,8 +103,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="udo|vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board/A4S-64"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/vihal_usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/ATSAM/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/core/src"/>
@@ -335,8 +338,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="udo|vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board/AE5X-64"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/vihal_usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/ATSAM_V2/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/core/src"/>
@@ -449,8 +455,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="udo|vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board/SG473-48"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/vihal_usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/STM32/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/core/src"/>
@@ -563,8 +572,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="udo|vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board/SF401-48"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/vihal_usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/STM32/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/core/src"/>
@@ -678,8 +690,11 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="udo|vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board/RP2040"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/vihal_usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/RP/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/core/src"/>
@@ -795,9 +810,50 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.1173847258.277471002.734306938.957614673.1414902886" name="/" resourcePath="udo/cpp/udoslave/vihal_usb">
+						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1039124596" name="Arm Cross GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug" unusedChildren="">
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.234445562.377630246" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.234445562"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createlisting.372645292.1686590566" name="Create extended listing" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createlisting.372645292"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.1409029154.1702024196" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.1409029154"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1629086544.1663981986" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1629086544"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength.244018296.1939465242" name="Message length (-fmessage-length=0)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength.244018296"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar.1235280654.1764648008" name="'char' is signed (-fsigned-char)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar.1235280654"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections.500106807.528443429" name="Function sections (-ffunction-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections.500106807"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.datasections.653980208.1310968045" name="Data sections (-fdata-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.datasections.653980208"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.level.1718973689.1619392733" name="Debug level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.level.1718973689"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.format.2039523348.1471490165" name="Debug format" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.format.2039523348"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.name.1853733020.329331507" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.name.1853733020"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.architecture.1126546782.979933261" name="Architecture" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.architecture.1126546782"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.family.2008729728.1819216899" name="Arm family (-mcpu)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.family.2008729728"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.1956417235.68972410" name="Instruction set" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.1956417235"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.prefix.1724326820.915418369" name="Prefix" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.prefix.1724326820"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.c.1530470300.1653796130" name="C compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.c.1530470300"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.cpp.206759738.325848042" name="C++ compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.cpp.206759738"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.ar.811539016.1176264683" name="Archiver" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.ar.811539016"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.objcopy.828296349.1033855424" name="Hex/Bin converter" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.objcopy.828296349"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.objdump.2033782431.456439756" name="Listing generator" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.objdump.2033782431"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.size.1500437143.844336513" name="Size command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.size.1500437143"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.make.1426170842.309825338" name="Build command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.make.1426170842"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm.1525791719.1508062927" name="Remove command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm.1525791719"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.id.1004481542.1504028692" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.id.1004481542"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.freestanding.2020150197.1871684049" name="Assume freestanding environment (-ffreestanding)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.freestanding.2020150197"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.1107771114" name="GNU Arm Cross Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.1906188048"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.862473504" name="GNU Arm Cross C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1407109309"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.927295527" name="GNU Arm Cross C++ Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.495182943"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.279311968" name="GNU Arm Cross C Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.658190083"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.1527140840" name="GNU Arm Cross C++ Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.1790527829"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.archiver.939279194" name="GNU Arm Cross Archiver" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.archiver.56670503"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.createflash.1524497879" name="GNU Arm Cross Create Flash Image" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.createflash.1725200885"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.createlisting.1195088298" name="GNU Arm Cross Create Listing" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.createlisting.1540873366"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.printsize.1683227113" name="GNU Arm Cross Print Size" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.printsize.1045737380"/>
+						</toolChain>
+					</folderInfo>
 					<sourceEntries>
-						<entry excluding="vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="udo|vihal|board" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="board/SG473-48"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udo"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/common"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="udo/cpp/udoslave/vihal_usb"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/STM32/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/armm/core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="vihal/core/src"/>

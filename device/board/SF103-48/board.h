@@ -23,7 +23,7 @@
 
 // UnivID Device settings
 
-#define UIO_HW_ID       "SF103-48"
+#define UIO_FW_ID       "SF103-48"
 
 #define UIO_MAX_DATA_LEN     1024
 #define UIO_MPRAM_SIZE       4096

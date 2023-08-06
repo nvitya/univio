@@ -119,7 +119,6 @@
       <Unit>
         <Filename Value="src\udo_utils.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos Y="26"/>
         <UsageCount Value="26"/>
@@ -275,6 +274,7 @@
       </Unit>
       <Unit>
         <Filename Value="..\utils_os\strparseobj.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <WindowIndex Value="1"/>
         <TopLine Value="15"/>
@@ -283,6 +283,9 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
+    <General>
+      <ActiveWindowIndexAtStart Value="1"/>
+    </General>
     <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="src\form_main.pas"/>
