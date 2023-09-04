@@ -75,11 +75,11 @@ bool TUioDevice::prfn_0180_DevConf(TUdoRequest * rq, TParamRangeDef * prdef)
 
       return udo_response_ok(rq);
     }
-    case 0x0181:   return udo_rw_data(rq, &cfg.device_id[0],     sizeof(cfg.device_id));
+    case 0x0181:   return udo_rw_data_zp(rq, &cfg.device_id[0],     sizeof(cfg.device_id));
     case 0x0182:   return udo_rw_data(rq, &cfg.usb_vendor_id,    sizeof(cfg.usb_vendor_id));
     case 0x0183:   return udo_rw_data(rq, &cfg.usb_product_id,   sizeof(cfg.usb_product_id));
-    case 0x0184:   return udo_rw_data(rq, &cfg.manufacturer[0],  sizeof(cfg.manufacturer));
-    case 0x0185:   return udo_rw_data(rq, &cfg.serial_number[0], sizeof(cfg.serial_number));
+    case 0x0184:   return udo_rw_data_zp(rq, &cfg.manufacturer[0],  sizeof(cfg.manufacturer));
+    case 0x0185:   return udo_rw_data_zp(rq, &cfg.serial_number[0], sizeof(cfg.serial_number));
   }
 
   return udo_response_error(rq, UDOERR_INDEX);
