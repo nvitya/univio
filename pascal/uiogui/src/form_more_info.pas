@@ -21,8 +21,12 @@ type
   private
 
   public
+    pincnt   : uint32;
+    portpins : uint32;
+
     function UnitsString(amask : cardinal) : string;
     function FormatPinConfig(d : cardinal) : string;
+    function FormatPinName(n : cardinal) : string;
 
   end;
 
@@ -56,7 +60,7 @@ procedure TfrmMoreInfo.FormShow(Sender : TObject);
 var
   d, confbits : cardinal;
   s : string;
-  n, pincnt, portpins : integer;
+  n : integer;
 begin
   memo.Clear;
   memo.Append('Device ID  : "'+UdoReadString($0181)+'"');
@@ -91,9 +95,8 @@ begin
 
   for n := 0 to pincnt - 1 do
   begin
-
     d := udocomm.ReadU32($0200 + n, 0);
-    memo.Append(format('  Pin %2d: %s', [n, FormatPinConfig(d)]));
+    memo.Append(format('  Pin %s: %s', [FormatPinName(n), FormatPinConfig(d)]));
   end;
 
 end;
@@ -140,6 +143,23 @@ begin
   begin
     result += '-'+IntToStr(unitnum);
     if flags <> 0 then result += format(' flags=%.4X', [flags]);
+  end;
+end;
+
+function TfrmMoreInfo.FormatPinName(n: cardinal): string;
+const
+  PORT_CHARS : string[16] = 'ABCDEFGHIJKLMNOP';
+var
+  pnum : uint32;
+begin
+  if pincnt <= portpins then
+  begin
+    result := IntToStr(n);
+  end
+  else
+  begin
+    pnum := n div portpins;
+    result := PORT_CHARS[pnum + 1] + IntToStr(n mod portpins);
   end;
 end;
 

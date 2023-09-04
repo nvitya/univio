@@ -93,9 +93,10 @@
         <ComponentName Value="frmMoreInfo"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="13"/>
-        <CursorPos X="50" Y="23"/>
+        <TopLine Value="89"/>
+        <CursorPos X="3" Y="155"/>
         <UsageCount Value="39"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -106,10 +107,9 @@
         <ComponentName Value="frmI2c"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
         <TopLine Value="172"/>
-        <CursorPos X="43" Y="239"/>
+        <CursorPos X="62" Y="201"/>
         <UsageCount Value="33"/>
         <Bookmarks Count="1">
           <Item0 X="41" Y="227" ID="1"/>
@@ -133,7 +133,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
         <TopLine Value="89"/>
-        <CursorPos X="88" Y="107"/>
+        <CursorPos X="79" Y="134"/>
         <UsageCount Value="26"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -266,12 +266,11 @@
         <Loaded Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\usr\share\fpcsrc\3.2.2\rtl\objpas\sysutils\sysutilh.inc"/>
-        <EditorIndex Value="7"/>
+        <Filename Value="D:\usr\share\fpcsrc\3.2.2\rtl\objpas\sysutils\sysutilh.inc"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="54"/>
         <CursorPos X="61" Y="67"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\utils_os\strparseobj.pas"/>
@@ -283,26 +282,7 @@
         <Loaded Value="True"/>
       </Unit>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="1"/>
-    </General>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="438" Column="19" TopLine="352"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="86" Column="53"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="75" Column="15" TopLine="21"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="98" Column="96" TopLine="16"/>
-      </Position>
       <Position>
         <Filename Value="src\form_i2c.pas"/>
         <Caret Line="195" Column="10" TopLine="150"/>
@@ -406,6 +386,22 @@
       <Position>
         <Filename Value="src\form_i2c.pas"/>
         <Caret Line="169" Column="28" TopLine="127"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_more_info.pas"/>
+        <Caret Line="95" Column="58" TopLine="28"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_more_info.pas"/>
+        <Caret Line="26" Column="51"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_more_info.pas"/>
+        <Caret Line="162" Column="63" TopLine="82"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_more_info.pas"/>
+        <Caret Line="29" Column="40"/>
       </Position>
     </JumpHistory>
     <RunParams>
