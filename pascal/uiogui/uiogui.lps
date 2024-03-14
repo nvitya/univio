@@ -8,8 +8,8 @@
       <Unit>
         <Filename Value="uiogui.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="80" Y="3"/>
-        <UsageCount Value="54"/>
+        <CursorPos Y="22"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,10 +18,9 @@
         <ComponentName Value="frm_main"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="4"/>
-        <CursorPos X="36" Y="33"/>
-        <UsageCount Value="53"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="54" Y="49"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,16 +32,16 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="29" Y="27"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="40"/>
       </Unit>
       <Unit>
         <Filename Value="..\univio\iohandler_base.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
         <TopLine Value="244"/>
         <CursorPos X="3" Y="246"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -54,7 +53,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="58" Y="46"/>
-        <UsageCount Value="48"/>
+        <UsageCount Value="51"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ain.pas"/>
@@ -64,7 +63,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="46"/>
-        <UsageCount Value="46"/>
+        <UsageCount Value="49"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_pwm.pas"/>
@@ -72,10 +71,9 @@
         <ComponentName Value="framePWM"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <CursorPos Y="40"/>
-        <UsageCount Value="44"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="47"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ledblp.pas"/>
@@ -85,7 +83,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="44"/>
-        <UsageCount Value="44"/>
+        <UsageCount Value="47"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_more_info.pas"/>
@@ -93,13 +91,10 @@
         <ComponentName Value="frmMoreInfo"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="89"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="81"/>
         <CursorPos X="3" Y="155"/>
-        <UsageCount Value="39"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="42"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_i2c.pas"/>
@@ -107,22 +102,22 @@
         <ComponentName Value="frmI2c"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
         <WindowIndex Value="1"/>
         <TopLine Value="172"/>
-        <CursorPos X="62" Y="201"/>
-        <UsageCount Value="33"/>
+        <CursorPos X="50" Y="181"/>
+        <UsageCount Value="36"/>
         <Bookmarks Count="1">
           <Item0 X="41" Y="227" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src\udo_utils.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos Y="26"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -131,12 +126,11 @@
         <ComponentName Value="frmSpi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="89"/>
         <CursorPos X="79" Y="134"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\uiopwmctrl\form_main.pas"/>
@@ -156,10 +150,10 @@
       </Unit>
       <Unit>
         <Filename Value="..\univio\univio_conn.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="1"/>
         <CursorPos X="3" Y="413"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -218,10 +212,10 @@
       </Unit>
       <Unit>
         <Filename Value="..\univio\uio_iohandler.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="49"/>
         <CursorPos X="17" Y="92"/>
-        <UsageCount Value="25"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -240,29 +234,29 @@
       </Unit>
       <Unit>
         <Filename Value="..\udomaster\udo_comm.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="1"/>
         <TopLine Value="17"/>
         <CursorPos X="15" Y="62"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\udomaster\commh_udosl.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="1"/>
         <TopLine Value="159"/>
         <CursorPos X="45" Y="119"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\udomaster\commh_udoip.pas"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="1"/>
         <TopLine Value="215"/>
         <CursorPos Y="305"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -274,134 +268,142 @@
       </Unit>
       <Unit>
         <Filename Value="..\utils_os\strparseobj.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="1"/>
         <TopLine Value="15"/>
-        <CursorPos X="16" Y="61"/>
-        <UsageCount Value="11"/>
+        <CursorPos X="58" Y="22"/>
+        <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="src\form_connect.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmConnect"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="73" Y="91"/>
+        <UsageCount Value="23"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\com_port_lister.pas"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="1"/>
+        <TopLine Value="394"/>
+        <CursorPos X="3" Y="435"/>
+        <UsageCount Value="11"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="26">
       <Position>
-        <Filename Value="src\form_i2c.pas"/>
-        <Caret Line="195" Column="10" TopLine="150"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="43" Column="23"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="35" Column="21" TopLine="16"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="21" Column="43"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="9" Column="31"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="45"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="14" Column="22"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="51" Column="3"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="69" Column="13" TopLine="4"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="34" Column="27"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="39" Column="23" TopLine="8"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="116" Column="10"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="41" Column="38" TopLine="8"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="127" Column="42" TopLine="44"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="101" Column="21" TopLine="44"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="76" Column="3" TopLine="11"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="106" Column="95" TopLine="44"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="9" Column="37"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="95" Column="3" TopLine="33"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="75" Column="17" TopLine="37"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="120" Column="19" TopLine="38"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="414" Column="5" TopLine="350"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="96" Column="14" TopLine="61"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="74" Column="15" TopLine="34"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="112" Column="32" TopLine="64"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="73" Column="15" TopLine="33"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="94" Column="24" TopLine="62"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="59" Column="17" TopLine="33"/>
       </Position>
       <Position>
-        <Filename Value="..\utils_os\strparseobj.pas"/>
-        <Caret Line="332" Column="3" TopLine="327"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="133" Column="29" TopLine="120"/>
       </Position>
       <Position>
-        <Filename Value="..\utils_os\strparseobj.pas"/>
-        <Caret Line="60" Column="22" TopLine="15"/>
+        <Filename Value="src\form_main.pas"/>
       </Position>
       <Position>
-        <Filename Value="..\utils_os\strparseobj.pas"/>
-        <Caret Line="331" Column="3" TopLine="327"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="60" Column="25"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="90" TopLine="62"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="94" Column="26" TopLine="29"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="91" TopLine="63"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="419" Column="11" TopLine="333"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="90" TopLine="62"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="424" Column="25" TopLine="338"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="172" Column="31" TopLine="101"/>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="364" Column="58" TopLine="338"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="216" Column="26" TopLine="142"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="34" Column="26"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="137" TopLine="97"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="116" Column="3" TopLine="71"/>
       </Position>
       <Position>
-        <Filename Value="src\form_spi.pas"/>
-        <Caret Line="94" Column="7" TopLine="79"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="25" Column="15"/>
       </Position>
       <Position>
-        <Filename Value="uiogui.lpr"/>
-        <Caret Line="24" Column="89"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="101" Column="37" TopLine="77"/>
       </Position>
       <Position>
-        <Filename Value="src\form_i2c.pas"/>
-        <Caret Line="169" Column="28" TopLine="127"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="115" Column="25" TopLine="78"/>
       </Position>
       <Position>
-        <Filename Value="src\form_more_info.pas"/>
-        <Caret Line="95" Column="58" TopLine="28"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_more_info.pas"/>
-        <Caret Line="26" Column="51"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_more_info.pas"/>
-        <Caret Line="162" Column="63" TopLine="82"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_more_info.pas"/>
-        <Caret Line="29" Column="40"/>
+        <Filename Value="src\form_connect.pas"/>
+        <Caret Line="120" Column="24" TopLine="78"/>
       </Position>
     </JumpHistory>
     <RunParams>

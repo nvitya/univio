@@ -7,7 +7,9 @@ object frm_main: Tfrm_main
   Caption = 'UnivIO GUI'
   ClientHeight = 385
   ClientWidth = 628
+  OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poScreenCenter
   LCLVersion = '2.2.6.0'
   object Label1: TLabel
@@ -17,22 +19,6 @@ object frm_main: Tfrm_main
     Width = 81
     Caption = 'UnivIO Device:'
     ParentColor = False
-  end
-  object edDevAddr: TEdit
-    Left = 8
-    Height = 26
-    Top = 27
-    Width = 108
-    TabOrder = 0
-  end
-  object btnConnect: TBitBtn
-    Left = 124
-    Height = 30
-    Top = 24
-    Width = 75
-    Caption = 'Connect'
-    OnClick = btnConnectClick
-    TabOrder = 1
   end
   object Label2: TLabel
     Left = 232
@@ -51,7 +37,7 @@ object frm_main: Tfrm_main
     Caption = '-'
     Font.Style = [fsBold]
     ParentFont = False
-    TabOrder = 2
+    TabOrder = 0
   end
   object pnl: TPanel
     Left = 0
@@ -62,7 +48,7 @@ object frm_main: Tfrm_main
     BevelOuter = bvNone
     ClientHeight = 331
     ClientWidth = 628
-    TabOrder = 3
+    TabOrder = 1
     Visible = False
     object grpDOUT: TGroupBox
       Left = 8
@@ -212,6 +198,16 @@ object frm_main: Tfrm_main
     Caption = '...'
     Visible = False
     OnClick = btnMoreInfoClick
+  end
+  object txtDevAddr: TStaticText
+    Left = 8
+    Height = 20
+    Top = 32
+    Width = 200
+    BorderStyle = sbsSunken
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 2
   end
   object timer: TTimer
     Enabled = False
