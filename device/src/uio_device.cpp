@@ -491,7 +491,7 @@ bool TUioDevice::prfn_I2cControl(TUdoRequest * rq, TParamRangeDef * prdef)
   }
   else if (0x04 == idx) // I2C data MPRAM offset
   {
-    return udo_rw_data(rq, &spi_tx_offs, sizeof(spi_tx_offs));
+    return udo_rw_data(rq, &i2c_tx_offs, sizeof(spi_tx_offs));
   }
   else if (0x05 == idx) // SPI read data MPRAM offset
   {
