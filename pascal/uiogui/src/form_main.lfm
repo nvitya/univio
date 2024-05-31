@@ -1,11 +1,10 @@
 object frm_main: Tfrm_main
-  Left = 1638
-  Height = 385
-  Top = 0
+  Left = 1466
+  Height = 391
+  Top = 44
   Width = 628
-  BorderStyle = bsSingle
   Caption = 'UnivIO GUI'
-  ClientHeight = 385
+  ClientHeight = 391
   ClientWidth = 628
   OnClose = FormClose
   OnCreate = FormCreate
@@ -41,22 +40,24 @@ object frm_main: Tfrm_main
   end
   object pnl: TPanel
     Left = 0
-    Height = 331
-    Top = 54
+    Height = 335
+    Top = 56
     Width = 628
     Align = alBottom
+    Anchors = [akTop, akLeft, akRight, akBottom]
     BevelOuter = bvNone
-    ClientHeight = 331
+    ClientHeight = 335
     ClientWidth = 628
     TabOrder = 1
     Visible = False
     object grpDOUT: TGroupBox
       Left = 8
-      Height = 324
+      Height = 328
       Top = 4
       Width = 108
+      Anchors = [akTop, akLeft, akBottom]
       Caption = 'DOUT'
-      ClientHeight = 309
+      ClientHeight = 313
       ClientWidth = 106
       TabOrder = 0
       inline frameDOUT0: TframeDOUT
@@ -69,11 +70,12 @@ object frm_main: Tfrm_main
     end
     object grpDIN: TGroupBox
       Left = 124
-      Height = 324
+      Height = 328
       Top = 4
       Width = 100
+      Anchors = [akTop, akLeft, akBottom]
       Caption = 'DIN'
-      ClientHeight = 309
+      ClientHeight = 313
       ClientWidth = 98
       TabOrder = 1
       inline frameDIN0: TframeDIN
@@ -84,11 +86,12 @@ object frm_main: Tfrm_main
     end
     object grpAIN: TGroupBox
       Left = 232
-      Height = 324
+      Height = 328
       Top = 4
       Width = 108
+      Anchors = [akTop, akLeft, akBottom]
       Caption = 'AIN (mV)'
-      ClientHeight = 309
+      ClientHeight = 313
       ClientWidth = 106
       TabOrder = 2
       inline frameAIN0: TframeAIN
@@ -99,7 +102,7 @@ object frm_main: Tfrm_main
       object pnlAdc: TPanel
         Left = 0
         Height = 45
-        Top = 264
+        Top = 268
         Width = 106
         Align = alBottom
         BevelOuter = bvNone
@@ -172,7 +175,7 @@ object frm_main: Tfrm_main
     object btnSpi: TButton
       Left = 444
       Height = 25
-      Top = 300
+      Top = 304
       Width = 79
       Anchors = [akLeft, akBottom]
       Caption = 'SPI'
@@ -182,7 +185,7 @@ object frm_main: Tfrm_main
     object btnI2c: TButton
       Left = 540
       Height = 25
-      Top = 300
+      Top = 304
       Width = 79
       Anchors = [akLeft, akBottom]
       Caption = 'I2C'

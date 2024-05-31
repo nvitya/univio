@@ -8,8 +8,8 @@
       <Unit>
         <Filename Value="uiogui.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="22"/>
-        <UsageCount Value="57"/>
+        <CursorPos Y="23"/>
+        <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,9 +18,11 @@
         <ComponentName Value="frm_main"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <CursorPos X="54" Y="49"/>
-        <UsageCount Value="56"/>
+        <TopLine Value="342"/>
+        <CursorPos X="25" Y="424"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -32,7 +34,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="29" Y="27"/>
-        <UsageCount Value="40"/>
+        <UsageCount Value="41"/>
       </Unit>
       <Unit>
         <Filename Value="..\univio\iohandler_base.pas"/>
@@ -41,7 +43,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="244"/>
         <CursorPos X="3" Y="246"/>
-        <UsageCount Value="56"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -53,7 +55,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="58" Y="46"/>
-        <UsageCount Value="51"/>
+        <UsageCount Value="52"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ain.pas"/>
@@ -63,7 +65,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="46"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="50"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_pwm.pas"/>
@@ -73,7 +75,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="40"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="48"/>
       </Unit>
       <Unit>
         <Filename Value="src\frame_ledblp.pas"/>
@@ -83,7 +85,7 @@
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="44"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="48"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_more_info.pas"/>
@@ -94,7 +96,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="81"/>
         <CursorPos X="3" Y="155"/>
-        <UsageCount Value="42"/>
+        <UsageCount Value="43"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_i2c.pas"/>
@@ -106,7 +108,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="172"/>
         <CursorPos X="50" Y="181"/>
-        <UsageCount Value="36"/>
+        <UsageCount Value="37"/>
         <Bookmarks Count="1">
           <Item0 X="41" Y="227" ID="1"/>
         </Bookmarks>
@@ -117,7 +119,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos Y="26"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="31"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -129,8 +131,21 @@
         <EditorIndex Value="4"/>
         <TopLine Value="89"/>
         <CursorPos X="79" Y="134"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="src\form_connect.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmConnect"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="78"/>
+        <CursorPos X="73" Y="91"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\uiopwmctrl\form_main.pas"/>
@@ -276,19 +291,6 @@
         <Loaded Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="src\form_connect.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmConnect"/>
-        <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="78"/>
-        <CursorPos X="73" Y="91"/>
-        <UsageCount Value="23"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
-      </Unit>
-      <Unit>
         <Filename Value="src\com_port_lister.pas"/>
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
@@ -297,7 +299,10 @@
         <UsageCount Value="11"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="26">
+    <General>
+      <ActiveWindowIndexAtStart Value="1"/>
+    </General>
+    <JumpHistory HistoryIndex="27">
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="43" Column="23"/>
@@ -404,6 +409,10 @@
       <Position>
         <Filename Value="src\form_connect.pas"/>
         <Caret Line="120" Column="24" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="49" Column="23"/>
       </Position>
     </JumpHistory>
     <RunParams>
