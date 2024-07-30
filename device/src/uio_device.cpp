@@ -28,6 +28,7 @@
 #include "uio_device.h"
 #include "uio_gendev_version.h"
 #include "uio_nvdata.h"
+#include "board_pins.h"
 
 TUioDevice g_uiodev;
 
@@ -419,9 +420,17 @@ bool TUioDevice::prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef)
 {
   uint8_t idx  = (rq->index & 0xFF);
 
-  if (0x00 == idx) // SPI Speed
+  if (0x00 == idx) // SPI Settings
   {
-    return udo_rw_data(rq, &spi_speed, sizeof(spi_speed));
+  	if (1 == rq->offset)
+  	{
+  		rq->offset = 0; // override the offset !
+  		return udo_rw_data(rq, &spi_mode, sizeof(spi_mode));
+  	}
+  	else // SPI Speed
+  	{
+      return udo_rw_data(rq, &spi_speed, sizeof(spi_speed));
+  	}
   }
   else if (0x01 == idx) // SPI transaction length
   {
@@ -455,6 +464,46 @@ bool TUioDevice::prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef)
   else if (0x05 == idx) // SPI read data MPRAM offset
   {
     return udo_rw_data(rq, &spi_rx_offs, sizeof(spi_rx_offs));
+  }
+
+  // SPI Flash Write Accelerator
+  else if (0x10 == idx)  // free slot count
+  {
+  	uint8_t fsc = 0;
+  	for (unsigned n = 0; n < flws_cnt; ++n)
+  	{
+  		if (!flwslot[n].busy)
+  		{
+  			fsc |= (1 << n);
+  		}
+  	}
+  	return udo_ro_uint(rq, fsc, 1);
+  }
+  else if (0x11 == idx)  // flash size
+  {
+  	return udo_ro_data(rq, &extflash.bytesize, 4);
+  }
+  else if (0x12 == idx)  // flash command
+  {
+  	if (!udo_rw_data(rq, &spifl_cmd[0], 8))
+  	{
+  		return false;
+  	}
+
+    if (rq->iswrite)
+    {
+    	if (1 == spi_status) // normal SPI is runing ?
+    	{
+    		return udo_response_error(rq, UDOERR_BUSY);
+    	}
+
+    	if (!SpiFlashCmdPrepare())  // sets the spi_status and spifl_state !
+    	{
+    		return udo_response_error(rq, UDOERR_WRITE_VALUE);
+    	}
+
+      return udo_response_ok(rq);
+    }
   }
 
   return udo_response_error(rq, UDOERR_INDEX);

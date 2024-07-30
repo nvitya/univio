@@ -14,9 +14,11 @@
   #define EXTERNAL_XTAL_HZ   24000000
 #endif
 
-// warning the 144 MHz is not synthetisable with the 25 MHz Crystal !
-//    #define MCU_CLOCK_SPEED   144000000   // for proper 2.4 MHz SPI, it must be divisible by 2.4 MHz
-#define MCU_CLOCK_SPEED   120000000   // for proper 2.4 MHz SPI, it must be divisible by 2.4 MHz
+#ifndef MCU_CLOCK_SPEED
+  // warning the 144 MHz is not synthetisable with the 25 MHz Crystal !
+  //    #define MCU_CLOCK_SPEED   144000000   // for proper 2.4 MHz SPI, it must be divisible by 2.4 MHz
+  #define MCU_CLOCK_SPEED   120000000   // for proper 2.4 MHz SPI, it must be divisible by 2.4 MHz
+#endif
 
 
 #define USB_ENABLE        1
@@ -33,8 +35,8 @@
 #define UIO_FW_VER    ((0 << 24) | (5 << 16) | 0)
 #define UIO_MEM_SIZE       0x8000 // for OBJ#0002
 
-#define UIO_MAX_DATA_LEN     4096
-#define UIO_MPRAM_SIZE       8192
+#define UIO_MAX_DATA_LEN     1024
+#define UIO_MPRAM_SIZE       (32*1024)
 
 // UnivIO Generic Device settings
 
