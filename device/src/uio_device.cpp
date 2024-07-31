@@ -479,11 +479,7 @@ bool TUioDevice::prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef)
   	}
   	return udo_ro_uint(rq, fsc, 1);
   }
-  else if (0x11 == idx)  // flash size
-  {
-  	return udo_ro_data(rq, &extflash.bytesize, 4);
-  }
-  else if (0x12 == idx)  // flash command
+  else if (0x11 == idx)  // flash command
   {
   	if (!udo_rw_data(rq, &spifl_cmd[0], 8))
   	{
@@ -504,6 +500,14 @@ bool TUioDevice::prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef)
 
       return udo_response_ok(rq);
     }
+  }
+  else if (0x12 == idx)  // flash size
+  {
+  	return udo_ro_data(rq, &extflash.bytesize, 4);
+  }
+  else if (0x13 == idx)  // flash size
+  {
+  	return udo_ro_data(rq, &extflash.idcode, 4);
   }
 
   return udo_response_error(rq, UDOERR_INDEX);

@@ -11,12 +11,14 @@
 
 #define UIO_VERSION_MAJOR       2
 #define UIO_VERSION_MINOR       1
-#define UIO_VERSION_INCREMENT   0
+#define UIO_VERSION_INCREMENT   1
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
 /* VERSION LOG
 
+2.1.1
+  - SPI Flash Write Accelerator fixes
 2.1.0
   - SPI Flash Write Accelerator added
 2.0.2

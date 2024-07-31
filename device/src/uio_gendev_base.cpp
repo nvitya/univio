@@ -92,7 +92,6 @@ bool TUioGenDevBase::InitDevice()
   i2ctra.completed = true;
 
   int pcnt = UIO_MPRAM_SIZE / UIO_FLW_SECTOR_SIZE;
-  if (pcnt > UIO_FLW_SLOT_MAX)  pcnt = UIO_FLW_SLOT_MAX;
   if (pcnt >= 2)
   {
   	flws_cnt = pcnt - 1;
@@ -101,9 +100,13 @@ bool TUioGenDevBase::InitDevice()
   {
   	flws_cnt = 0;
   }
+
+  if (flws_cnt > UIO_FLW_SLOT_MAX)  flws_cnt = UIO_FLW_SLOT_MAX;
+
   for (pcnt = 0; pcnt < flws_cnt; ++pcnt)
   {
   	flwslot[pcnt].busy = 0;
+  	flwslot[pcnt].slotidx = pcnt;
   }
   flws_first = nullptr;
   flws_last  = nullptr;
@@ -775,7 +778,7 @@ bool TUioGenDevBase::SpiFlashCmdPrepare()
 	else if ((2 == cmd) || (3 == cmd))
 	{
 		uint8_t sidx = ((spifl_cmd[0] >> 16) & 0x7);
-		if (sidx >= UIO_FLW_SLOT_MAX)
+		if (sidx >= flws_cnt)
 		{
 			return false;
 		}
@@ -796,6 +799,7 @@ bool TUioGenDevBase::SpiFlashCmdPrepare()
 		if (flws_last)
 		{
 			flws_last->next = pslot;
+			flws_last = pslot;
 		}
 		else
 		{
@@ -820,7 +824,37 @@ void TUioGenDevBase::SpiFlashRun()
 		return;
 	}
 
-	TUioFlwSlot * pslot = flws_first;
+	TUioFlwSlot * pslot;
+
+	#if 0
+		// check un-linked busy slots !
+		volatile uint8_t fsbm = 0;
+		volatile uint8_t fscnt = 0;
+		for (unsigned n = 0; n < flws_cnt; ++n)
+		{
+			if (flwslot[n].busy)
+			{
+				fsbm |= (1 << n);
+				++fscnt;
+			}
+		}
+		volatile uint8_t lcnt = 0;
+		pslot = flws_first;
+		while (pslot)
+		{
+			++lcnt;
+			pslot = pslot->next;
+		}
+
+		if (fscnt != lcnt)
+		{
+			__NOP();
+			__NOP();  // set breakpoint here
+			__NOP();
+		}
+	#endif
+
+	pslot = flws_first;
 	if (!pslot)
 	{
 		spifl_state = 0;
