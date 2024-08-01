@@ -1,4 +1,4 @@
-(*-----------------------------------------------------------------------------
+﻿(*-----------------------------------------------------------------------------
   This file is a part of the PASUTILS project: https://github.com/nvitya/pasutils
   Copyright (c) 2023 Viktor Nagy, nvitya
 
@@ -59,7 +59,6 @@ type
     num_interfaces : integer;
     interfacename  : string;
 
-    // Windows only
     interfacenum   : integer;
 
     constructor Create(adevstr : string);
@@ -271,16 +270,24 @@ var
   RequiredSize  : Cardinal = 0;
   GUIDSize      : DWORD;
   guid_list     : array[0..1] of TGUID;
-
   g_hdi         : HDEVINFO;
   devinfo       : SP_DEVINFO_DATA;
   MemberIndex   : Cardinal;
-
   regkey        : Hkey;
   port_name     : ansistring = '';
   port_name_len : ULONG;
 
-  cli : TComPortListItem;
+  cli    : TComPortListItem;
+  inspos : integer;
+
+  function ComANumSmaller(coma, comb : string) : boolean;
+  var
+    numa, numb : integer;
+  begin
+    numa := StrToIntDef(coma.Substring(3, 4), 0);
+    numb := StrToIntDef(comb.Substring(3, 4), 0);
+    result := (numa < numb);
+  end;
 
 begin
   result := 0;
@@ -325,7 +332,15 @@ begin
         begin
           cli := TComPortListItem.Create(port_name);
           cli.LoadProperties(g_hdi, @devinfo);
-          insert(cli, items, length(items));
+
+          // add to items sorted
+          inspos := 0;
+          while (inspos < length(items))
+                 and ComANumSmaller(items[inspos].devstr, cli.devstr) do
+          begin
+            Inc(inspos);
+          end;
+          insert(cli, items, inspos);
           result += 1;
         end;
 

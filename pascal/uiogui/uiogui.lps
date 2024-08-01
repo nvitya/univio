@@ -18,7 +18,6 @@
         <ComponentName Value="frm_main"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
         <TopLine Value="342"/>
         <CursorPos X="25" Y="424"/>
@@ -130,9 +129,10 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="4"/>
         <TopLine Value="89"/>
-        <CursorPos X="79" Y="134"/>
+        <CursorPos X="39" Y="129"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="src\form_connect.pas"/>
@@ -283,10 +283,11 @@
       </Unit>
       <Unit>
         <Filename Value="..\utils_os\strparseobj.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="15"/>
-        <CursorPos X="58" Y="22"/>
+        <TopLine Value="12"/>
+        <CursorPos X="58" Y="51"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>

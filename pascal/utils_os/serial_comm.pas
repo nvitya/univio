@@ -1,4 +1,4 @@
-(*-----------------------------------------------------------------------------
+﻿(*-----------------------------------------------------------------------------
   This file is a part of the PASUTILS project: https://github.com/nvitya/pasutils
   Copyright (c) 2022 Viktor Nagy, nvitya
 
@@ -18,13 +18,13 @@
 
   3. This notice may not be removed or altered from any source distribution.
   --------------------------------------------------------------------------- */
-   file:     sercomm.pas
-   brief:    multi-platform serial communication unit
+   file:     serial_comm.pas
+   brief:    simple multi-platform serial communication class
    date:     2022-03-30
    authors:  nvitya
 *)
 
-unit sercomm;
+unit serial_comm;
 
 {$ifdef FPC}
  {$mode delphi}{$H+}
@@ -46,9 +46,9 @@ const
 
 type
 
-  { TSerComm }
+  { TSerialComm }
 
-  TSerComm = class
+  TSerialComm = class
   public
     {$ifdef WINDOWS}
       comhandle : HANDLE;
@@ -62,8 +62,6 @@ type
     stopbits  : byte;
     parity    : boolean;
     oddparity : boolean;
-
-    errormsg : string;
 
     constructor Create;
     destructor Destroy; override;
@@ -80,9 +78,14 @@ type
 
 implementation
 
-{ TSerComm }
+procedure OutVarInit(out v);  // dummy proc for avoid false FPC hints
+begin
+  //
+end;
 
-constructor TSerComm.Create;
+{ TSerialComm }
+
+constructor TSerialComm.Create;
 begin
   {$ifdef WINDOWS}
     comhandle := INVALID_HANDLE_VALUE;
@@ -96,7 +99,7 @@ begin
   oddparity := false;
 end;
 
-destructor TSerComm.Destroy;
+destructor TSerialComm.Destroy;
 begin
   Close;
   inherited Destroy;
@@ -104,58 +107,52 @@ end;
 
 {$ifdef WINDOWS}
 
-function TSerComm.Open(acomport : string) : boolean;
+function TSerialComm.Open(acomport : string) : boolean;
 var
   portname : string;
   dcb : TDCB;
-  timeouts : TCommTimeouts;
+  timeouts : TCOMMTIMEOUTS;
 begin
   result := false;
-
   comport := acomport;
-
   portname := '\\.\' + comport;
+  comhandle := CreateFile( PChar(portname),
+		  GENERIC_READ or GENERIC_WRITE,
+		  0,
+		  nil,
+		  OPEN_EXISTING,
+		  0, //FILE_FLAG_OVERLAPPED,
+		  0);
 
-	comhandle := CreateFile( @portname[1],
-									GENERIC_READ or GENERIC_WRITE,
-									0,
-									nil,
-									OPEN_EXISTING,
-									0, //FILE_FLAG_OVERLAPPED,
-									0);
+  if comhandle = INVALID_HANDLE_VALUE then EXIT(false);
 
-	if comhandle = INVALID_HANDLE_VALUE then
-  begin
-		errormsg := 'Error opening "'+comport+'" port!';
-		EXIT;
-  end;
+  //printf("Port \"%s\" opened.\n", &comport[0]);
 
   dcb.BaudRate := 0; // to avoid FPC hint
   FillChar(dcb, sizeof(dcb), 0);
+
+  GetCommState(comhandle, dcb);
+
   dcb.BaudRate := baudrate;
-	dcb.ByteSize := 8;  // oh windows..., it was 7 by default!
-	dcb.Parity := NOPARITY;
-	dcb.StopBits := ONESTOPBIT;
-  dcb.Flags := bm_DCB_fBinary;
+  //dcb.BaudRate = 921600;
+  dcb.ByteSize := 8;  // oh windows..., it was 7 by default!
+  dcb.Parity := NOPARITY;
+  dcb.StopBits := ONESTOPBIT;
+  dcb.flags := bm_DCB_fBinary;
+  // available flags:
+  //   bm_DCB_Parity
+  //   bm_DCB_fDtrControl
+  //   bm_DCB_fRtsControl
 
-  if not SetCommState(comhandle, dcb) then
-  begin
-    errormsg := 'Error setting Com port parameters';
-    EXIT;
-  end;
+  SetCommState(comhandle, dcb);
 
-  // Timeouts
-	timeouts.ReadIntervalTimeout := MAXDWORD;
-	timeouts.ReadTotalTimeoutMultiplier := 0;
-	timeouts.ReadTotalTimeoutConstant := 0;
-	timeouts.WriteTotalTimeoutMultiplier := 0;
-	timeouts.WriteTotalTimeoutConstant := 0;
+  timeouts.ReadIntervalTimeout := MAXDWORD;
+  timeouts.ReadTotalTimeoutMultiplier := 0;
+  timeouts.ReadTotalTimeoutConstant := 0;
+  timeouts.WriteTotalTimeoutMultiplier := 0;
+  timeouts.WriteTotalTimeoutConstant := 0;
 
-  if not SetCommTimeouts(comhandle, timeouts) then
-  begin
-    errormsg := 'Error setting Com port timeouts';
-    EXIT;
-  end;
+  SetCommTimeouts(comhandle, timeouts);
 
   SetupComm(comhandle, COMM_BUFFER_SIZE, COMM_BUFFER_SIZE);
 
@@ -165,61 +162,67 @@ begin
   result := true;
 end;
 
-procedure TSerComm.Close;
+procedure TSerialComm.Close;
 begin
-	if comhandle <> INVALID_HANDLE_VALUE then
+  if Opened then
   begin
-  	CloseHandle(comhandle);
-		comhandle := INVALID_HANDLE_VALUE;
-	end;
-end;
-
-function TSerComm.Read(out dst; dstlen : integer) : integer;
-var
-  r : cardinal = 0;
-begin
-  if ReadFile(comhandle, dst, dstlen, r, nil) then
-  begin
-    result := integer(r);
-  end
-  else
-  begin
-    result := -GetLastError;
+    CloseHandle(comhandle);
+    comhandle := INVALID_HANDLE_VALUE;
   end;
 end;
 
-function TSerComm.Write(const src; len : integer) : integer;
+function TSerialComm.Read(out dst; dstlen : integer) : integer;
 var
-  r : cardinal = 0;
+  readcount : DWORD;
 begin
-  if WriteFile(comhandle, src, len, r, nil) then
+  readcount := 0;
+  OutVarInit(dst);
+  OutVarInit(readcount);
+  if ReadFile(comhandle, dst, dstlen, readcount, nil) then
   begin
-    result := integer(r);
+    result := integer(readcount);
   end
   else
   begin
-    result := -GetLastError;
+    result := -GetLastError();
   end;
 end;
 
-procedure TSerComm.FlushInput;
+function TSerialComm.Write(const src; len : integer) : integer;
+var
+  count : DWORD;
 begin
-  PurgeComm(comhandle, PURGE_RXCLEAR); // Discards old data in the rx buffer
+  count := 0;
+  if WriteFile(comhandle, src, len, count, nil) then
+  begin
+    result := integer(count);
+  end
+  else
+  begin
+    result := -GetLastError();
+  end;
 end;
 
-procedure TSerComm.FlushOutput;
+procedure TSerialComm.FlushInput;
 begin
+  if not Opened then EXIT;
+  PurgeComm(comhandle, PURGE_RXCLEAR);
+end;
+
+procedure TSerialComm.FlushOutput;
+begin
+  if not Opened then EXIT;
   PurgeComm(comhandle, PURGE_TXCLEAR); // Discards old data in the tx buffer
 end;
 
-function TSerComm.Opened: boolean;
+function TSerialComm.Opened: boolean;
 begin
   result := (comhandle <> INVALID_HANDLE_VALUE);
 end;
 
 {$else}
 
-function TSerComm.Open(acomport : string) : boolean;
+function TSerialComm.Open(acomport : string) : boolean;
 var
   tty : termios;
   brcode : integer;
@@ -235,7 +238,7 @@ begin
 		exit;
   end;
 
-  writeln(format('Port %s" opened.', [comport]));
+  //writeln(format('Port %s" opened.', [comport]));
 
   tty.c_cflag := 0; // to avoid FPC not initialized warning
 	FillByte(tty, sizeof(tty), 0);
@@ -260,7 +263,8 @@ begin
     3500000:  brcode := B3500000;
     4000000:  brcode := B4000000;
   else
-    writeln('SerComm unhandled baudrate: ', baudrate);
+    Close;
+    //raise Exception.CreateFmt('SerComm unhandled baudrate: %d', [baudrate]);
     exit;
   end; // case
 
@@ -315,8 +319,8 @@ begin
   // Set the attributes to the termios structure
 	if tcsetattr(comfd, TCSANOW, tty) <> 0 then
 	begin
-		writeln('ERROR setting serial line attributes!');
     Close;
+		//raise Exception.Create('ERROR setting serial line attributes!');
 		exit;
   end;
 
@@ -325,7 +329,7 @@ begin
   result := true;
 end;
 
-procedure TSerComm.Close;
+procedure TSerialComm.Close;
 begin
 	if comfd >= 0 then
   begin
@@ -334,27 +338,27 @@ begin
 	end;
 end;
 
-function TSerComm.Read(out dst; dstlen : integer) : integer;
+function TSerialComm.Read(out dst; dstlen : integer) : integer;
 begin
   result := FileRead(comfd, dst, dstlen);
 end;
 
-function TSerComm.Write(const src; len : integer) : integer;
+function TSerialComm.Write(const src; len : integer) : integer;
 begin
   result := FileWrite(comfd, src, len);
 end;
 
-procedure TSerComm.FlushInput;
+procedure TSerialComm.FlushInput;
 begin
 	tcflush(comfd, TCIFLUSH);   // Discards old data in the rx buffer
 end;
 
-procedure TSerComm.FlushOutput;
+procedure TSerialComm.FlushOutput;
 begin
 	tcflush(comfd, TCOFLUSH);   // Discards old data in the tx buffer
 end;
 
-function TSerComm.Opened: boolean;
+function TSerialComm.Opened: boolean;
 begin
   result := (comfd >= 0);
 end;
