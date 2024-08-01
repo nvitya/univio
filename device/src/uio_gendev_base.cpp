@@ -32,6 +32,7 @@
 #include "uio_nvdata.h"
 #include "uio_nvstorage.h"
 #include "traces.h"
+#include "board_pins.h"
 
 THwSpi           g_spi;
 THwI2c           g_i2c;
@@ -89,6 +90,26 @@ bool TUioGenDevBase::InitDevice()
   uart = &g_uart;
 
   i2ctra.completed = true;
+
+  int pcnt = UIO_MPRAM_SIZE / UIO_FLW_SECTOR_SIZE;
+  if (pcnt >= 2)
+  {
+  	flws_cnt = pcnt - 1;
+  }
+  else
+  {
+  	flws_cnt = 0;
+  }
+
+  if (flws_cnt > UIO_FLW_SLOT_MAX)  flws_cnt = UIO_FLW_SLOT_MAX;
+
+  for (pcnt = 0; pcnt < flws_cnt; ++pcnt)
+  {
+  	flwslot[pcnt].busy = 0;
+  	flwslot[pcnt].slotidx = pcnt;
+  }
+  flws_first = nullptr;
+  flws_last  = nullptr;
 
   // prepare g_pins
 
@@ -587,17 +608,26 @@ uint16_t TUioGenDevBase::SpiStart()
     return UIOERR_UNIT_PARAMS;
   }
 
-  if (spi->speed != spi_speed)
-  {
-    spi->speed = spi_speed;
-    spi->Init(spi->devnum); // re-init the device
-  }
+  SpiUpdateSettings();
 
   spi->StartTransfer(0, 0, 0, spi_trlen, &mpram[spi_tx_offs], &mpram[spi_rx_offs]);
 
   spi_status = 1;
 
   return 0;
+}
+
+void TUioGenDevBase::SpiUpdateSettings()
+{
+	bool ichigh = (0 != (spi_mode & (1 << 1)));
+	bool dslate = (0 != (spi_mode & (1 << 0)));
+  if ((spi->speed != spi_speed) || (ichigh != spi->idleclk_high) || (dslate != spi->datasample_late))
+  {
+  	spi->idleclk_high    = ichigh;
+  	spi->datasample_late = dslate;
+    spi->speed = spi_speed;
+    spi->Init(spi->devnum); // re-init the device
+  }
 }
 
 uint16_t TUioGenDevBase::I2cStart()
@@ -696,13 +726,21 @@ void TUioGenDevBase::Run() // handle led blink patterns
   }
 
   // check SPI
-  if (spi_status)
+  if (1 == spi_status)
   {
-    spi->Run();
-    if (spi->finished)
-    {
-      spi_status = 0;
-    }
+		spi->Run();
+		if (spi->finished)
+		{
+			spi_status = 0;
+		}
+  }
+  else if (flws_first)
+  {
+ 		SpiFlashRun();
+  }
+  else
+  {
+  	spi_status = 0;
   }
 
   // check I2C
@@ -714,7 +752,205 @@ void TUioGenDevBase::Run() // handle led blink patterns
       i2c_result = i2ctra.error;
     }
   }
+}
 
+bool TUioGenDevBase::SpiFlashCmdPrepare()
+{
+	uint8_t cmd = (spifl_cmd[0] & 0xFF);
+
+	if (0 == spi_status)
+	{
+		SpiUpdateSettings();
+	}
+
+  extflash.spi = spi;
+
+	if (1 == cmd) // Initialize the flash
+	{
+  	if (0 != spi_status)
+  	{
+  		return false;
+  	}
+    extflash.has4kerase = true;
+  	extflash.Init();
+  	return true;  // finish here
+	}
+	else if ((2 == cmd) || (3 == cmd))
+	{
+		uint8_t sidx = ((spifl_cmd[0] >> 16) & 0x7);
+		if (sidx >= flws_cnt)
+		{
+			return false;
+		}
+
+		TUioFlwSlot * pslot = &flwslot[sidx];
+		if (pslot->busy)
+		{
+			return false;
+		}
+
+		pslot->busy = 1;
+		pslot->cmd = cmd;
+		pslot->slotidx = sidx;
+		pslot->fladdr = spifl_cmd[1];
+		pslot->next = nullptr;
+
+		// add to queue
+		if (flws_last)
+		{
+			flws_last->next = pslot;
+			flws_last = pslot;
+		}
+		else
+		{
+			flws_last  = pslot;
+			flws_first = pslot;
+		}
+	}
+	else
+	{
+		return false;
+	}
+
+  spi_status = 8;  // SPI flash command is running
+  return true;
+}
+
+void TUioGenDevBase::SpiFlashRun()
+{
+	if (!extflash.completed)
+	{
+		extflash.Run();
+		return;
+	}
+
+	TUioFlwSlot * pslot;
+
+	#if 0
+		// check un-linked busy slots !
+		volatile uint8_t fsbm = 0;
+		volatile uint8_t fscnt = 0;
+		for (unsigned n = 0; n < flws_cnt; ++n)
+		{
+			if (flwslot[n].busy)
+			{
+				fsbm |= (1 << n);
+				++fscnt;
+			}
+		}
+		volatile uint8_t lcnt = 0;
+		pslot = flws_first;
+		while (pslot)
+		{
+			++lcnt;
+			pslot = pslot->next;
+		}
+
+		if (fscnt != lcnt)
+		{
+			__NOP();
+			__NOP();  // set breakpoint here
+			__NOP();
+		}
+	#endif
+
+	pslot = flws_first;
+	if (!pslot)
+	{
+		spifl_state = 0;
+		spi_status = 0;
+		return;
+	}
+
+  spi_status = 8;  // SPI flash command is running
+
+	if (0 == spifl_state)  // start the command
+	{
+    spifl_srcbuf = &mpram[pslot->slotidx * 4096];
+    spifl_wrkbuf = &mpram[UIO_MPRAM_SIZE - 4096];
+
+    if (3 == pslot->cmd)
+    {
+    	extflash.StartReadMem(pslot->fladdr, spifl_wrkbuf, 4096);
+    	spifl_state = 11;
+    }
+    else // 2 == cmd, start the write only
+    {
+  		extflash.StartWriteMem(pslot->fladdr, spifl_srcbuf, 4096);
+  		spifl_state = 13;
+    }
+	}
+	else if (11 == spifl_state) // sector read finished, compare the sectors
+	{
+		// compare memory
+		bool   erased = true;
+		bool   match = true;
+		uint32_t * sp32  = (uint32_t *)(spifl_srcbuf);
+		uint32_t * wp32  = (uint32_t *)(spifl_wrkbuf);
+		uint32_t * wendptr = (uint32_t *)(spifl_wrkbuf + 4096);
+
+		while (wp32 < wendptr)
+		{
+			if (*wp32 != 0xFFFFFFFF)  erased = false;
+			if (*wp32 != *sp32)
+			{
+				match = false; // do not break for complete the erased check!
+			}
+
+			++wp32;
+			++sp32;
+		}
+
+		if (match)
+		{
+			// nothing to do
+			SpiFlashSlotFinish();
+			return;
+		}
+
+		// must be rewritten
+
+		if (!erased)
+		{
+			extflash.StartEraseMem(pslot->fladdr, 4096);
+			spifl_state = 12; // wait until the erease finished.
+			return;
+		}
+
+		extflash.StartWriteMem(pslot->fladdr, spifl_srcbuf, 4096);
+		spifl_state = 13;
+	}
+	else if (12 == spifl_state) // erase finished, start write
+	{
+		extflash.StartWriteMem(pslot->fladdr, spifl_srcbuf, 4096);
+		spifl_state = 13;
+	}
+	else if (13 == spifl_state) // write finished.
+	{
+		SpiFlashSlotFinish();
+	}
+	else // unhandled state
+	{
+		SpiFlashSlotFinish();
+	}
+}
+
+void TUioGenDevBase::SpiFlashSlotFinish()
+{
+	spifl_state = 0;
+
+	TUioFlwSlot * pslot = flws_first;
+	if (!pslot)
+	{
+		return;
+	}
+
+	pslot->busy = 0;
+	flws_first = pslot->next;
+	if (!flws_first)
+	{
+		flws_last = nullptr;
+	}
 }
 
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen)

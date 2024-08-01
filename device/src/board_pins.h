@@ -11,11 +11,12 @@
 
 #include "hwpins.h"
 #include "hwuart.h"
+#include "spiflash.h"
 
-extern THwUart    traceuart;
+extern THwUart           traceuart;
+extern TSpiFlash         extflash;
 
 #if HAS_SPI_FLASH
-  #include "spiflash.h"
   extern TSpiFlash  spiflash;
 
   bool spiflash_init();

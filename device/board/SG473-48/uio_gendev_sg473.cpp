@@ -51,7 +51,7 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /* 12  A12 */ { RESERVED },  // USB D+
 /* 13  A13 */ { RESERVED },  // SWDIO
 /* 14  A14 */ { RESERVED },  // SWDCLK
-/* 15  A15 */ { 1,   0, 0, 0 },  // JTAG_TDI !
+/* 15  A15 */ { 1 | UIOFUNC_I2C,  0, 0, 0 },  // JTAG_TDI, I2C1_SCL
 
 /* 16   B0 */ { 1,   UIOADC(1, 15), 0, UIOPWM(3, 3, 2) },
 /* 17   B1 */ { 1,   UIOADC(1, 12), 0, UIOPWM(3, 4, 2) },
@@ -60,10 +60,10 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /* 20   B4 */ { 1,   0, 0, 0 }, // JNTRST  !! 5k internal pull-down to PA10!
 /* 21   B5 */ { 1,   0, 0, UIOPWM(3, 2, 2) },
 /* 22   B6 */ { 1,   0, 0, UIOPWM(4, 1, 2) },  // !! 5k internal pull-down to PA9!
-/* 23   B7 */ { 1,   0, 0, UIOPWM(4, 2, 2) },
+/* 23   B7 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 2, 2) },  // I2C1_SDA
 
-/* 24   B8 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 3, 2) },
-/* 25   B9 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 4, 2) },
+/* 24   B8 */ { 1,   0, 0, UIOPWM(4, 3, 2) },  // BOOT0 control, no I2C here !
+/* 25   B9 */ { 1,   0, 0, UIOPWM(4, 4, 2) },
 /* 26  B10 */ { 1 | UIOFUNC_UART,  0, 0, 0 },  // UART_TX_OUT = USART3_TX
 /* 27  B11 */ { 1 | UIOFUNC_UART,  0, 0, 0 },  // UART_RX_IN  = USART3_RX
 /* 28  B12 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // CS (GPIO)
@@ -145,6 +145,7 @@ bool TUioGenDevImpl::InitBoard()
   g_adc[1].Init(2, 0x3018); // enable channels 3, 4, 12, 13
 
   // SPI initialization
+  //g_spi.datasample_late = true;
   g_spi.manualcspin = &g_pins[SPI_CS_PIN];
   g_spi.Init(2);
   g_dma_spi_tx.Init((DMACH_SPI_TX >> 8), DMACH_SPI_TX & 7, 13);
@@ -262,7 +263,7 @@ void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
-  pcf->hwpinflags = PINCFG_AF_4;
+  pcf->hwpinflags = PINCFG_AF_4 | PINCFG_OPENDRAIN;
 }
 
 void TUioGenDevImpl::SetupUart(TPinCfg * pcf)

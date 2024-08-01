@@ -39,19 +39,19 @@ pinconf(A10, DIG_OUT, 0)
 # A12: USB D+
 # A13: SWDIO
 # A14: SWDCLK
-pinconf(A15, DIG_OUT, 1)
+pinconf(A15, I2C, 0)
 
 pinconf(B0, PWM, 0)
 pinconf(B1, PWM, 1)
-pinconf(B2, DIG_OUT, 2)
-pinconf(B3, DIG_OUT, 3)
-pinconf(B4, DIG_OUT, 4)
-pinconf(B5, DIG_OUT, 5)
+pinconf(B2, DIG_OUT, 1)
+pinconf(B3, DIG_OUT, 2)
+pinconf(B4, DIG_OUT, 3)
+pinconf(B5, DIG_OUT, 4)
 pinconf(B6, DIG_IN, 0)
-pinconf(B7, DIG_IN, 1)
+pinconf(B7, I2C, 0)
 
-pinconf(B8,  I2C, 0)
-pinconf(B9,  I2C, 0)
+pinconf(B8,  DIG_OUT, 5) # BOOT0 control, internal pull-down
+pinconf(B9,  DIG_IN, 1)
 pinconf(B10, UART, 0)  # USB-UART TX (UnivIO device output)
 pinconf(B11, UART, 0)  # USB-UART RX (UnivIO device input)
 pinconf(B12, SPI, 0)  # CS

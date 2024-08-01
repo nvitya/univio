@@ -14,8 +14,6 @@ type
   { Tfrm_main }
 
   Tfrm_main = class(TForm)
-    btnConnect : TBitBtn;
-    edDevAddr : TEdit;
     Label1 : TLabel;
     Label2 : TLabel;
     pnl : TPanel;
@@ -38,6 +36,7 @@ type
     btnMoreInfo : TSpeedButton;
     btnSpi : TButton;
     btnI2c : TButton;
+    txtDevAddr : TStaticText;
     procedure btnConnectClick(Sender : TObject);
 
     procedure FormCreate(Sender : TObject);
@@ -46,6 +45,8 @@ type
     procedure btnMoreInfoClick(Sender : TObject);
     procedure btnI2cClick(Sender : TObject);
     procedure btnSpiClick(Sender : TObject);
+    procedure FormShow(Sender : TObject);
+    procedure FormClose(Sender : TObject; var CloseAction : TCloseAction);
   private
 
   public
@@ -91,7 +92,7 @@ uses
 
 procedure Tfrm_main.btnConnectClick(Sender : TObject);
 begin
-  timer.Enabled := false;;
+  timer.Enabled := false;
   Disconnect;
   Connect;
 end;
@@ -100,7 +101,6 @@ procedure Tfrm_main.FormCreate(Sender : TObject);
 begin
   ioh := TUnivIoHandler.Create(udocomm);
   flist_dout := [];
-
   LoadSetup;
 end;
 
@@ -124,30 +124,6 @@ end;
 
 procedure Tfrm_main.Connect;
 begin
-  if udocomm.Opened then EXIT;
-
-  if string(edDevAddr.Text).indexof('.') >= 0 then
-  begin
-    udoip_commh.ipaddrstr := edDevAddr.Text;
-    udocomm.SetHandler(udoip_commh);
-  end
-  else
-  begin
-    udosl_commh.devstr := edDevAddr.Text;
-    udocomm.SetHandler(udosl_commh);
-  end;
-
-  try
-    udocomm.Open();
-  except on e : Exception do
-    begin
-      MessageDlg('Comm Error', 'Error opening UnivIO Device at '+edDevAddr.Text+': '+e.Message, mtError, [mbAbort], 0);
-      EXIT;
-    end;
-  end;
-
-  SaveSetup;
-
   pnl.Visible := true;
   btnMoreInfo.Visible := true;;
 
@@ -404,7 +380,7 @@ begin
     ;
   end;
 
-  if jroot.Find('DEVADDR', jn) then edDevAddr.Text := jn.AsString;
+  //if jroot.Find('DEVADDR', jn) then edDevAddr.Text := jn.AsString;
   jroot.Free;
 end;
 
@@ -413,7 +389,7 @@ var
   jroot : TJsonNode;
 begin
   jroot := TJsonNode.Create;
-  jroot.Add('DEVADDR', edDevAddr.Text);
+  //jroot.Add('DEVADDR', edDevAddr.Text);
   jroot.SaveToFile('uiogui.conf');
   jroot.Free;
 end;
@@ -436,6 +412,16 @@ end;
 procedure Tfrm_main.btnSpiClick(Sender : TObject);
 begin
   ShowSpiWindow();
+end;
+
+procedure Tfrm_main.FormShow(Sender : TObject);
+begin
+  Connect;
+end;
+
+procedure Tfrm_main.FormClose(Sender : TObject; var CloseAction : TCloseAction);
+begin
+  Application.Terminate;
 end;
 
 end.

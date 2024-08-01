@@ -101,6 +101,9 @@
 #define UIO_INFOCBIT_SPI    (1 << 2)
 #define UIO_INFOCBIT_I2C    (1 << 3)
 
+#define UIO_FLW_SLOT_MAX      4
+#define UIO_FLW_SECTOR_SIZE   4096
+
 typedef struct
 {
   uint32_t          signature;
@@ -139,6 +142,17 @@ typedef struct
 //
 } TPinCfg;
 
+typedef struct TUioFlwSlot
+{
+	uint8_t           busy;
+	uint8_t           cmd;          // 3 = copy, 1 = flash 4k sector only
+	uint8_t           slotidx;
+	uint8_t           _reserved[1];
+	uint32_t          fladdr;
+	TUioFlwSlot *     next;
+//
+} TUioFlwSlot;
+
 class TUioGenDevBase : public TClass
 {
 public: // internal state
@@ -167,6 +181,17 @@ public:
   uint32_t          spi_speed = 1000000;
   uint16_t          spi_trlen = 0;
   uint8_t           spi_status = 0;
+  uint8_t           spi_mode = 0;
+
+  uint8_t           spifl_state = 0;
+  uint32_t          spifl_cmd[2] = {0, 0};
+  uint8_t *         spifl_wrkbuf = nullptr;
+  uint8_t *         spifl_srcbuf = nullptr;
+
+  uint8_t           flws_cnt = 0;
+  TUioFlwSlot       flwslot[UIO_FLW_SLOT_MAX];
+  TUioFlwSlot *     flws_first = nullptr;
+  TUioFlwSlot *     flws_last  = nullptr;
 
   THwI2c *          i2c = nullptr;
   TI2cTransaction   i2ctra;
@@ -209,6 +234,12 @@ public:
 
   uint16_t          SpiStart();
   uint16_t          I2cStart();
+
+  void              SpiUpdateSettings();
+
+  void              SpiFlashRun();
+  bool              SpiFlashCmdPrepare();
+  void              SpiFlashSlotFinish();
 
 public:  // base class mandatory implementations
   virtual bool      InitDevice();

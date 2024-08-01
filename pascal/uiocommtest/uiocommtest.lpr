@@ -2,10 +2,35 @@ program uiocommtest;
 
 uses
   SysUtils,
-  univio, univio_conn, sercomm, util_nstime;
+  udo_comm, commh_udosl, util_nstime, univio_spiflash;
+
 
 var
-  conn : TUnivioConn;
+  spiflash : TUnivIoSpiFlash;
+
+procedure SpiTest;
+var
+  n : integer;
+begin
+  writeln('Testing SPI speed...');
+
+  spiflash := TUnivIoSpiFlash.Create(udocomm);
+  spiflash.Prepare(20000000);
+
+  for n := 1 to 100 do
+  begin
+    spiflash.RunTransfer([$05, $00], false);
+  end;
+
+  sleep(20);
+
+  for n := 1 to 100 do
+  begin
+    spiflash.RunTransfer([$05, $00], true);
+  end;
+
+  writeln('Spi Test finished.');
+end;
 
 procedure RunTest;
 var
@@ -17,33 +42,32 @@ var
 begin
   writeln('UnivIO Communication Test');
 
-  //comport := '/dev/ttyACM0';
-  comport := 'COM14';
+  //udosl_commh.devstr := 'COM14';
+  udosl_commh.devstr := '/dev/ttyACM0';
+  udocomm.SetHandler(udosl_commh);
 
-  conn := TUnivioConn.Create;
-  if not conn.Open(comport) then
-  begin
-    writeln('Error opening com port: ', comport);
-    exit;
-  end;
+  udocomm.Open;
 
-  writeln('Com port ', comport, ' opened.');
+  writeln('Com port ', udosl_commh.devstr, ' opened.');
 
-	iores := conn.ReadUint32($0000, u32);
-	//iores := conn.ReadUint32($0000, u32);
-	writeln(format('ReadUint32(0x0000) result = %04X, data = %08X', [iores, u32]));
+	u32 := udocomm.ReadU32($0000, 0);
+	//iores := conn.ReadU32($0000, u32);
+	writeln(format('ReadU32(0x0000, 0) = %08X', [u32]));
 
  	// set the led blink pattern
-	//iores := conn.WriteUint32($1500, $F0F0F0F0);
-	iores := conn.WriteUint32($1500, $F0F0F055);
+	//iores := conn.WriteU32($1500, $F0F0F0F0);
+	udocomm.WriteU32($1500, 0, $F0F0F055);
+
+  SpiTest;
+
+  udocomm.Close;
 end;
 
 begin
   RunTest;
-  conn.Free;
   writeln('Test finished.');
 
-  writeln('Press ENTER to exit.');
-  readln;
+  //writeln('Press ENTER to exit.');
+  //readln;
 end.
 
