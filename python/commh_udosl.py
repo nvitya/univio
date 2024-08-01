@@ -1,6 +1,6 @@
 import serial
 import struct
-from udo_comm import *
+from .udo_comm import *
 
 # CRC8 table with the standard polynom of 0x07:
 udo_crc_table = bytearray([
@@ -96,7 +96,7 @@ class TCommHandlerUdoSl(TUdoCommHandler):
         return self.ans_data
 
     def UdoWrite(self, index : int, offset : int, avalue : bytearray):
-        self.iswrite = False
+        self.iswrite = True
         self.mindex  = index
         self.moffset = offset
         self.rqdata = bytearray(avalue)
