@@ -26,9 +26,8 @@
  *  authors:  nvitya
 */
 
-#include <stdio.h>
 #include <stdarg.h>
-
+#include "mp_printf.h"
 #include "tracebuf.h"
 
 #define TRACE_FMT_BUFFER_SIZE  256
@@ -87,7 +86,7 @@ void TTraceBuf::printf_va(const char * fmt, va_list * arglist)
 
   pch = &fmtbuf[0];
 
-  unsigned cnt = vsnprintf(pch, TRACE_FMT_BUFFER_SIZE, fmt, *arglist);
+  unsigned cnt = mp_vsnprintf(pch, TRACE_FMT_BUFFER_SIZE, fmt, *arglist);
   while (cnt)
   {
   	AddChar(*pch++);

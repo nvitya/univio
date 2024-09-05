@@ -32,7 +32,7 @@
 #include "traces.h"
 
 TUsbFuncUdo      usb_func_udo;
-TUsbFuncCdcUart  usb_func_uart;
+TUsbFuncCdcUart  usb_func_uart[UIO_UART_COUNT];
 TUsbApplication  usb_app;
 
 #define UIO_DEFAULT_VENDOR_ID   0xDEAD
@@ -71,15 +71,27 @@ bool TUsbApplication::InitDevice()
 
   AddFunction(&usb_func_udo);
 
-  if (g_uiodev.uart_active)
-  {
-    // Add the bridged real USB to UART
-    TRACE("Activating USB-UART\r\n");
+	// Add the bridged real USB to UART
+	//TRACE("Activating USB-UART-A\r\n");
 
-    usb_func_uart.AssignUart(&g_uart[0]);
-    AddFunction(&usb_func_uart);
-  }
+  #if UIO_UART_COUNT > 0
+    usb_func_uart[0].func_name = "USB-UART-A";
+    usb_func_uart[0].uif_data.interface_name = "USB-UART-A Data";
+    usb_func_uart[0].uif_control.interface_name = "USB-UART-A Control";
+  #endif
 
+  #if UIO_UART_COUNT > 1
+    usb_func_uart[1].func_name = "USB-UART-B";
+    usb_func_uart[1].uif_data.interface_name = "USB-UART-B Data";
+    usb_func_uart[1].uif_control.interface_name = "USB-UART-B Control";
+  #endif
+
+	unsigned n;
+	for (n = 0; n < UIO_UART_COUNT; ++n)
+	{
+	  usb_func_uart[n].AssignUart(&g_uart[n]);
+	  AddFunction(&usb_func_uart[n]);
+	}
 
   return true;
 }
