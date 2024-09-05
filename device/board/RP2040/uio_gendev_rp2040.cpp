@@ -145,38 +145,32 @@ bool TUioGenDevImpl::InitBoard()
   g_adc[0].Init(0, 0xF); // enable all the 4 channels
 
   // SPI initialization
-  g_spi.manualcspin = &g_pins[SPI_CS_PIN];
-  g_spi.Init(1);
-  g_dma_spi_tx.Init( DMACH_SPI_TX, DREQ_SPI1_TX );
-  g_dma_spi_rx.Init( DMACH_SPI_RX, DREQ_SPI1_RX);
-  g_spi.DmaAssign(true,  &g_dma_spi_tx);
-  g_spi.DmaAssign(false, &g_dma_spi_rx);
+#if UIO_SPI_COUNT > 0
+  g_spi[0].manualcspin = &g_pins[SPI_CS_PIN];
+  g_spi[0].Init(1);
+  g_dma_spi_tx[0].Init( DMACH_SPI_TX, DREQ_SPI1_TX );
+  g_dma_spi_rx[0].Init( DMACH_SPI_RX, DREQ_SPI1_RX);
+  g_spi[0].DmaAssign(true,  &g_dma_spi_tx[0]);
+  g_spi[0].DmaAssign(false, &g_dma_spi_rx[0]);
+#endif
 
   // I2C initialization
-  g_i2c.Init(1);
-  g_dma_i2c_tx.Init( DMACH_I2C_TX, DREQ_I2C1_TX );
-  g_dma_i2c_rx.Init( DMACH_I2C_RX, DREQ_I2C1_RX);
-  g_i2c.DmaAssign(true,  &g_dma_i2c_tx);
-  g_i2c.DmaAssign(false, &g_dma_i2c_rx);
-
-#if TEST_I2C
-
-  hwpinctrl.PinSetup(0, 2, PINCFG_AF_3 | PINCFG_PULLUP); // I2C1_SDA
-  hwpinctrl.PinSetup(0, 3, PINCFG_AF_3 | PINCFG_PULLUP); // I2C1_SCL
-
-  test_i2c_basic();
-  //test_i2c_basic();
-
-  //TRACE_FLUSH();
-
+#if UIO_I2C_COUNT > 0
+  g_i2c[0].Init(1);
+  g_dma_i2c_tx[0].Init( DMACH_I2C_TX, DREQ_I2C1_TX );
+  g_dma_i2c_rx[0].Init( DMACH_I2C_RX, DREQ_I2C1_RX);
+  g_i2c[0].DmaAssign(true,  &g_dma_i2c_tx[0]);
+  g_i2c[0].DmaAssign(false, &g_dma_i2c_rx[0]);
 #endif
 
   // UART1 Initialization
-  g_uart.Init(1);
-  g_dma_uart_tx.Init(DMACH_USBUART_TX, DREQ_UART1_TX);
-  g_dma_uart_rx.Init(DMACH_USBUART_RX, DREQ_UART1_RX);
-  g_uart.DmaAssign(true,  &g_dma_uart_tx);
-  g_uart.DmaAssign(false, &g_dma_uart_rx);
+#if UIO_UART_COUNT > 0
+  g_uart[0].Init(1);
+  g_dma_uart_tx[0].Init(DMACH_USBUART_TX, DREQ_UART1_TX);
+  g_dma_uart_rx[0].Init(DMACH_USBUART_RX, DREQ_UART1_RX);
+  g_uart[0].DmaAssign(true,  &g_dma_uart_tx[0]);
+  g_uart[0].DmaAssign(false, &g_dma_uart_rx[0]);
+#endif
 
   return true;
 }

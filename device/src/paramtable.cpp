@@ -82,9 +82,15 @@ const TParamRangeDef  param_range_table[] =
   {0x1400, 0x14FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_PwmControl) },
   {0x1500, 0x15FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_LedBlpCtrl) },
 
-  // SPI, I2C
-  {0x1600, 0x16FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_SpiControl) },
-  {0x1700, 0x17FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_I2cControl) },
+	// SPI, I2C
+  {0x1600, 0x161F, nullptr, &g_uiodev.spictrl[0], PParRangeMethod(&TUioSpiCtrl::prfn_SpiControl) },
+	#if UIO_SPI_COUNT > 1
+	  {0x1620, 0x163F, nullptr, &g_uiodev.spictrl[1], PParRangeMethod(&TUioSpiCtrl::prfn_SpiControl) },
+	#endif
+  {0x1700, 0x171F, nullptr, &g_uiodev.i2cctrl[0], PParRangeMethod(&TUioI2cCtrl::prfn_I2cControl) },
+	#if UIO_I2C_COUNT > 1
+	  {0x1720, 0x173F, nullptr, &g_uiodev.i2cctrl[1], PParRangeMethod(&TUioI2cCtrl::prfn_I2cControl) },
+	#endif
 
   // MPRAM
   {0xC000, 0xC000, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_Mpram) },

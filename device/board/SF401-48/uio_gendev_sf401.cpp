@@ -135,26 +135,32 @@ bool TUioGenDevImpl::InitBoard()
   g_adc[0].Init(1, 0xFFFF); // enable all 16 channels
 
   // SPI initialization
-  g_spi.manualcspin = &g_pins[SPI_CS_PIN];
-  g_spi.Init(2);
-  g_dma_spi_tx.Init(1, 4, 0);
-  g_dma_spi_rx.Init(1, 3, 0);
-  g_spi.DmaAssign(true,  &g_dma_spi_tx);
-  g_spi.DmaAssign(false, &g_dma_spi_rx);
+#if UIO_SPI_COUNT > 0
+  g_spi[0].manualcspin = &g_pins[SPI_CS_PIN];
+  g_spi[0].Init(2);
+  g_dma_spi_tx[0].Init(1, 4, 0);
+  g_dma_spi_rx[0].Init(1, 3, 0);
+  g_spi[0].DmaAssign(true,  &g_dma_spi_tx[0]);
+  g_spi[0].DmaAssign(false, &g_dma_spi_rx[0]);
+#endif
 
   // I2C initialization
-  g_i2c.Init(1);
-  g_dma_i2c_tx.Init(1, 7, 1);
-  g_dma_i2c_rx.Init(1, 0, 1);
-  g_i2c.DmaAssign(true,  &g_dma_i2c_tx);
-  g_i2c.DmaAssign(false, &g_dma_i2c_rx);
+#if UIO_I2C_COUNT > 0
+  g_i2c[0].Init(1);
+  g_dma_i2c_tx[0].Init(1, 7, 1);
+  g_dma_i2c_rx[0].Init(1, 0, 1);
+  g_i2c[0].DmaAssign(true,  &g_dma_i2c_tx[0]);
+  g_i2c[0].DmaAssign(false, &g_dma_i2c_rx[0]);
+#endif
 
   // UART Initialization
-  g_uart.Init(3);
-  g_dma_uart_tx.Init((DMACH_UART_TX >> 8), DMACH_UART_TX & 7, 29);
-  g_dma_uart_rx.Init((DMACH_UART_RX >> 8), DMACH_UART_RX & 7, 28);
-  g_uart.DmaAssign(true,  &g_dma_uart_tx);
-  g_uart.DmaAssign(false, &g_dma_uart_rx);
+#if UIO_UART_COUNT > 0
+  g_uart[0].Init(3);
+  g_dma_uart_tx[0].Init((DMACH_UART_TX >> 8), DMACH_UART_TX & 7, 29);
+  g_dma_uart_rx[0].Init((DMACH_UART_RX >> 8), DMACH_UART_RX & 7, 28);
+  g_uart[0].DmaAssign(true,  &g_dma_uart_tx[0]);
+  g_uart[0].DmaAssign(false, &g_dma_uart_rx[0]);
+#endif
 
   // USB PINS
   hwpinctrl.PinSetup(PORTNUM_A, 11, PINCFG_INPUT | PINCFG_AF_10 | PINCFG_SPEED_FAST);  // USB DM

@@ -155,26 +155,33 @@ bool TUioGenDevImpl::InitBoard()
   g_adc[0].Init(0, 0xFFDE); // enable all 16 channels except the DOUTs (0, 5)
 
   // SPI initialization (SERCOM3)
-  g_spi.manualcspin = &g_pins[SPI_CS_PIN];
-  g_spi.Init(3);
-  g_dma_spi_tx.Init(DMACH_SPI_TX, SERCOM3_DMAC_ID_TX);
-  g_dma_spi_rx.Init(DMACH_SPI_RX, SERCOM3_DMAC_ID_RX);
-  g_spi.DmaAssign(true,  &g_dma_spi_tx);
-  g_spi.DmaAssign(false, &g_dma_spi_rx);
+#if UIO_SPI_COUNT > 0
+  g_spi[0].manualcspin = &g_pins[SPI_CS_PIN];
+  g_spi[0].Init(3);
+  g_dma_spi_tx[0].Init(DMACH_SPI_TX, SERCOM3_DMAC_ID_TX);
+  g_dma_spi_rx[0].Init(DMACH_SPI_RX, SERCOM3_DMAC_ID_RX);
+  g_spi[0].DmaAssign(true,  &g_dma_spi_tx[0]);
+  g_spi[0].DmaAssign(false, &g_dma_spi_rx[0]);
+#endif
+
 
   // I2C initialization (SERCOM5)
-  g_i2c.Init(5);
-  g_dma_i2c_tx.Init(DMACH_I2C_TX, SERCOM5_DMAC_ID_TX);
-  g_dma_i2c_rx.Init(DMACH_I2C_RX, SERCOM5_DMAC_ID_RX);
-  g_i2c.DmaAssign(true,  &g_dma_i2c_tx);
-  g_i2c.DmaAssign(false, &g_dma_i2c_rx);
+#if UIO_I2C_COUNT > 0
+  g_i2c[0].Init(5);
+  g_dma_i2c_tx[0].Init(DMACH_I2C_TX, SERCOM5_DMAC_ID_TX);
+  g_dma_i2c_rx[0].Init(DMACH_I2C_RX, SERCOM5_DMAC_ID_RX);
+  g_i2c[0].DmaAssign(true,  &g_dma_i2c_tx[0]);
+  g_i2c[0].DmaAssign(false, &g_dma_i2c_rx[0]);
+#endif
 
   // UART Initialization (SERCOM2)
-  g_uart.Init(2);
-  g_dma_uart_tx.Init(DMACH_UART_TX, SERCOM2_DMAC_ID_TX);
-  g_dma_uart_rx.Init(DMACH_UART_RX, SERCOM2_DMAC_ID_RX);
-  g_uart.DmaAssign(true,  &g_dma_uart_tx);
-  g_uart.DmaAssign(false, &g_dma_uart_rx);
+#if UIO_UART_COUNT > 0
+  g_uart[0].Init(2);
+  g_dma_uart_tx[0].Init(DMACH_UART_TX, SERCOM2_DMAC_ID_TX);
+  g_dma_uart_rx[0].Init(DMACH_UART_RX, SERCOM2_DMAC_ID_RX);
+  g_uart[0].DmaAssign(true,  &g_dma_uart_tx[0]);
+  g_uart[0].DmaAssign(false, &g_dma_uart_rx[0]);
+#endif
 
   // USB PINS
   hwpinctrl.PinSetup(PORTNUM_A, 24, PINCFG_AF_H | PINCFG_DRIVE_STRONG);  // USB DM

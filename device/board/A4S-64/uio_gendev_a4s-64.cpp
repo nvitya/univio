@@ -122,21 +122,26 @@ bool TUioGenDevImpl::InitBoard()
   g_adc[0].Init(0, 0x3FF); // enable all 10 channels
 
   // SPI initialization
-  g_spi.manualcspin = &g_pins[SPI_CS_PIN];
-  g_spi.Init(0);
-
-  g_spi.PdmaInit(true,  &g_dma_spi_tx);
-  g_spi.PdmaInit(false, &g_dma_spi_rx);
+#if UIO_SPI_COUNT > 0
+  g_spi[0].manualcspin = &g_pins[SPI_CS_PIN];
+  g_spi[0].Init(0);
+  g_spi[0].PdmaInit(true,  &g_dma_spi_tx[0]);
+  g_spi[0].PdmaInit(false, &g_dma_spi_rx[0]);
+#endif
 
   // I2C initialization
-  g_i2c.Init(0);
-  g_i2c.PdmaInit(true,  &g_dma_i2c_tx);
-  g_i2c.PdmaInit(false, &g_dma_i2c_rx);
+#if UIO_I2C_COUNT > 0
+  g_i2c[0].Init(0);
+  g_i2c[0].PdmaInit(true,  &g_dma_i2c_tx[0]);
+  g_i2c[0].PdmaInit(false, &g_dma_i2c_rx[0]);
+#endif
 
   // UART Initialization
-  g_uart.Init(0);
-  g_uart.PdmaInit(true,  &g_dma_uart_tx);
-  g_uart.PdmaInit(false, &g_dma_uart_rx);
+#if UIO_UART_COUNT > 0
+  g_uart[0].Init(0);
+  g_uart[0].PdmaInit(true,  &g_dma_uart_tx[0]);
+  g_uart[0].PdmaInit(false, &g_dma_uart_rx[0]);
+#endif
 
   // Other Pin inits is not necessary here, because all pins will be initialized later to passive
   // before the config loading happens

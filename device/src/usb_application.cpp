@@ -76,7 +76,7 @@ bool TUsbApplication::InitDevice()
     // Add the bridged real USB to UART
     TRACE("Activating USB-UART\r\n");
 
-    usb_func_uart.AssignUart(&g_uart);
+    usb_func_uart.AssignUart(&g_uart[0]);
     AddFunction(&usb_func_uart);
   }
 

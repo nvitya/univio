@@ -45,6 +45,10 @@
 
 #define UIOMCU_ADC_COUNT    2
 
+#define UIO_UART_COUNT      1
+#define UIO_I2C_COUNT       1
+#define UIO_SPI_COUNT       1
+
 // DMA Allocation
 
 #define DMACH_UART_TX     0x101

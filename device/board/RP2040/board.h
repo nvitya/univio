@@ -40,6 +40,10 @@
 
 #define UIOMCU_ADC_COUNT    1
 
+#define UIO_UART_COUNT      1
+#define UIO_I2C_COUNT       1
+#define UIO_SPI_COUNT       1
+
 // DMA Channel allocation
 
 #define DMACH_USBUART_TX    0

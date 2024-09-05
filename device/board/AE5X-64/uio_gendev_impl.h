@@ -7,10 +7,10 @@
 
 #include <uio_gendev_base.h>
 
-class TUioGenDevImpl : public TUioGenDevBase
+class TUioGenDevImpl : public TUioDevBase
 {
 private:
-  typedef TUioGenDevBase  super;
+  typedef TUioDevBase  super;
 
 public:
 

@@ -17,8 +17,13 @@
 #define USB_ENABLE        1
 #define UART_CTRL_ENABLE  0
 #define USB_UART_ENABLE   0  // there is not enough endpoint on this USB HW !
+
 #define HAS_SPI_FLASH     0
 #define SPI_SELF_FLASHING 0
+
+#define UIO_UART_COUNT    1
+#define UIO_I2C_COUNT     1
+#define UIO_SPI_COUNT     1
 
 #define UART_CTRL         0
 

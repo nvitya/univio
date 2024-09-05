@@ -57,9 +57,6 @@ public:
   bool       prfn_PwmControl(TUdoRequest * rq, TParamRangeDef * prdef);
   bool       prfn_LedBlpCtrl(TUdoRequest * rq, TParamRangeDef * prdef);
 
-  bool       prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef);
-  bool       prfn_I2cControl(TUdoRequest * rq, TParamRangeDef * prdef);
-
   bool       prfn_Mpram(TUdoRequest * rq, TParamRangeDef * prdef);
 
 };

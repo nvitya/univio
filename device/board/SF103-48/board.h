@@ -21,6 +21,10 @@
 
 #define UART_CTRL         0
 
+#define UIO_UART_COUNT      1
+#define UIO_I2C_COUNT       1
+#define UIO_SPI_COUNT       1
+
 // UnivID Device settings
 
 #define UIO_FW_ID       "SF103-48"

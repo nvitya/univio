@@ -45,7 +45,7 @@
 
 // fix maximums
 #define UIO_PWM_COUNT       8
-#define UIO_ADC_COUNT      16
+#define UIO_ADC_COUNT      32
 #define UIO_DAC_COUNT       8
 #define UIO_DOUT_COUNT     32
 #define UIO_DIN_COUNT      32
@@ -153,7 +153,58 @@ typedef struct TUioFlwSlot
 //
 } TUioFlwSlot;
 
-class TUioGenDevBase : public TClass
+class TUioDevBase;
+
+class TUioSpiCtrl : public TClass
+{
+public:
+	TUioDevBase *     devbase = nullptr;
+  THwSpi *          spi = nullptr;
+  uint16_t          spi_rx_offs = 0;
+  uint16_t          spi_tx_offs = 0;
+  uint32_t          spi_speed = 1000000;
+  uint16_t          spi_trlen = 0;
+  uint8_t           spi_status = 0;
+  uint8_t           spi_mode = 0;
+
+  uint8_t           spifl_state = 0;
+  uint32_t          spifl_cmd[2] = {0, 0};
+  uint8_t *         spifl_wrkbuf = nullptr;
+  uint8_t *         spifl_srcbuf = nullptr;
+
+	void              Init(TUioDevBase * adevbase, THwSpi * aspi);
+	void              Run();
+	uint16_t          SpiStart();
+	void              UpdateSettings();
+	bool              prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef);
+
+  void              SpiFlashRun();
+  bool              SpiFlashCmdPrepare();
+  void              SpiFlashSlotFinish();
+};
+
+class TUioI2cCtrl : public TClass
+{
+public:
+	TUioDevBase *     devbase = nullptr;
+
+  THwI2c *          i2c = nullptr;
+  TI2cTransaction   i2ctra;
+  uint16_t          i2c_data_offs = 0;
+  uint32_t          i2c_speed = 100000;
+  uint32_t          i2c_eaddr = 0;
+  uint32_t          i2c_cmd = 0;
+  uint16_t          i2c_trlen = 0;
+  uint16_t          i2c_result = 0;
+
+	void              Init(TUioDevBase * adevbase, THwI2c * ai2c);
+	void              Run();
+  uint16_t          I2cStart();
+	bool              prfn_I2cControl(TUdoRequest * rq, TParamRangeDef * prdef);
+
+};
+
+class TUioDevBase : public TClass
 {
 public: // internal state
   uint8_t           blp_idx = 0;
@@ -175,35 +226,16 @@ public:
 
   uint8_t *         mpram = nullptr;
 
-  THwSpi *          spi = nullptr;
-  uint16_t          spi_rx_offs = 0;
-  uint16_t          spi_tx_offs = 0;
-  uint32_t          spi_speed = 1000000;
-  uint16_t          spi_trlen = 0;
-  uint8_t           spi_status = 0;
-  uint8_t           spi_mode = 0;
-
-  uint8_t           spifl_state = 0;
-  uint32_t          spifl_cmd[2] = {0, 0};
-  uint8_t *         spifl_wrkbuf = nullptr;
-  uint8_t *         spifl_srcbuf = nullptr;
+  TUioSpiCtrl       spictrl[UIO_SPI_COUNT];
+  TUioI2cCtrl       i2cctrl[UIO_I2C_COUNT];
 
   uint8_t           flws_cnt = 0;
   TUioFlwSlot       flwslot[UIO_FLW_SLOT_MAX];
   TUioFlwSlot *     flws_first = nullptr;
   TUioFlwSlot *     flws_last  = nullptr;
 
-  THwI2c *          i2c = nullptr;
-  TI2cTransaction   i2ctra;
-  uint16_t          i2c_data_offs = 0;
-  uint32_t          i2c_speed = 100000;
-  uint32_t          i2c_eaddr = 0;
-  uint32_t          i2c_cmd = 0;
-  uint16_t          i2c_trlen = 0;
-  uint16_t          i2c_result = 0;
-
-  THwUart *         uart = nullptr;
-  bool              uart_active = false;
+  THwUart *         uart[UIO_UART_COUNT];
+  bool              uart_active[UIO_UART_COUNT];
 
   // inputs
   TGpioPin *        dig_in[UIO_DIN_COUNT] = {0};
@@ -221,7 +253,7 @@ public:
 
   uint32_t          cfginfo[UIO_INFO_COUNT]; // bits signalize configured units
 
-  virtual           ~TUioGenDevBase() { }
+  virtual           ~TUioDevBase() { }
 
   bool              Init();
   void              Run();
@@ -232,14 +264,6 @@ public:
   void              SetDacOutput(uint8_t adacnum, uint16_t avalue);
   uint16_t          GetAdcValue(uint8_t adc_idx, uint16_t * rvalue);
 
-  uint16_t          SpiStart();
-  uint16_t          I2cStart();
-
-  void              SpiUpdateSettings();
-
-  void              SpiFlashRun();
-  bool              SpiFlashCmdPrepare();
-  void              SpiFlashSlotFinish();
 
 public:  // base class mandatory implementations
   virtual bool      InitDevice();
@@ -269,16 +293,16 @@ extern THwAdc           g_adc[UIOMCU_ADC_COUNT];
 extern THwPwmChannel    g_pwm[UIO_PWM_COUNT];
 extern TGpioPin         g_pins[UIO_PIN_COUNT];
 
-extern THwSpi           g_spi;
-extern THwI2c           g_i2c;
-extern THwUart          g_uart;
+extern THwSpi           g_spi[UIO_SPI_COUNT];
+extern THwI2c           g_i2c[UIO_I2C_COUNT];
+extern THwUart          g_uart[UIO_UART_COUNT];
 
-extern THwDmaChannel    g_dma_spi_tx;
-extern THwDmaChannel    g_dma_spi_rx;
-extern THwDmaChannel    g_dma_i2c_tx;
-extern THwDmaChannel    g_dma_i2c_rx;
-extern THwDmaChannel    g_dma_uart_tx;
-extern THwDmaChannel    g_dma_uart_rx;
+extern THwDmaChannel    g_dma_spi_tx[UIO_SPI_COUNT];
+extern THwDmaChannel    g_dma_spi_rx[UIO_SPI_COUNT];
+extern THwDmaChannel    g_dma_i2c_tx[UIO_I2C_COUNT];
+extern THwDmaChannel    g_dma_i2c_rx[UIO_I2C_COUNT];
+extern THwDmaChannel    g_dma_uart_tx[UIO_UART_COUNT];
+extern THwDmaChannel    g_dma_uart_rx[UIO_UART_COUNT];
 
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen);
 
