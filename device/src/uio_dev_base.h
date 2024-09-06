@@ -41,14 +41,14 @@
 #include "usbfunc_cdc_uart.h"
 #include "simple_partable.h"
 
-#define UIO_DEVICE_TYPE_ID   "UnivIO-V2"   // Index 0x0100
+#define UIO_DEVICE_TYPE_ID   "UIO-V3"   // Index 0x0100
 
 // fix maximums
 #define UIO_PWM_COUNT       8
 #define UIO_ADC_COUNT      32
 #define UIO_DAC_COUNT       8
-#define UIO_DOUT_COUNT     32
-#define UIO_DIN_COUNT      32
+#define UIO_DOUT_COUNT     64
+#define UIO_DIN_COUNT      64
 #define UIO_LEDBLP_COUNT   16
 
 #define UIO_ADC_ERROR_VALUE     0x0000
@@ -64,6 +64,7 @@
 #define UIO_PINTYPE_I2C              8
 #define UIO_PINTYPE_UART             9
 #define UIO_PINTYPE_CLKOUT          10
+#define UIO_PINTYPE_CAN             11
 
 #define UIO_PINFLAG_DIN_PULLUP       (0x0000 << 16)
 #define UIO_PINFLAG_DIN_PULLDN       (0x0001 << 16)
@@ -71,6 +72,9 @@
 
 #define UIO_PINFLAG_DOUT_INVERT      (0x0001 << 16)
 #define UIO_PINFLAG_DOUT_OD          (0x0002 << 16)
+#define UIO_PINFLAG_DOUT_HIZ         (0x0010 << 16)
+#define UIO_PINFLAG_DOUT_HIZ_PD      (0x0020 << 16)
+#define UIO_PINFLAG_DOUT_HIZ_FLOAT   (0x0040 << 16)
 #define UIO_PINFLAG_PWM_INVERT       (0x0001 << 16)
 #define UIO_PINFLAG_LEDBLP_INVERT    (0x0001 << 16)
 
@@ -87,19 +91,31 @@
 #define UIOERR_RUN_MODE             0x5101  // config mode required
 #define UIOERR_UNITSEL              0x5102  // the referenced unit is not existing
 
-#define UIO_INFOIDX_CBITS   0
-#define UIO_INFOIDX_DIN     1
-#define UIO_INFOIDX_DOUT    2
-#define UIO_INFOIDX_ADC     3
-#define UIO_INFOIDX_DAC     4
-#define UIO_INFOIDX_PWM     5
-#define UIO_INFOIDX_LEDBLP  6
-#define UIO_INFO_COUNT      8
+#define UIO_INFOIDX_CBITS      0
+#define UIO_INFOIDX_DIN        1
+#define UIO_INFOIDX_DOUT       2
+#define UIO_INFOIDX_ADC        3
+#define UIO_INFOIDX_DAC        4
+#define UIO_INFOIDX_PWM        5
+#define UIO_INFOIDX_LEDBLP     6
+#define UIO_INFOIDX_DIN_32     7
+#define UIO_INFOIDX_DOUT_32    8
+#define UIO_INFOIDX_HIZ_0      9
+#define UIO_INFOIDX_HIZ_32    10
 
-#define UIO_INFOCBIT_CLKOUT (1 << 0)
-#define UIO_INFOCBIT_UART   (1 << 1)
-#define UIO_INFOCBIT_SPI    (1 << 2)
-#define UIO_INFOCBIT_I2C    (1 << 3)
+#define UIO_INFO_COUNT        11
+
+#define UIO_INFOCBIT_CLKOUT (1  << 0)
+#define UIO_INFOCBIT_UART   (1  << 1)
+#define UIO_INFOCBIT_SPI    (1  << 2)
+#define UIO_INFOCBIT_I2C    (1  << 3)
+#define UIO_INFOCBIT_CAN    (1  << 4)
+
+#define UIO_INFOCBIT_UARTB  (16 << 1)
+#define UIO_INFOCBIT_SPIB   (16 << 2)
+#define UIO_INFOCBIT_I2CB   (16 << 3)
+#define UIO_INFOCBIT_CANB   (16 << 4)
+
 
 #define UIO_FLW_SLOT_MAX      4
 #define UIO_FLW_SECTOR_SIZE   4096

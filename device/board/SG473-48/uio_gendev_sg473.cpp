@@ -13,14 +13,15 @@
 
 #define SPI_CS_PIN      28 // B12
 
-#define UIOFUNC_SPI     0x0100
-#define UIOFUNC_I2C     0x0200
-#define UIOFUNC_UART    0x0400
-#define UIOFUNC_CLKOUT  0x0800
+#define UIOFUNC_DISABLED  0x0001
+#define UIOFUNC_SPI       0x0100
+#define UIOFUNC_I2C       0x0200
+#define UIOFUNC_UART      0x0400
+#define UIOFUNC_CLKOUT    0x0800
 
 typedef struct
 {
-  uint16_t   flags; // bit0: 0 0 = disabled
+  uint32_t   flags; // bit0: 0 0 = disabled
   uint32_t   adc;  // 0 = none
   uint32_t   dac;
   uint32_t   pwm;

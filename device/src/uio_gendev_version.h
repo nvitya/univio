@@ -9,14 +9,17 @@
 #define SRC_UIO_GENDEV_VERSION_H_
 
 
-#define UIO_VERSION_MAJOR       2
-#define UIO_VERSION_MINOR       1
-#define UIO_VERSION_INCREMENT   1
+#define UIO_VERSION_MAJOR       3
+#define UIO_VERSION_MINOR       0
+#define UIO_VERSION_INCREMENT   0
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
 /* VERSION LOG
 
+3.0.0
+  - Multi SPI, UART, I2C support
+  - CAN support
 2.1.1
   - SPI Flash Write Accelerator fixes
 2.1.0

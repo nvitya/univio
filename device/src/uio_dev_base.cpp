@@ -25,10 +25,10 @@
  *  authors:  nvitya
 */
 
+#include <uio_dev_base.h>
 #include "string.h"
 #include "hwspi.h"
 #include "hwi2c.h"
-#include <uio_gendev_base.h>
 #include "uio_nvdata.h"
 #include "uio_nvstorage.h"
 #include "traces.h"
@@ -671,7 +671,7 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
       pcf.hwpinflags |= PINCFG_PULLUP;
     }
 
-    cfginfo[UIO_INFOIDX_DIN] |= (1 << unitnum);
+    cfginfo[UIO_INFOIDX_DIN] |= (uint64_t(1) << unitnum);
   }
 
   else if (UIO_PINTYPE_ADC_IN == pintype)
@@ -714,7 +714,7 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
       dig_out[unitnum] = ppin;
       initial_1 = (0 != (dout_value & (1 << unitnum)));
 
-      cfginfo[UIO_INFOIDX_DOUT] |= (1 << unitnum);
+      cfginfo[UIO_INFOIDX_DOUT] |= (uint64_t(1) << unitnum);
     }
 
     pcf.hwpinflags = PINCFG_OUTPUT | PINCFG_GPIO_INIT_0;

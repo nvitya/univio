@@ -8,10 +8,9 @@
         <Filename Value="uiocommtest.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <CursorPos X="30" Y="18"/>
+        <CursorPos X="66" Y="49"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="../univio/univio.pas"/>
@@ -20,7 +19,6 @@
         <CursorPos X="56" Y="16"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="../univio/univio_conn.pas"/>
@@ -30,7 +28,6 @@
         <CursorPos X="44" Y="7"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="../utils_os/sercomm.pas"/>
@@ -40,7 +37,6 @@
         <CursorPos Y="215"/>
         <UsageCount Value="32"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="../utils_os/util_nstime.pas"/>
@@ -51,7 +47,14 @@
         <CursorPos X="41" Y="28"/>
         <UsageCount Value="29"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="univio_spiflash.pas"/>
+        <IsPartOfProject Value="True"/>
+        <WindowIndex Value="1"/>
+        <CursorPos X="44" Y="41"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/share/fpcsrc/3.2.2/packages/rtl-extra/src/unix/serial.pp"/>
@@ -126,16 +129,6 @@
         <CursorPos X="15" Y="92"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="univio_spiflash.pas"/>
-        <IsPartOfProject Value="True"/>
-        <WindowIndex Value="1"/>
-        <CursorPos X="44" Y="41"/>
-        <UsageCount Value="21"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">

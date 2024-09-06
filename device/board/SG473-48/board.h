@@ -29,6 +29,12 @@
 
 #define UART_CTRL         0
 
+#define UIO_UART_COUNT      1
+#define UIO_I2C_COUNT       1
+#define UIO_SPI_COUNT       1
+
+#define UIO_SPI_CS_COUNT    1
+
 // UnivID Device settings
 
 #define UIO_FW_ID   "GenIO-SG473-48"
@@ -45,9 +51,6 @@
 
 #define UIOMCU_ADC_COUNT    2
 
-#define UIO_UART_COUNT      1
-#define UIO_I2C_COUNT       1
-#define UIO_SPI_COUNT       1
 
 // DMA Allocation
 

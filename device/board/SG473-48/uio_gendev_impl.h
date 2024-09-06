@@ -8,7 +8,7 @@
 #ifndef UIO_GENDEV_H_
 #define UIO_GENDEV_H_
 
-#include <uio_gendev_base.h>
+#include <uio_dev_base.h>
 
 class TUioGenDevImpl : public TUioDevBase
 {
