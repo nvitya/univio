@@ -19,8 +19,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  * --------------------------------------------------------------------------- */
 /*
- * file:     main_univio_gendev.cpp
- * brief:    UNIVIO Generic Device initialization and main loop
+ * file:     main_univio.cpp
+ * brief:    UNIVIO Device initialization and main loop
  * created:  2022-02-13
  * authors:  nvitya
 */

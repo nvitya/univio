@@ -1,6 +1,6 @@
 /*
  *  file:     uio_gendev_impl.h
- *  brief:    UnivIO Generic device implementation headers
+ *  brief:    UnivIO device implementation headers
  *  created:  2022-01-30
  *  authors:  nvitya
 */

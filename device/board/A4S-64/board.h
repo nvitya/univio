@@ -37,7 +37,7 @@
 
 #define TRACE_BUFFER_SIZE    4096
 
-// UnivIO Generic Device settings
+// UnivIO Device settings
 
 #define UIO_PINS_PER_PORT  32
 #define UIO_PIN_COUNT      48
