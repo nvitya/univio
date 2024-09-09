@@ -55,6 +55,9 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   // Set the interrupt vector table offset, so that the interrupts and exceptions work
   mcu_init_vector_table();
 
+  mcu_enable_fpu();    // enable coprocessor if present
+  mcu_enable_icache(); // enable instruction cache if present
+
   if (!hwclk_init(EXTERNAL_XTAL_HZ, MCU_CLOCK_SPEED))  // if the EXTERNAL_XTAL_HZ == 0, then the internal RC oscillator will be used
   {
     while (1)
@@ -68,9 +71,6 @@ extern "C" __attribute__((noreturn)) void _start(unsigned self_flashing)  // sel
   // This is the case when the USB data line pull up is permanently connected to VCC, like at the STM32F103 blue pill board
 
   cppinit();  // run the C/C++ initialization (variable initializations, constructors)
-
-  mcu_enable_fpu();    // enable coprocessor if present
-  mcu_enable_icache(); // enable instruction cache if present
 
   clockcnt_init();
 

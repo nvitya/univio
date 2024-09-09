@@ -26,7 +26,7 @@
 */
 
 #include "uio_device.h"
-#include "uio_gendev_version.h"
+#include "uio_core_version.h"
 #include "uio_nvdata.h"
 #include "board_pins.h"
 
