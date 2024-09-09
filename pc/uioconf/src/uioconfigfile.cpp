@@ -558,7 +558,10 @@ bool TUioConfig::CheckDevice()
 		return false;
 	}
 
-	if (strcmp((const char *)&databuf[0], "UnivIO-V2") != 0)
+	if (    (strcmp((const char *)&databuf[0], "UnivIO-V2") != 0)
+			 && (strcmp((const char *)&databuf[0], "UIO-V3") != 0)
+			 && (strcmp((const char *)&databuf[0], "UIO-V2") != 0)
+		 )
 	{
 		printf("  Unexpected device type: \"%s\"\n", &databuf[0]);
 		return false;
