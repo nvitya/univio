@@ -278,7 +278,7 @@ public:
   virtual void      ConfigurePins(bool active);
   void              SetPwmDuty(uint8_t apwmnum, uint16_t aduty);
   void              SetDacOutput(uint8_t adacnum, uint16_t avalue);
-  uint16_t          GetAdcValue(uint8_t adc_idx, uint16_t * rvalue);
+  virtual uint16_t  GetAdcValue(uint8_t adc_idx, uint16_t * rvalue);
 
 
 public:  // base class mandatory implementations
@@ -289,6 +289,7 @@ public:  // base class mandatory implementations
 
 public: // board specific virtuals
   virtual bool      InitBoard() { return false; }
+  virtual void      RunBoard() { }
   virtual uint16_t  PinSetup(uint8_t pinid, uint32_t pincfg, bool active);
   virtual bool      PinFuncAvailable(TPinCfg * pcf) { return false; }
   virtual void      SetupAdc(TPinCfg * pcf) { }

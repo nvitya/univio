@@ -1110,6 +1110,8 @@ void TUioDevBase::Run() // handle led blink patterns
   {
   	i2cctrl[n].Run();
   }
+
+  RunBoard();
 }
 
 uint32_t uio_content_checksum(void * adataptr, uint32_t adatalen)
