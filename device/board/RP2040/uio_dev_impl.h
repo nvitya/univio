@@ -1,16 +1,16 @@
 /*
- *  file:     uio_gendev_impl.h
- *  brief:    UnivIO Generic device implementation headers
- *  created:  2022-01-30
+ *  file:     board/RP2040/uio_gendev_impl.h
+ *  brief:    RP2040 Implementation Header
+ *  created:  2022-06-11
  *  authors:  nvitya
 */
 
 #ifndef UIO_GENDEV_H_
 #define UIO_GENDEV_H_
 
-#include <uio_dev_base.h>
+#include <uio_gendev_base.h>
 
-class TUioGenDevImpl : public TUioDevBase
+class TUioDevImpl : public TUioDevBase
 {
 private:
   typedef TUioDevBase  super;
@@ -21,7 +21,6 @@ public:
   virtual bool      PinFuncAvailable(TPinCfg * pcf);
 
   virtual void      SetupAdc(TPinCfg * pcf);
-  virtual void      SetupDac(TPinCfg * pcf);
   virtual void      SetupPwm(TPinCfg * pcf);
   virtual void      SetupSpi(TPinCfg * pcf);
   virtual void      SetupI2c(TPinCfg * pcf);

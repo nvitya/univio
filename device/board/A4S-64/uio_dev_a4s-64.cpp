@@ -88,7 +88,7 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 // TUnivioDevice Implementations
 //------------------------------------------------------------------------------------------------------
 
-bool TUioGenDevImpl::InitBoard()
+bool TUioDevImpl::InitBoard()
 {
   unsigned n;
 
@@ -149,7 +149,7 @@ bool TUioGenDevImpl::InitBoard()
   return true;
 }
 
-bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
+bool TUioDevImpl::PinFuncAvailable(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
@@ -189,7 +189,7 @@ bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
+void TUioDevImpl::SetupAdc(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
@@ -197,13 +197,13 @@ void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
   pcf->hwpinflags = PINCFG_INPUT | PINCFG_ANALOGUE;
 }
 
-void TUioGenDevImpl::SetupDac(TPinCfg * pcf)
+void TUioDevImpl::SetupDac(TPinCfg * pcf)
 {
   // TODO: implement
   pcf->hwpinflags = PINCFG_INPUT | PINCFG_PULLUP;
 }
 
-void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
+void TUioDevImpl::SetupPwm(TPinCfg * pcf)
 {
   const TPinInfo *  pinfo = &g_pininfo[pcf->pinid];
   THwPwmChannel *   pwm = &g_pwm[pcf->unitnum];
@@ -217,7 +217,7 @@ void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
 
 }
 
-void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
+void TUioDevImpl::SetupSpi(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
@@ -232,14 +232,14 @@ void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)
+void TUioDevImpl::SetupI2c(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
   pcf->hwpinflags = PINCFG_AF_A | PINCFG_PULLUP;
 }
 
-void TUioGenDevImpl::SetupUart(TPinCfg * pcf)
+void TUioDevImpl::SetupUart(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
@@ -253,7 +253,7 @@ void TUioGenDevImpl::SetupUart(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupClockOut(TPinCfg * pcf)
+void TUioDevImpl::SetupClockOut(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
@@ -261,7 +261,7 @@ void TUioGenDevImpl::SetupClockOut(TPinCfg * pcf)
 }
 
 
-bool TUioGenDevImpl::LoadBuiltinConfig(uint8_t anum)
+bool TUioDevImpl::LoadBuiltinConfig(uint8_t anum)
 {
   return false;
 }

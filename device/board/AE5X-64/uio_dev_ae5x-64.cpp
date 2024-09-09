@@ -111,7 +111,7 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 // TUnivioDevice Implementations
 //------------------------------------------------------------------------------------------------------
 
-bool TUioGenDevImpl::InitBoard()
+bool TUioDevImpl::InitBoard()
 {
   unsigned n;
 
@@ -193,7 +193,7 @@ bool TUioGenDevImpl::InitBoard()
   return true;
 }
 
-bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
+bool TUioDevImpl::PinFuncAvailable(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
@@ -233,7 +233,7 @@ bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
+void TUioDevImpl::SetupAdc(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
@@ -241,13 +241,13 @@ void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
   pcf->hwpinflags = PINCFG_INPUT | PINCFG_ANALOGUE;
 }
 
-void TUioGenDevImpl::SetupDac(TPinCfg * pcf)
+void TUioDevImpl::SetupDac(TPinCfg * pcf)
 {
   // TODO: implement
   //pcf->hwpinflags = PINCFG_INPUT | PINCFG_PULLUP;
 }
 
-void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
+void TUioDevImpl::SetupPwm(TPinCfg * pcf)
 {
   const TPinInfo *  pinfo = &g_pininfo[pcf->pinid];
   THwPwmChannel *   pwm = &g_pwm[pcf->unitnum];
@@ -260,7 +260,7 @@ void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
   pcf->hwpinflags = PINCFG_OUTPUT | PINCFG_AF_0 | (((pinfo->pwm >> 8) & 0xF) << PINCFG_AF_SHIFT);
 }
 
-void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
+void TUioDevImpl::SetupSpi(TPinCfg * pcf)
 {
   // A16: SERCOM3[1]: SPI_SCK
   // A17: SERCOM3[0]: SPI_MOSI
@@ -280,7 +280,7 @@ void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)
+void TUioDevImpl::SetupI2c(TPinCfg * pcf)
 {
   // B16: SERCOM5[0]: SDA
   // B17: SERCOM5[1]: SCL
@@ -290,7 +290,7 @@ void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)
   pcf->hwpinflags = PINCFG_AF_C | PINCFG_PULLUP;
 }
 
-void TUioGenDevImpl::SetupUart(TPinCfg * pcf)
+void TUioDevImpl::SetupUart(TPinCfg * pcf)
 {
   // A12: SERCOM2[0]: UART_TX
   // A13: SERCOM2[1]: UART_RX
@@ -307,7 +307,7 @@ void TUioGenDevImpl::SetupUart(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupClockOut(TPinCfg * pcf)
+void TUioDevImpl::SetupClockOut(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
@@ -315,7 +315,7 @@ void TUioGenDevImpl::SetupClockOut(TPinCfg * pcf)
 }
 
 
-bool TUioGenDevImpl::LoadBuiltinConfig(uint8_t anum)
+bool TUioDevImpl::LoadBuiltinConfig(uint8_t anum)
 {
   return false;
 }

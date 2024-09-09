@@ -28,10 +28,10 @@
 #ifndef _UIO_DEVICE_H
 #define _UIO_DEVICE_H
 
-#include "uio_gendev_impl.h"
+#include "uio_dev_impl.h"
 #include "paramtable.h"
 
-class TUioDevice : public TUioGenDevImpl
+class TUioDevice : public TUioDevImpl
 {
 public:
   bool       prfn_0100_DevId(TUdoRequest * rq, TParamRangeDef * prdef);

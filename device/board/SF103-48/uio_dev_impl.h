@@ -1,5 +1,8 @@
 /*
- * uio_gendev_impl.h (ATSAME5X)
+ * uiodev_atsam4s.h
+ *
+ *  Created on: Nov 21, 2021
+ *      Author: vitya
  */
 
 #ifndef UIO_GENDEV_H_
@@ -7,7 +10,7 @@
 
 #include <uio_gendev_base.h>
 
-class TUioGenDevImpl : public TUioDevBase
+class TUioDevImpl : public TUioDevBase
 {
 private:
   typedef TUioDevBase  super;

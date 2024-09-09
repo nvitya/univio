@@ -1,12 +1,13 @@
 /*
- *  file:     uio_gendev_sf401.cpp
- *  brief:    MCU Specific implementation for the 48 pin STM32F401
- *  created:  2022-01-30
+ *  file:     uio_gendev_sf103.cpp
+ *  brief:    MCU Specific implementation for the 48 pin STM32F103
+ *  created:  2021-12-08
  *  authors:  nvitya
 */
 
 #include "hwintflash.h"
 #include "hwspi.h"
+#include "udoslave.h"
 #include "uio_device.h"
 #include "clockcnt.h"
 
@@ -30,41 +31,40 @@ typedef struct
 #define RESERVED     0, 0, 0, 0
 #define UIOPWM(devnum, outnum, altfunc) (0x80000000 | (devnum << 0) | (outnum << 4) | (altfunc << 8))
 #define UIOADC(adcnum, innum)           (0x80000000 | (adcnum << 8) | (innum << 0))
-#define UIODAC(dacnum, outnum)          (0x80000000 | (dacnum << 8) | (outnum << 0))
 
 const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 {
-/*  0   A0 */ { 1,   UIOADC(1, 0), 0, UIOPWM(2, 1, 1) },
-/*  1   A1 */ { 1,   UIOADC(1, 1), 0, UIOPWM(2, 2, 1) },
-/*  2   A2 */ { 1,   UIOADC(1, 2), 0, UIOPWM(2, 3, 1) },
-/*  3   A3 */ { 1,   UIOADC(1, 3), 0, UIOPWM(2, 4, 1) },
+/*  0   A0 */ { 1,   UIOADC(1, 0), 0, 0 },
+/*  1   A1 */ { 1,   UIOADC(1, 1), 0, UIOPWM(2, 2, 0) },
+/*  2   A2 */ { 1,   UIOADC(1, 2), 0, UIOPWM(2, 3, 0) },
+/*  3   A3 */ { 1,   UIOADC(1, 3), 0, UIOPWM(2, 4, 0) },
 /*  4   A4 */ { 1,   UIOADC(1, 4), 0, 0 },
 /*  5   A5 */ { 1,   UIOADC(1, 5), 0, 0 },
-/*  6   A6 */ { 1,   UIOADC(1, 6), 0, UIOPWM(3, 1, 2) },
-/*  7   A7 */ { 1,   UIOADC(1, 7), 0, UIOPWM(3, 2, 2) },
+/*  6   A6 */ { 1,   UIOADC(1, 6), 0, UIOPWM(3, 1, 0) },
+/*  7   A7 */ { 1,   UIOADC(1, 7), 0, UIOPWM(3, 2, 0) },
 
-/*  8   A8 */ { 1 | UIOFUNC_CLKOUT, 0, 0, UIOPWM(3, 1, 2) },  // 25 MHz Output
+/*  8   A8 */ { 1 | UIOFUNC_CLKOUT,   0, 0, 0 },  // 8 MHz Output, no other special output function possible
 /*  9   A9 */ { RESERVED },  // TRACE_OUT = USART1_TX
-/* 10  A10 */ { 1,   0, 0, UIOPWM(1, 3, 1) },
+/* 10  A10 */ { 1,   0, 0, 0 },
 /* 11  A11 */ { RESERVED },  // USB D-
 /* 12  A12 */ { RESERVED },  // USB D+
 /* 13  A13 */ { RESERVED },  // SWDIO
 /* 14  A14 */ { RESERVED },  // SWDCLK
 /* 15  A15 */ { 1,   0, 0, 0 },  // JTAG_TDI !
 
-/* 16   B0 */ { 1,   UIOADC(1, 8), 0, UIOPWM(3, 3, 2) },
-/* 17   B1 */ { 1,   UIOADC(1, 9), 0, UIOPWM(3, 4, 2) },
-/* 18   B2 */ { 1,   0, 0, 0 }, // BOOT-1!
+/* 16   B0 */ { 1,   UIOADC(1, 8), 0, UIOPWM(3, 3, 0) },
+/* 17   B1 */ { 1,   UIOADC(1, 9), 0, UIOPWM(3, 4, 0) },
+/* 18   B2 */ { 1,   0, 0, 0 },
 /* 19   B3 */ { 1,   0, 0, 0 }, // JTAG_TDO / TRACESWO, remap required
-/* 20   B4 */ { 1,   0, 0, 0 }, // JNTRST
-/* 21   B5 */ { 1,   0, 0, UIOPWM(3, 2, 2) },
-/* 22   B6 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 1, 2) },
-/* 23   B7 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 2, 2) },
+/* 20   B4 */ { 1,   0, 0, 0 }, // JNTRST, remap required
+/* 21   B5 */ { 1,   0, 0, 0 },
+/* 22   B6 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 1, 0) },  // I2C1_SCL
+/* 23   B7 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 2, 0) },  // I2C1_SDA
 
-/* 24   B8 */ { 1,  0, 0, UIOPWM(4, 3, 2) },
-/* 25   B9 */ { 1,  0, 0, UIOPWM(4, 4, 2) },
-/* 26  B10 */ { 1,  0, 0, UIOPWM(2, 3, 2) },
-/* 27  B11 */ { 1,  0, 0, UIOPWM(2, 4, 2) },
+/* 24   B8 */ { 1,   0, 0, UIOPWM(4, 3, 0) },
+/* 25   B9 */ { 1,   0, 0, UIOPWM(4, 4, 0) },
+/* 26  B10 */ { 1 | UIOFUNC_UART,  0, 0, 0 },  // UART_TX_OUT = USART3_TX
+/* 27  B11 */ { 1 | UIOFUNC_UART,  0, 0, 0 },  // UART_RX_IN  = USART3_RX
 /* 28  B12 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // CS (GPIO)
 /* 29  B13 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // SPI2_SCK
 /* 30  B14 */ { 1 | UIOFUNC_SPI,   0, 0, 0 },  // SPI2_MISO
@@ -85,15 +85,15 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /* 43  C11 */ { NOTEXISTING },
 /* 44  C12 */ { NOTEXISTING },
 /* 45  C13 */ { 1,   0, 0, 0 },  // on board led
-/* 46  C14 */ { 1,   0, 0, 0 },  // OSC32 in, weak high drive!
-/* 47  C15 */ { 1,   0, 0, 0 },  // OSC32 out, weak high drive!
+/* 46  C14 */ { RESERVED },      // OSC32 in
+/* 47  C15 */ { RESERVED },      // OSC32 out
 };
 
 //------------------------------------------------------------------------------------------------------
 // TUnivioDevice Implementations
 //------------------------------------------------------------------------------------------------------
 
-bool TUioGenDevImpl::InitBoard()
+bool TUioDevImpl::InitBoard()
 {
   unsigned n;
   uint32_t tmp;
@@ -113,33 +113,40 @@ bool TUioGenDevImpl::InitBoard()
     #endif
   #endif
 
-  // WARNING: the Firmware size is limited to 32k, use -Os (optimize to size)
-
-  // the flash here is divided to bigger blocks
-  nvsaddr_nvdata = 0x08008000; // 2x16k sectors
-  nvs_sector_size = hwintflash.EraseSize(nvsaddr_nvdata);
-
-  nvsaddr_setup  = 0x08010000; // 1x64k sector
+  nvsaddr_setup  = 0x0800E000;
+  nvsaddr_nvdata = 0x0800F000;
+  nvs_sector_size = 1024;
 
   // SETUP RESERVED PINS / FUNCTIONS
 
   // Setup A8 to MCO (8 MHz)
 
   tmp = RCC->CFGR;
-  tmp &= ~(RCC_CFGR_MCO1PRE | RCC_CFGR_MCO1);
-  tmp |= (2 << RCC_CFGR_MCO1_Pos); // 2 = HSE
+  tmp &= ~(RCC_CFGR_MCO);
+  tmp |= RCC_CFGR_MCO_HSE;
   RCC->CFGR = tmp;
   //hwpinctrl.PinSetup(PORTNUM_A,  8,  PINCFG_OUTPUT | PINCFG_AF_0);
 
+  // setup REMAP bits
+
+  RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;
+
+  // Turn off jtag for B3, B4
+  tmp = AFIO->MAPR;
+  tmp &= ~AFIO_MAPR_SWJ_CFG;
+  tmp |= AFIO_MAPR_SWJ_CFG_JTAGDISABLE;  // JTAG disabled, SWD enabled
+  tmp = AFIO->MAPR;
+
+
   // Init The ADC
-  g_adc[0].Init(1, 0xFFFF); // enable all 16 channels
+  g_adc[0].Init(1, 0x3FF); // enable all 10 channels
 
   // SPI initialization
 #if UIO_SPI_COUNT > 0
   g_spi[0].manualcspin = &g_pins[SPI_CS_PIN];
   g_spi[0].Init(2);
-  g_dma_spi_tx[0].Init(1, 4, 0);
-  g_dma_spi_rx[0].Init(1, 3, 0);
+  g_dma_spi_tx[0].Init(1, 5, 1);
+  g_dma_spi_rx[0].Init(1, 4, 1);
   g_spi[0].DmaAssign(true,  &g_dma_spi_tx[0]);
   g_spi[0].DmaAssign(false, &g_dma_spi_rx[0]);
 #endif
@@ -148,31 +155,38 @@ bool TUioGenDevImpl::InitBoard()
 #if UIO_I2C_COUNT > 0
   g_i2c[0].Init(1);
   g_dma_i2c_tx[0].Init(1, 7, 1);
-  g_dma_i2c_rx[0].Init(1, 0, 1);
+  g_dma_i2c_rx[0].Init(1, 6, 1);
   g_i2c[0].DmaAssign(true,  &g_dma_i2c_tx[0]);
   g_i2c[0].DmaAssign(false, &g_dma_i2c_rx[0]);
 #endif
 
   // UART Initialization
 #if UIO_UART_COUNT > 0
+  //hwpinctrl.PinSetup(PORTNUM_B, 10,  PINCFG_OUTPUT | PINCFG_AF_0);    // USART3_TX
+  //hwpinctrl.PinSetup(PORTNUM_B, 11,  PINCFG_INPUT  | PINCFG_PULLUP);  // USART3_RX, no AF here!
   g_uart[0].Init(3);
-  g_dma_uart_tx[0].Init((DMACH_UART_TX >> 8), DMACH_UART_TX & 7, 29);
-  g_dma_uart_rx[0].Init((DMACH_UART_RX >> 8), DMACH_UART_RX & 7, 28);
+  g_dma_uart_tx[0].Init(1, 2, 1);
+  g_dma_uart_rx[0].Init(1, 3, 1);
   g_uart[0].DmaAssign(true,  &g_dma_uart_tx[0]);
   g_uart[0].DmaAssign(false, &g_dma_uart_rx[0]);
 #endif
 
-  // USB PINS
-  hwpinctrl.PinSetup(PORTNUM_A, 11, PINCFG_INPUT | PINCFG_AF_10 | PINCFG_SPEED_FAST);  // USB DM
-  hwpinctrl.PinSetup(PORTNUM_A, 12, PINCFG_INPUT | PINCFG_AF_10 | PINCFG_SPEED_FAST);  // USB DP
-
   // Other Pin inits is not necessary here, because all pins will be initialized later to passive
   // before the config loading happens
+
+  // USB RE-CONNECT
+
+  // The Blue Pill has a fix external pull-up on the USB D+ = PA12, which always signalizes a connected device
+  // in order to reinit the device upon restart we pull this down:
+
+  hwpinctrl.PinSetup(PORTNUM_A, 12, PINCFG_OUTPUT | PINCFG_OPENDRAIN | PINCFG_GPIO_INIT_0);
+  delay_us(10000); // 10 ms
+  hwpinctrl.PinSetup(PORTNUM_A, 12, PINCFG_AF_0);
 
   return true;
 }
 
-bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
+bool TUioDevImpl::PinFuncAvailable(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
@@ -212,7 +226,7 @@ bool TUioGenDevImpl::PinFuncAvailable(TPinCfg * pcf)
   }
 }
 
-void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
+void TUioDevImpl::SetupAdc(TPinCfg * pcf)
 {
   const TPinInfo * pinfo = &g_pininfo[pcf->pinid];
 
@@ -220,13 +234,13 @@ void TUioGenDevImpl::SetupAdc(TPinCfg * pcf)
   pcf->hwpinflags = PINCFG_INPUT | PINCFG_ANALOGUE;
 }
 
-void TUioGenDevImpl::SetupDac(TPinCfg * pcf)
+void TUioDevImpl::SetupDac(TPinCfg * pcf)
 {
   // TODO: implement
-  pcf->hwpinflags = PINCFG_ANALOGUE;
+  pcf->hwpinflags = PINCFG_INPUT | PINCFG_PULLUP;
 }
 
-void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
+void TUioDevImpl::SetupPwm(TPinCfg * pcf)
 {
   const TPinInfo *  pinfo = &g_pininfo[pcf->pinid];
   THwPwmChannel *   pwm = &g_pwm[pcf->unitnum];
@@ -240,7 +254,7 @@ void TUioGenDevImpl::SetupPwm(TPinCfg * pcf)
 
 }
 
-void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
+void TUioDevImpl::SetupSpi(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
@@ -251,39 +265,39 @@ void TUioGenDevImpl::SetupSpi(TPinCfg * pcf)
   }
   else
   {
-    pcf->hwpinflags = PINCFG_AF_5;
+    pcf->hwpinflags = PINCFG_AF_0;
   }
 }
 
-void TUioGenDevImpl::SetupI2c(TPinCfg * pcf)
+void TUioDevImpl::SetupI2c(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
-  pcf->hwpinflags = PINCFG_AF_4;
+  pcf->hwpinflags = PINCFG_AF_0;
 }
 
-void TUioGenDevImpl::SetupUart(TPinCfg * pcf)
+void TUioDevImpl::SetupUart(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
   if (pcf->pinid == 16 * PORTNUM_B + 10)  // USART3_TX
   {
-    pcf->hwpinflags = PINCFG_OUTPUT | PINCFG_AF_7;
+    pcf->hwpinflags = PINCFG_OUTPUT | PINCFG_AF_0;
   }
   else
   {
-    pcf->hwpinflags = PINCFG_INPUT  | PINCFG_AF_7 | PINCFG_PULLUP;
+    pcf->hwpinflags = PINCFG_INPUT  | PINCFG_PULLUP; // no AF here (F1 only)
   }
 }
 
-void TUioGenDevImpl::SetupClockOut(TPinCfg * pcf)
+void TUioDevImpl::SetupClockOut(TPinCfg * pcf)
 {
   TGpioPin * ppin = &g_pins[pcf->pinid];
 
   pcf->hwpinflags = PINCFG_OUTPUT | PINCFG_AF_0;
 }
 
-bool TUioGenDevImpl::LoadBuiltinConfig(uint8_t anum)
+bool TUioDevImpl::LoadBuiltinConfig(uint8_t anum)
 {
   return false;
 }
