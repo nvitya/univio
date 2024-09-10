@@ -32,6 +32,7 @@
 #define UIO_UART_COUNT      1
 #define UIO_I2C_COUNT       1
 #define UIO_SPI_COUNT       1
+#define UIO_SPIFLASH_COUNT  1
 
 #define UIO_SPI_CS_COUNT    1
 

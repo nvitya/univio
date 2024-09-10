@@ -20,7 +20,7 @@
  * --------------------------------------------------------------------------- */
 /*
  *  file:     uio_gendev_base.h
- *  brief:    UNIVIO GENDEV target independent parts
+ *  brief:    UNIVIO device target independent parts
  *  date:     2022-02-13
  *  authors:  nvitya
 */
@@ -40,6 +40,10 @@
 
 #include "usbfunc_cdc_uart.h"
 #include "simple_partable.h"
+
+#include "uio_i2c_control.h"
+#include "uio_spi_control.h"
+#include "uio_spiflash_control.h"
 
 #define UIO_DEVICE_TYPE_ID   "UIO-V3"   // Index 0x0100
 
@@ -116,10 +120,6 @@
 #define UIO_INFOCBIT_I2CB   (16 << 3)
 #define UIO_INFOCBIT_CANB   (16 << 4)
 
-
-#define UIO_FLW_SLOT_MAX      4
-#define UIO_FLW_SECTOR_SIZE   4096
-
 typedef struct
 {
   uint32_t          signature;
@@ -158,68 +158,6 @@ typedef struct
 //
 } TPinCfg;
 
-typedef struct TUioFlwSlot
-{
-	uint8_t           busy;
-	uint8_t           cmd;          // 3 = copy, 1 = flash 4k sector only
-	uint8_t           slotidx;
-	uint8_t           _reserved[1];
-	uint32_t          fladdr;
-	TUioFlwSlot *     next;
-//
-} TUioFlwSlot;
-
-class TUioDevBase;
-
-class TUioSpiCtrl : public TClass
-{
-public:
-	TUioDevBase *     devbase = nullptr;
-  THwSpi *          spi = nullptr;
-  uint16_t          spi_rx_offs = 0;
-  uint16_t          spi_tx_offs = 0;
-  uint32_t          spi_speed = 1000000;
-  uint16_t          spi_trlen = 0;
-  uint8_t           spi_status = 0;
-  uint8_t           spi_mode = 0;
-
-  uint8_t           spifl_state = 0;
-  uint32_t          spifl_cmd[2] = {0, 0};
-  uint8_t *         spifl_wrkbuf = nullptr;
-  uint8_t *         spifl_srcbuf = nullptr;
-
-	void              Init(TUioDevBase * adevbase, THwSpi * aspi);
-	void              Run();
-	uint16_t          SpiStart();
-	void              UpdateSettings();
-	bool              prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef);
-
-  void              SpiFlashRun();
-  bool              SpiFlashCmdPrepare();
-  void              SpiFlashSlotFinish();
-};
-
-class TUioI2cCtrl : public TClass
-{
-public:
-	TUioDevBase *     devbase = nullptr;
-
-  THwI2c *          i2c = nullptr;
-  TI2cTransaction   i2ctra;
-  uint16_t          i2c_data_offs = 0;
-  uint32_t          i2c_speed = 100000;
-  uint32_t          i2c_eaddr = 0;
-  uint32_t          i2c_cmd = 0;
-  uint16_t          i2c_trlen = 0;
-  uint16_t          i2c_result = 0;
-
-	void              Init(TUioDevBase * adevbase, THwI2c * ai2c);
-	void              Run();
-  uint16_t          I2cStart();
-	bool              prfn_I2cControl(TUdoRequest * rq, TParamRangeDef * prdef);
-
-};
-
 class TUioDevBase : public TClass
 {
 public: // internal state
@@ -241,14 +179,6 @@ public:
   TUioCfgStb        cfg;
 
   uint8_t *         mpram = nullptr;
-
-  TUioSpiCtrl       spictrl[UIO_SPI_COUNT];
-  TUioI2cCtrl       i2cctrl[UIO_I2C_COUNT];
-
-  uint8_t           flws_cnt = 0;
-  TUioFlwSlot       flwslot[UIO_FLW_SLOT_MAX];
-  TUioFlwSlot *     flws_first = nullptr;
-  TUioFlwSlot *     flws_last  = nullptr;
 
   THwUart *         uart[UIO_UART_COUNT];
   bool              uart_active[UIO_UART_COUNT];
@@ -310,8 +240,6 @@ extern THwAdc           g_adc[UIOMCU_ADC_COUNT];
 extern THwPwmChannel    g_pwm[UIO_PWM_COUNT];
 extern TGpioPin         g_pins[UIO_PIN_COUNT];
 
-extern THwSpi           g_spi[UIO_SPI_COUNT];
-extern THwI2c           g_i2c[UIO_I2C_COUNT];
 extern THwUart          g_uart[UIO_UART_COUNT];
 
 extern THwDmaChannel    g_dma_spi_tx[UIO_SPI_COUNT];

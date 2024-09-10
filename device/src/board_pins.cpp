@@ -9,5 +9,4 @@
 #include "board_pins.h"
 
 THwUart           traceuart;
-TSpiFlash         extflash;
 

@@ -13,7 +13,6 @@
 #include "spiflash.h"
 
 extern THwUart           traceuart;
-extern TSpiFlash         extflash;
 
 #if HAS_SPI_FLASH
   extern TSpiFlash  spiflash;

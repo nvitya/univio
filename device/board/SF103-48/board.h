@@ -24,6 +24,7 @@
 #define UIO_UART_COUNT      1
 #define UIO_I2C_COUNT       1
 #define UIO_SPI_COUNT       1
+#define UIO_SPIFLASH_COUNT  0  // not enough MPRAM
 
 // UnivID Device settings
 
