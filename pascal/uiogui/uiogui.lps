@@ -8,7 +8,7 @@
       <Unit>
         <Filename Value="uiogui.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="23"/>
+        <CursorPos X="46" Y="20"/>
         <UsageCount Value="58"/>
         <Loaded Value="True"/>
       </Unit>
@@ -18,9 +18,10 @@
         <ComponentName Value="frm_main"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="342"/>
-        <CursorPos X="25" Y="424"/>
+        <TopLine Value="58"/>
+        <CursorPos X="19" Y="104"/>
         <UsageCount Value="57"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -40,8 +41,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="1"/>
-        <TopLine Value="244"/>
-        <CursorPos X="3" Y="246"/>
+        <CursorPos X="28" Y="35"/>
         <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit>
@@ -116,7 +116,7 @@
       <Unit>
         <Filename Value="src\udo_utils.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <CursorPos Y="26"/>
         <UsageCount Value="31"/>
         <Loaded Value="True"/>
@@ -127,7 +127,7 @@
         <ComponentName Value="frmSpi"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="89"/>
         <CursorPos X="39" Y="129"/>
         <UsageCount Value="30"/>
@@ -140,7 +140,7 @@
         <ComponentName Value="frmConnect"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="78"/>
         <CursorPos X="73" Y="91"/>
         <UsageCount Value="24"/>
@@ -167,6 +167,7 @@
         <Filename Value="..\univio\univio_conn.pas"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="1"/>
+        <TopLine Value="329"/>
         <CursorPos X="3" Y="413"/>
         <UsageCount Value="28"/>
         <Loaded Value="True"/>
@@ -227,9 +228,8 @@
       </Unit>
       <Unit>
         <Filename Value="..\univio\uio_iohandler.pas"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="49"/>
-        <CursorPos X="17" Y="92"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="86" Y="35"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit>
@@ -283,7 +283,6 @@
       </Unit>
       <Unit>
         <Filename Value="..\utils_os\strparseobj.pas"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <WindowIndex Value="1"/>
         <TopLine Value="12"/>
@@ -299,51 +298,19 @@
         <CursorPos X="3" Y="435"/>
         <UsageCount Value="11"/>
       </Unit>
+      <Unit>
+        <Filename Value="src\version_uio_gui.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="15" Y="15"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="1"/>
     </General>
-    <JumpHistory HistoryIndex="27">
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="43" Column="23"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="21" Column="43"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="45"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="51" Column="3"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="34" Column="27"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="116" Column="10"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="127" Column="42" TopLine="44"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_connect.pas"/>
-        <Caret Line="76" Column="3" TopLine="11"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="9" Column="37"/>
-      </Position>
-      <Position>
-        <Filename Value="src\form_main.pas"/>
-        <Caret Line="75" Column="17" TopLine="37"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="414" Column="5" TopLine="350"/>
@@ -414,6 +381,54 @@
       <Position>
         <Filename Value="src\form_main.pas"/>
         <Caret Line="49" Column="23"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="280" Column="55" TopLine="233"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="66" Column="15" TopLine="27"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="178" Column="28" TopLine="152"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="53" Column="5" TopLine="11"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="36" Column="30"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="91" Column="3" TopLine="84"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\iohandler_base.pas"/>
+        <Caret Line="40" Column="17"/>
+      </Position>
+      <Position>
+        <Filename Value="..\univio\uio_iohandler.pas"/>
+        <Caret Line="114" Column="37" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="66" Column="18" TopLine="11"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="252" Column="54" TopLine="239"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="42" Column="32"/>
+      </Position>
+      <Position>
+        <Filename Value="src\form_main.pas"/>
+        <Caret Line="87" Column="70" TopLine="49"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -84,7 +84,7 @@ var
 implementation
 
 uses
-  iohandler_base, form_more_info, form_i2c, form_spi;
+  iohandler_base, form_more_info, form_i2c, form_spi, version_uio_gui;
 
 {$R *.lfm}
 
@@ -100,8 +100,8 @@ end;
 procedure Tfrm_main.FormCreate(Sender : TObject);
 begin
   ioh := TUnivIoHandler.Create(udocomm);
-  flist_dout := [];
   LoadSetup;
+  caption := 'UnivIO GUI - v'+prg_version;
 end;
 
 procedure Tfrm_main.timerTimer(Sender : TObject);
@@ -191,7 +191,7 @@ begin
       fra.Top := refra.Top + n * refra.Height;
     end;
     fra.line := line;
-    fra.lb.Caption := IntToStr(n);
+    fra.lb.Caption := IntToStr(line.unitid);
     fra.visible := true;
 
     insert(fra, flist_dout, length(flist_dout));
@@ -226,7 +226,7 @@ begin
       fra.Top := refra.Top + n * refra.Height;
     end;
     fra.line := line;
-    fra.lb.Caption := IntToStr(n);
+    fra.lb.Caption := IntToStr(line.unitid);
     fra.visible := true;
 
     insert(fra, flist_din, length(flist_din));
@@ -261,7 +261,7 @@ begin
       fra.Top := refra.Top + n * refra.Height;
     end;
     fra.line := line;
-    fra.lb.Caption := IntToStr(n);
+    fra.lb.Caption := IntToStr(line.unitid);
     fra.Visible := true;
 
     insert(fra, flist_ain, length(flist_ain));
@@ -295,7 +295,7 @@ begin
       fra.Top := refra.Top + n * refra.Height;
     end;
     fra.line := line;
-    fra.lb.Caption := IntToStr(n);
+    fra.lb.Caption := IntToStr(line.unitid);
     fra.Visible := true;
 
     insert(fra, flist_pwm, length(flist_pwm));
@@ -329,7 +329,7 @@ begin
       fra.Top := refra.Top + n * refra.Height;
     end;
     fra.line := line;
-    fra.lb.Caption := IntToStr(n);
+    fra.lb.Caption := IntToStr(line.unitid);
     fra.visible := true;
 
     insert(fra, flist_ledblp, length(flist_ledblp));
