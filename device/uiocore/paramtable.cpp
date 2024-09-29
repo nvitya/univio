@@ -77,13 +77,15 @@ const TParamRangeDef  param_range_table[] =
   {0x1000, 0x1001, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DigOutSetClr) },
   {0x1010, 0x1010, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DigOutDirect) },
   {0x1100, 0x1100, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_DigInValues) },
-  {0x1200, 0x121F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_AnaInValues) },
+  {0x1200, 0x12FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_AnaInValues) },
   {0x1300, 0x13FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_AnaOutCtrl) },
   {0x1400, 0x14FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_PwmControl) },
   {0x1500, 0x15FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_LedBlpCtrl) },
 
 	// SPI, I2C
-  {0x1600, 0x161F, nullptr, &g_spictrl[0], PParRangeMethod(&TUioSpiCtrl::prfn_SpiControl) },
+  #if UIO_SPI_COUNT > 0
+    {0x1600, 0x161F, nullptr, &g_spictrl[0], PParRangeMethod(&TUioSpiCtrl::prfn_SpiControl) },
+  #endif
 	#if UIO_SPI_COUNT > 1
 	  {0x1620, 0x163F, nullptr, &g_spictrl[1], PParRangeMethod(&TUioSpiCtrl::prfn_SpiControl) },
 	#endif
@@ -92,10 +94,19 @@ const TParamRangeDef  param_range_table[] =
     {0x1680, 0x168F, nullptr, &g_spiflash_ctrl, PParRangeMethod(&TUioSpiFlashCtrl::prfn_SpiFlashControl) },
   #endif
 
-  {0x1700, 0x171F, nullptr, &g_i2cctrl[0], PParRangeMethod(&TUioI2cCtrl::prfn_I2cControl) },
+  #if UIO_I2C_COUNT > 0
+    {0x1700, 0x171F, nullptr, &g_i2cctrl[0], PParRangeMethod(&TUioI2cCtrl::prfn_I2cControl) },
+  #endif
 	#if UIO_I2C_COUNT > 1
 	  {0x1720, 0x173F, nullptr, &g_i2cctrl[1], PParRangeMethod(&TUioI2cCtrl::prfn_I2cControl) },
 	#endif
+
+  #if UIO_CAN_COUNT > 0
+    {0x1800, 0x180F, nullptr, &g_canctrl[0], PParRangeMethod(&TUioCanCtrl::prfn_CanControl) },
+  #endif
+  #if UIO_CAN_COUNT > 1
+    {0x1820, 0x182F, nullptr, &g_canctrl[0], PParRangeMethod(&TUioCanCtrl::prfn_CanControl) },
+  #endif
 
   // MPRAM
   {0xC000, 0xC000, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_Mpram) },

@@ -36,6 +36,8 @@
 #include "hwi2c.h"
 #include "hwdma.h"
 
+#include "uio_common.h"
+
 class TUioDevBase;
 
 class TUioI2cCtrl : public TClass

@@ -318,18 +318,39 @@ bool TUioDevice::prfn_AnaInValues(TUdoRequest * rq, TParamRangeDef * prdef)
     return udo_response_error(rq, UDOERR_READ_ONLY);
   }
 
+  uint8_t range = (rq->index & 0xC0);
   uint8_t idx = (rq->index & 0x1F);
-  uint16_t rv16;
   uint16_t err;
 
-  err = GetAdcValue(idx, &rv16); // handles non-existing unit too
-  if (err)
+  if (0x00 == range)  // 16-bit unsigned
   {
-    return udo_response_error(rq, err);
+    uint16_t rv16;
+    err = GetAdcValue(idx, &rv16); // handles non-existing unit too
+    if (err)
+    {
+      return udo_response_error(rq, err);
+    }
+    else
+    {
+      return udo_ro_uint(rq, rv16, 2);
+    }
+  }
+  else if (0x40 == range)  // 32-bit floating point
+  {
+    float rvf32;
+    err = GetAdcValueF32(idx, &rvf32); // handles non-existing unit too
+    if (err)
+    {
+      return udo_response_error(rq, err);
+    }
+    else
+    {
+      return udo_ro_f32(rq, rvf32);
+    }
   }
   else
   {
-    return udo_ro_uint(rq, rv16, 2);
+  	return udo_response_error(rq, UDOERR_INDEX);
   }
 }
 

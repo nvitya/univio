@@ -41,8 +41,11 @@
 #include "usbfunc_cdc_uart.h"
 #include "simple_partable.h"
 
+#include "uio_common.h"
+
 #include "uio_i2c_control.h"
 #include "uio_spi_control.h"
+#include "uio_can_control.h"
 #include "uio_spiflash_control.h"
 
 #define UIO_DEVICE_TYPE_ID   "UIO-V3"   // Index 0x0100
@@ -209,6 +212,7 @@ public:
   void              SetPwmDuty(uint8_t apwmnum, uint16_t aduty);
   void              SetDacOutput(uint8_t adacnum, uint16_t avalue);
   virtual uint16_t  GetAdcValue(uint8_t adc_idx, uint16_t * rvalue);
+  virtual uint16_t  GetAdcValueF32(uint8_t adc_idx, float * rvalue);
 
 
 public:  // base class mandatory implementations

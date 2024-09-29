@@ -19,47 +19,35 @@
  * 3. This notice may not be removed or altered from any source distribution.
  * --------------------------------------------------------------------------- */
 /*
- *  file:     uio_spi_control.h
- *  brief:    UNIVIO SPI controller interface
+ *  file:     uio_common.h
+ *  brief:    UNIVIO Common Definitions
  *  date:     2024-09-10
  *  authors:  nvitya
 */
 
-#ifndef UIOCORE_UIO_SPI_CONTROL_H_
-#define UIOCORE_UIO_SPI_CONTROL_H_
+#ifndef UIOCORE_UIO_COMMON_H_
+#define UIOCORE_UIO_COMMON_H_
 
-#include "tclass.h"
-#include "udo.h"
-#include "udoslave.h"
-#include "simple_partable.h"
+#include "platform.h"  // includes board.h
 
-#include "hwspi.h"
-#include "hwdma.h"
+#ifndef UIO_UART_COUNT
+  #define UIO_UART_COUNT  0
+#endif
 
-#include "uio_common.h"
+#ifndef UIO_I2C_COUNT
+  #define UIO_I2C_COUNT   0
+#endif
 
-class TUioDevBase;
+#ifndef UIO_SPI_COUNT
+  #define UIO_SPI_COUNT   0
+#endif
 
-class TUioSpiCtrl : public TClass
-{
-public:
-  TUioDevBase *     devbase = nullptr;
-  THwSpi *          spi = nullptr;
-  uint16_t          spi_rx_offs = 0;
-  uint16_t          spi_tx_offs = 0;
-  uint32_t          spi_speed = 1000000;
-  uint16_t          spi_trlen = 0;
-  uint8_t           spi_status = 0;
-  uint8_t           spi_mode = 0;
+#ifndef UIO_CAN_COUNT
+  #define UIO_CAN_COUNT   0
+#endif
 
-  void              Init(TUioDevBase * adevbase, THwSpi * aspi);
-  void              Run();
-  uint16_t          SpiStart();
-  void              UpdateSettings();
-  bool              prfn_SpiControl(TUdoRequest * rq, TParamRangeDef * prdef);
-};
+#ifndef UIO_SPIFLASH_COUNT
+  #define UIO_SPIFLASH_COUNT  0
+#endif
 
-extern THwSpi       g_spi[UIO_SPI_COUNT];
-extern TUioSpiCtrl  g_spictrl[UIO_SPI_COUNT];
-
-#endif /* UIOCORE_UIO_SPI_CONTROL_H_ */
+#endif /* UIOCORE_UIO_COMMON_H_ */

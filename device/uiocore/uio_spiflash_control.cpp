@@ -25,7 +25,7 @@
  *  authors:  nvitya
 */
 
-#include "board.h"
+#include "uio_common.h"
 
 #if UIO_SPIFLASH_COUNT
 

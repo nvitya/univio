@@ -93,6 +93,7 @@ bool TUioDevBase::InitDevice()
 
   for (n = 0; n < UIO_SPI_COUNT;  ++n)  g_spictrl[n].Init(this, &g_spi[n]);
   for (n = 0; n < UIO_I2C_COUNT;  ++n)  g_i2cctrl[n].Init(this, &g_i2c[n]);
+  for (n = 0; n < UIO_CAN_COUNT;  ++n)  g_canctrl[n].Init(this, &g_can[n]);
   #if UIO_SPIFLASH_COUNT
     g_spiflash_ctrl.Init(this);
   #endif
@@ -378,6 +379,21 @@ uint16_t TUioDevBase::GetAdcValue(uint8_t adc_idx, uint16_t * rvalue)
   *rvalue = g_adc[adcnum].ChValue(adcch);
   return 0;
 }
+
+uint16_t TUioDevBase::GetAdcValueF32(uint8_t adc_idx, float * rvalue)
+{
+	uint16_t r;
+	uint16_t u16value;
+	r = GetAdcValue(adc_idx, &u16value);
+	if (0 != r)
+	{
+		return r;
+	}
+
+	*rvalue = (float(u16value) / 65535);
+  return 0;
+}
+
 
 void TUioDevBase::SaveSetup()
 {

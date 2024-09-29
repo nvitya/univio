@@ -28,7 +28,7 @@
 #ifndef UIOCORE_UIO_SPIFLASH_CONTROL_H_
 #define UIOCORE_UIO_SPIFLASH_CONTROL_H_
 
-#include "board.h"
+#include "uio_common.h"
 
 #if UIO_SPIFLASH_COUNT
 
