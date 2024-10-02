@@ -1,5 +1,6 @@
 import serial
 import struct
+import os
 from .udo_comm import *
 
 # CRC8 table with the standard polynom of 0x07:
@@ -65,7 +66,11 @@ class TCommHandlerUdoSl(TUdoCommHandler):
             except:
                 pass
 
-        self.com = serial.Serial(self.devstr, self.baudrate, timeout=self.timeout,
+        devfile = self.devstr
+        if ('posix' == os.name) and (devfile.find('/dev/') < 0):
+            devfile = '/dev/'+devfile
+
+        self.com = serial.Serial(devfile, self.baudrate, timeout=self.timeout,
                                  bytesize=serial.EIGHTBITS, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE)
 
     def Close(self):
