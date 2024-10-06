@@ -322,6 +322,10 @@ bool TUioConfig::ParsePinConf()
   {
   	pintype = UIO_PINTYPE_CLKOUT;
   }
+  else if (sp->UCComparePrev("CAN"))
+  {
+  	pintype = UIO_PINTYPE_CAN;
+  }
   else
   {
   	errormsg = string("Invalid pintype: \"") + sp->PrevStr() + "\"";

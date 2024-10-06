@@ -16,7 +16,7 @@
 
 // fix maximums
 #define UIO_PWM_COUNT       8
-#define UIO_ADC_COUNT      16
+#define UIO_ADC_COUNT      32
 #define UIO_DAC_COUNT       8
 #define UIO_DOUT_COUNT     32
 #define UIO_DIN_COUNT      32
@@ -33,6 +33,7 @@
 #define UIO_PINTYPE_I2C              8
 #define UIO_PINTYPE_UART             9
 #define UIO_PINTYPE_CLKOUT          10
+#define UIO_PINTYPE_CAN             11
 
 
 class TUioConfig : public TConfigFileParser
