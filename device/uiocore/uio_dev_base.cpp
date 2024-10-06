@@ -307,7 +307,7 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       SetupSpi(&pcf);
     }
-    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_SPI;
+    cfginfo[UIO_INFOIDX_CBITS] |= (UIO_INFOCBIT_SPI << (16 * unitnum));
   }
 
   else if (UIO_PINTYPE_I2C == pintype)
@@ -316,7 +316,7 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     {
       SetupI2c(&pcf);
     }
-    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_I2C;
+    cfginfo[UIO_INFOIDX_CBITS] |= (UIO_INFOCBIT_I2C << (16 * unitnum));
   }
 
   else if (UIO_PINTYPE_UART == pintype)
@@ -327,7 +327,7 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
 				uart_active[0] = true;  // will create the USB-UART port
 				SetupUart(&pcf);
 			}
-	    cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_UART;
+	    cfginfo[UIO_INFOIDX_CBITS] |= (UIO_INFOCBIT_UART << (16 * unitnum));
 		#endif
   }
 
@@ -338,6 +338,15 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
       SetupClockOut(&pcf);
     }
     cfginfo[UIO_INFOIDX_CBITS] |= UIO_INFOCBIT_CLKOUT;
+  }
+
+  else if (UIO_PINTYPE_CAN == pintype)
+  {
+    if (active)
+    {
+      SetupCan(&pcf);
+    }
+    cfginfo[UIO_INFOIDX_CBITS] |= (UIO_INFOCBIT_CAN << (16 * unitnum));
   }
 
   else // unhandled config
