@@ -8,18 +8,17 @@
         <Filename Value="cantest.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="28"/>
-        <CursorPos X="23" Y="57"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="40"/>
+        <CursorPos X="5" Y="108"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="../univio/univio.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="56" Y="16"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -28,7 +27,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="44" Y="7"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -37,7 +36,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="274"/>
         <CursorPos Y="215"/>
-        <UsageCount Value="37"/>
+        <UsageCount Value="38"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -47,7 +46,7 @@
         <WindowIndex Value="1"/>
         <TopLine Value="10"/>
         <CursorPos X="41" Y="28"/>
-        <UsageCount Value="34"/>
+        <UsageCount Value="35"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -56,7 +55,7 @@
         <EditorIndex Value="-1"/>
         <WindowIndex Value="1"/>
         <CursorPos X="44" Y="41"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -150,7 +149,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="5">
+    <JumpHistory HistoryIndex="9">
       <Position>
         <Filename Value="cantest.lpr"/>
         <Caret Line="46" Column="11"/>
@@ -174,6 +173,22 @@
       <Position>
         <Filename Value="cantest.lpr"/>
         <Caret Line="112" Column="15" TopLine="28"/>
+      </Position>
+      <Position>
+        <Filename Value="cantest.lpr"/>
+        <Caret Line="87" Column="13" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="cantest.lpr"/>
+        <Caret Line="95" Column="9" TopLine="46"/>
+      </Position>
+      <Position>
+        <Filename Value="cantest.lpr"/>
+        <Caret Line="61" Column="13" TopLine="16"/>
+      </Position>
+      <Position>
+        <Filename Value="cantest.lpr"/>
+        <Caret Line="85" Column="50" TopLine="34"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -1,7 +1,7 @@
 program cantest;
 
 uses
-  SysUtils,
+  SysUtils, DateUtils,
   udo_comm, commh_udosl, util_nstime;
 
 type
@@ -45,6 +45,70 @@ begin
     write(' '+IntToHex(msg.data[i], 2));
   end;
   writeln;
+end;
+
+procedure CanReadMsgCont;
+var
+  r : integer;
+  pmsg : ^TUioCanMsg;
+  pu32 : ^uint32;
+  start_sn : uint32;
+  summsg : uint32;
+  mcnt : integer;
+  st, t : TDateTime;
+  hbcnt : integer;
+
+  msgstartid : uint32;
+
+  buf  : array[0..1023] of byte;
+begin
+  writeln('Reading messages continuously...');
+
+  summsg := 0;
+  hbcnt := 0;
+  msgstartid := 0;
+  st := now;
+
+  while true do
+  begin
+    r := udocomm.UdoRead($1808, msgstartid, buf[0], sizeof(buf));
+    //writeln('  r = ',r);
+    pu32 := @buf[0];
+    //writeln('  rxcnt=', pu32^);
+    inc(pu32);
+    //writeln('  rxcnt_start=', pu32^);
+    start_sn := pu32^;
+    mcnt := (r - 8) div sizeof(TUioCanMsg);
+    //writeln('  mcnt = ', mcnt);
+
+    if start_sn <> msgstartid then
+    begin
+      writeln('start id mismatch: ',start_sn,' <> ',msgstartid);
+    end;
+
+    summsg += mcnt;
+    msgstartid := (start_sn + mcnt) and $FFFFFFFF;
+
+    {$if 0}
+    pmsg := @buf[8];
+    for n := 0 to mcnt - 1 do
+    begin
+      PrintCanMsg(start_sn + n, pmsg^);
+      inc(pmsg);
+    end;
+    {$endif}
+
+    t := now;
+    if MilliSecondsBetween(t, st) > 1000 then
+    begin
+      writeln(hbcnt,'. msgcnt=', summsg);
+      summsg := 0;
+      st := t;
+    end;
+
+    sleep(1);
+  end;
+
 end;
 
 procedure CanTest;
@@ -111,6 +175,8 @@ begin
     PrintCanMsg(start_sn + n, pmsg^);
     inc(pmsg);
   end;
+
+  CanReadMsgCont;
 
   writeln('CAN Test finished.');
 end;
