@@ -219,16 +219,16 @@ bool TUioCanCtrl::prfn_CanControl(TUdoRequest * rq, TParamRangeDef * prdef)
     }
 
     // Answer format:
-    //   u32       rxcnt;
-    //   u32       start_rxcnt;
-    //   TCanMsg   msg[];
+    //   u32         rxcnt;
+    //   u32         start_rxcnt;
+    //   TUioCanMsg  msg[];
 
     uint32_t * pact_rxcnt   = (uint32_t *)(rq->dataptr + 0);
     uint32_t * pstart_rxcnt = (uint32_t *)(rq->dataptr + 4);
     *pact_rxcnt = mstatus.rx_cnt;
     rq->anslen = 8;
 
-    TCanMsg *  pmsg = (TCanMsg *)(rq->dataptr + 8);
+    TUioCanMsg *  pomsg = (TUioCanMsg *)(rq->dataptr + 8);
 
     int msgcnt = mstatus.rx_cnt - rq->offset;  // count of new messages to send
     if (msgcnt <= 0)
@@ -247,6 +247,7 @@ bool TUioCanCtrl::prfn_CanControl(TUdoRequest * rq, TParamRangeDef * prdef)
     }
 
     uint32_t startcnt = mstatus.rx_cnt - msgcnt;
+    *pstart_rxcnt = startcnt;
     uint32_t maxmsg = (rq->maxanslen - rq->anslen) / sizeof(TCanMsg);
     if (msgcnt > maxmsg)
     {
@@ -256,8 +257,15 @@ bool TUioCanCtrl::prfn_CanControl(TUdoRequest * rq, TParamRangeDef * prdef)
     unsigned midx = (startcnt % UIO_CAN_RXBUF_SIZE);
     while (msgcnt)
     {
-      *pmsg = rxbuf[midx];
-      ++pmsg;
+      TCanMsg * imsg = &rxbuf[midx];
+
+      pomsg->can_id  = imsg->cobid;
+      pomsg->can_dlc = imsg->len;
+      pomsg->__pad   = 0;
+      pomsg->timestamp = imsg->timestamp;
+      *(uint32_t *)&pomsg->data[0] = *(uint32_t *)&imsg->data[0];
+      *(uint32_t *)&pomsg->data[4] = *(uint32_t *)&imsg->data[4];
+      ++pomsg;
       ++midx;
       if (midx >= UIO_CAN_RXBUF_SIZE)
       {

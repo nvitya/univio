@@ -53,6 +53,17 @@ class TUioDevBase;
 
 typedef struct
 {
+  uint32_t   can_id;
+  uint8_t    can_dlc;
+  uint8_t    __pad;
+  uint16_t   timestamp;   // in CAN bit-clocks
+
+  uint8_t    data[8];
+//
+} TUioCanMsg; // 16 Bytes
+
+typedef struct
+{
   uint8_t   status;       // actual status flags
   uint8_t   ctrl;         // actual conrol flags
   uint8_t   acterr_rx;    // CAN std actual RX error counter (0-255)

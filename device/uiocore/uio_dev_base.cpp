@@ -658,6 +658,11 @@ void TUioDevBase::Run() // handle led blink patterns
   	g_i2cctrl[n].Run();
   }
 
+  for (n = 0; n < UIO_CAN_COUNT; ++n)
+  {
+    g_canctrl[n].Run();
+  }
+
 #if UIO_SPIFLASH_COUNT
   g_spiflash_ctrl.Run();
 #endif
