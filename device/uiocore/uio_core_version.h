@@ -11,12 +11,14 @@
 
 #define UIO_VERSION_MAJOR       3
 #define UIO_VERSION_MINOR       1
-#define UIO_VERSION_INCREMENT   2
+#define UIO_VERSION_INCREMENT   3
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
 /* VERSION LOG
 
+3.1.3
+  - DAC Implementation
 3.1.2
   - CAN Fixes
 3.1.1

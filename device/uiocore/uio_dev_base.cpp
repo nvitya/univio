@@ -36,6 +36,7 @@
 
 THwUart          g_uart[UIO_UART_COUNT];
 THwAdc           g_adc[UIOMCU_ADC_COUNT];
+THwDacChannel    g_dac[UIO_DAC_COUNT];
 THwPwmChannel    g_pwm[UIO_PWM_COUNT];
 TGpioPin         g_pins[UIO_PIN_COUNT];
 
@@ -272,9 +273,13 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
       return UIOERR_UNITSEL;
     }
 
+    THwDacChannel * dac = &g_dac[unitnum];
+    ana_out[unitnum] = dac;
+
     if (active)
     {
       SetupDac(&pcf);
+      SetDacOutput(unitnum, dac_value[unitnum]);  // set the default output !
     }
 
     cfginfo[UIO_INFOIDX_DAC] |= (1 << unitnum);
@@ -369,6 +374,8 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
   return 0;
 }
 
+// ADC
+
 uint16_t TUioDevBase::GetAdcValue(uint8_t adc_idx, uint16_t * rvalue)
 {
   if (adc_idx >= UIO_ADC_COUNT)
@@ -403,6 +410,36 @@ uint16_t TUioDevBase::GetAdcValueF32(uint8_t adc_idx, float * rvalue)
   return 0;
 }
 
+// DAC
+
+uint16_t TUioDevBase::SetDacOutput(uint8_t dac_idx, uint16_t avalue)
+{
+  if (dac_idx >= UIO_DAC_COUNT)
+  {
+    return UIOERR_UNITSEL;
+  }
+
+  THwDacChannel * pdac = ana_out[dac_idx];
+  if (!pdac)
+  {
+  	return UIOERR_UNITSEL;
+  }
+
+  dac_value[dac_idx] = avalue;  // update the shadow too
+  pdac->SetTo(avalue);
+  return 0;
+}
+
+uint16_t TUioDevBase::SetDacOutputF32(uint8_t dac_idx, float avalue)
+{
+	uint16_t u16value;
+
+	if      (avalue > 1.0)  u16value = 0xFFFF;
+	else if (avalue < 0.0)  u16value = 0x0000;
+	else                    u16value = avalue * 65536.0;
+
+	return SetDacOutput(dac_idx, u16value);
+}
 
 void TUioDevBase::SaveSetup()
 {
@@ -596,11 +633,6 @@ void TUioDevBase::SetPwmDuty(uint8_t apwmnum, uint16_t aduty)
   uint16_t onclocks = ((pwm->periodclocks * aduty) >> 16);
 
   pwm->SetOnClocks(onclocks);
-}
-
-void TUioDevBase::SetDacOutput(uint8_t adacnum, uint16_t avalue)
-{
-  //TODO: implement
 }
 
 void TUioDevBase::SetRunMode(uint8_t arunmode)
