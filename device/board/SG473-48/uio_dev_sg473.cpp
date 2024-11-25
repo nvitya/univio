@@ -18,12 +18,13 @@
 #define UIOFUNC_I2C       0x0200
 #define UIOFUNC_UART      0x0400
 #define UIOFUNC_CLKOUT    0x0800
+#define UIOFUNC_DAC       0x1000
 
 typedef struct
 {
   uint32_t   flags; // bit0: 0 0 = disabled
   uint32_t   adc;  // 0 = none
-  uint32_t   dac;
+  uint32_t   dac;  // not used anymore
   uint32_t   pwm;
 //
 } TPinInfo;
@@ -40,9 +41,9 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /*  1   A1 */ { 1,   UIOADC(1, 2), 0, UIOPWM(2, 2, 1) },
 /*  2   A2 */ { 1,   UIOADC(1, 3), 0, UIOPWM(2, 3, 1) },
 /*  3   A3 */ { 1,   UIOADC(1, 4), 0, UIOPWM(2, 4, 1) },
-/*  4   A4 */ { 1,   0,             UIODAC(1,0), 0 },
-/*  5   A5 */ { 1,   UIOADC(2,13),  UIODAC(1,1), 0 },
-/*  6   A6 */ { 1,   UIOADC(2, 3),  UIODAC(2,0), UIOPWM(3, 1, 2) },
+/*  4   A4 */ { 1 | UIOFUNC_DAC,   0,             0, 0 },
+/*  5   A5 */ { 1 | UIOFUNC_DAC,   UIOADC(2,13),  0, 0 },
+/*  6   A6 */ { 1 | UIOFUNC_DAC,   UIOADC(2, 3),  0, UIOPWM(3, 1, 2) },
 /*  7   A7 */ { 1,   UIOADC(2, 4), 0, UIOPWM(3, 2, 2) },
 
 /*  8   A8 */ { 1 | UIOFUNC_CLKOUT, 0, 0, UIOPWM(3, 1, 2) },  // 25 MHz Output
@@ -233,7 +234,21 @@ void TUioDevImpl::SetupAdc(TPinCfg * pcf)
 
 void TUioDevImpl::SetupDac(TPinCfg * pcf)
 {
-  // TODO: implement
+  THwDacChannel *   dac = &g_dac[pcf->unitnum];
+
+  if (5 == pcf->pinid) // PA5 ?
+  {
+  	dac->Init(1, 2);  // DAC1_OUT2
+  }
+  else if (6 == pcf->pinid) // PA6 ?
+  {
+  	dac->Init(2, 1);  // DAC2_OUT1
+  }
+  else // PA4
+  {
+  	dac->Init(1, 1);  // DAC1_OUT1
+  }
+
   pcf->hwpinflags = PINCFG_ANALOGUE;
 }
 
