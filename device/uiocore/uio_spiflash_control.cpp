@@ -71,6 +71,11 @@ void TUioSpiFlashCtrl::Run()
     return;
   }
 
+  if (1 == spictrl->spi_status)  // is the SPI used by the normal interface ?
+  {
+  	return;
+  }
+
   TUioFlwSlot * pslot;
 
   #if 0
@@ -105,11 +110,14 @@ void TUioSpiFlashCtrl::Run()
   if (!pslot)
   {
     spifl_state = 0;
-    spictrl->spi_status = 0;
+    if (8 == spictrl->spi_status)
+    {
+      spictrl->spi_status = 0;  // SPI flash command is running
+    }
     return;
   }
 
-  spictrl->spi_status = 8;  // SPI flash command is running
+  spictrl->spi_status = 8;  // lock the SPI for the flash
 
   if (0 == spifl_state)  // start the command
   {
@@ -235,7 +243,7 @@ bool TUioSpiFlashCtrl::SpiFlashCmdPrepare()
     return false;
   }
 
-  spictrl->spi_status = 8;  // SPI flash command is running
+  spictrl->spi_status = 8;  // SPI flash command is running, reserve the SPI for the FLASH
   return true;
 }
 

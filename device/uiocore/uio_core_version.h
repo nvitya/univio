@@ -17,6 +17,8 @@
 
 /* VERSION LOG
 
+3.1.4
+  - SPI Flash Accelerator Status fix
 3.1.3
   - DAC Implementation
 3.1.2
