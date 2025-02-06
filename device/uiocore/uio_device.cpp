@@ -356,28 +356,40 @@ bool TUioDevice::prfn_AnaInValues(TUdoRequest * rq, TParamRangeDef * prdef)
 
 bool TUioDevice::prfn_AnaOutCtrl(TUdoRequest * rq, TParamRangeDef * prdef)
 {
-  uint8_t idx  = (rq->index & 0x1F);
-  uint8_t func = (rq->index & 0xE0);
+  uint8_t idx  = (rq->index & 0x0F);
+  uint8_t func = (rq->index & 0xF0);
+  uint16_t r;
 
   if (idx >= UIO_DAC_COUNT)
   {
     return udo_response_error(rq, UIOERR_UNITSEL);
   }
 
-  if (0x00 == func)
+  if (0x00 == func)  // u16 version
   {
-    if (!udo_rw_data(rq, &dac_value[idx], sizeof(dac_value[0]))) // save to the shadow
-    {
-      return false;
-    }
-
     if (rq->iswrite)
     {
-      SetDacOutput(idx,  dac_value[idx]);
+      SetDacOutput(idx, udorq_uintvalue(rq));
+      return udo_response_ok(rq);
     }
-
-    return udo_response_ok(rq);
+    else
+    {
+      return udo_ro_data(rq, &dac_value[idx], sizeof(dac_value[0]));
+    }
   }
+  else if (0x10 == func)  // F32 version
+  {
+    if (rq->iswrite)
+    {
+    	SetDacOutputF32(idx, udorq_f32value(rq));
+      return udo_response_ok(rq);
+    }
+    else
+    {
+    	return udo_ro_f32(rq, float(dac_value[idx]) / 65535.0);
+    }
+  }
+
   else if (0x20 == func) // Waveform type
   {
     // not handled yet

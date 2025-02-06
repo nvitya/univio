@@ -84,7 +84,10 @@ void TUioSpiCtrl::Run()
     spi->Run();
     if (spi->finished)
     {
-      spi_status = 0;
+    	if (1 == spi_status)  // the SPI Flash accelerator also controls the SPI with spi_status=8
+    	{
+    		spi_status = 0;
+    	}
     }
   }
 }

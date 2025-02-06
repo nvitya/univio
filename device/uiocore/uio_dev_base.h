@@ -30,6 +30,7 @@
 
 #include "hwpins.h"
 #include "hwadc.h"
+#include "hwdac.h"
 #include "hwpwm.h"
 #include "hwspi.h"
 #include "hwi2c.h"
@@ -199,6 +200,7 @@ public:
   TGpioPin *        dig_out[UIO_DOUT_COUNT] = {0};
   TGpioPin *        ledblp[UIO_LEDBLP_COUNT] = {0};
   THwPwmChannel *   pwmch[UIO_PWM_COUNT] = {0};
+  THwDacChannel *   ana_out[UIO_DAC_COUNT] = {0};
 
   uint32_t          cfginfo[UIO_INFO_COUNT]; // bits signalize configured units
 
@@ -210,7 +212,10 @@ public:
   void              ResetConfig();
   virtual void      ConfigurePins(bool active);
   void              SetPwmDuty(uint8_t apwmnum, uint16_t aduty);
-  void              SetDacOutput(uint8_t adacnum, uint16_t avalue);
+
+  virtual uint16_t  SetDacOutput(uint8_t dac_idx, uint16_t avalue);
+  virtual uint16_t  SetDacOutputF32(uint8_t dac_idx, float avalue);
+
   virtual uint16_t  GetAdcValue(uint8_t adc_idx, uint16_t * rvalue);
   virtual uint16_t  GetAdcValueF32(uint8_t adc_idx, float * rvalue);
 
@@ -242,6 +247,7 @@ public: // board specific virtuals
 extern uint8_t          g_mpram[UIO_MPRAM_SIZE];
 
 extern THwAdc           g_adc[UIOMCU_ADC_COUNT];
+extern THwDacChannel    g_dac[UIO_DAC_COUNT];
 extern THwPwmChannel    g_pwm[UIO_PWM_COUNT];
 extern TGpioPin         g_pins[UIO_PIN_COUNT];
 
