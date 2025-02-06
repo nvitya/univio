@@ -1,4 +1,4 @@
-/* -----------------------------------------------------------------------------
+﻿/* -----------------------------------------------------------------------------
  * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
  * Copyright (c) 2022 Viktor Nagy, nvitya
  *
@@ -188,11 +188,18 @@ bool TUioCanCtrl::prfn_CanControl(TUdoRequest * rq, TParamRangeDef * prdef)
     }
 
     unsigned remaining = rq->rqlen;
-    TCanMsg * pmsg = (TCanMsg *)rq->dataptr;
-    TCanMsg * pmsg_end = (TCanMsg *)(rq->dataptr + rq->rqlen - sizeof(TCanMsg));
+    TUioCanMsg * pmsg = (TUioCanMsg *)rq->dataptr;
+    TUioCanMsg * pmsg_end = (TUioCanMsg *)(rq->dataptr + rq->rqlen - sizeof(TUioCanMsg));
     while (pmsg <= pmsg_end)
     {
-      can->StartSendMessage(pmsg);
+    	// convert to VIHAL CAN message format
+      TCanMsg msg;
+      msg.cobid = (pmsg->can_id & 0x7FF);
+      msg.len   = pmsg->can_dlc;
+      msg.timestamp = 0;
+      *(uint32_t *)&msg.data[0] = *(uint32_t *)&pmsg->data[0];
+      *(uint32_t *)&msg.data[4] = *(uint32_t *)&pmsg->data[4];
+      can->StartSendMessage(&msg);
       ++pmsg;
     }
 

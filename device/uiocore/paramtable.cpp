@@ -1,4 +1,4 @@
-/* -----------------------------------------------------------------------------
+﻿/* -----------------------------------------------------------------------------
  * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
  * Copyright (c) 2023 Viktor Nagy, nvitya
  *
@@ -105,7 +105,7 @@ const TParamRangeDef  param_range_table[] =
     {0x1800, 0x180F, nullptr, &g_canctrl[0], PParRangeMethod(&TUioCanCtrl::prfn_CanControl) },
   #endif
   #if UIO_CAN_COUNT > 1
-    {0x1820, 0x182F, nullptr, &g_canctrl[0], PParRangeMethod(&TUioCanCtrl::prfn_CanControl) },
+    {0x1820, 0x182F, nullptr, &g_canctrl[1], PParRangeMethod(&TUioCanCtrl::prfn_CanControl) },
   #endif
 
   // MPRAM

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * uio_gendev_version.h
  *
  *  Created on: Jun 8, 2023
@@ -11,7 +11,7 @@
 
 #define UIO_VERSION_MAJOR       3
 #define UIO_VERSION_MINOR       1
-#define UIO_VERSION_INCREMENT   3
+#define UIO_VERSION_INCREMENT   4
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
