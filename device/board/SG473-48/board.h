@@ -30,6 +30,7 @@
 #define UART_CTRL         0
 
 #define UIO_UART_COUNT      1
+#define UIO_CAN_COUNT       1
 #define UIO_I2C_COUNT       1
 #define UIO_SPI_COUNT       1
 #define UIO_SPIFLASH_COUNT  1
@@ -39,7 +40,7 @@
 // UnivID Device settings
 
 #define UIO_FW_ID   "GenIO-SG473-48"
-#define UIO_FW_VER    ((0 << 24) | (5 << 16) | 0)
+#define UIO_FW_VER         ((0 << 24) | (5 << 16) | 1)
 #define UIO_MEM_SIZE       0x8000 // for OBJ#0002
 
 #define UIO_MAX_DATA_LEN     1024

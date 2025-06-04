@@ -19,6 +19,7 @@
 #define UIOFUNC_UART      0x0400
 #define UIOFUNC_CLKOUT    0x0800
 #define UIOFUNC_DAC       0x1000
+#define UIOFUNC_CAN       0x2000
 
 typedef struct
 {
@@ -42,8 +43,8 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /*  2   A2 */ { 1,   UIOADC(1, 3), 0, UIOPWM(2, 3, 1) },
 /*  3   A3 */ { 1,   UIOADC(1, 4), 0, UIOPWM(2, 4, 1) },
 /*  4   A4 */ { 1 | UIOFUNC_DAC,   0,             0, 0 },
-/*  5   A5 */ { 1 | UIOFUNC_DAC,   UIOADC(2,13),  0, 0 },
-/*  6   A6 */ { 1 | UIOFUNC_DAC,   UIOADC(2, 3),  0, UIOPWM(3, 1, 2) },
+/*  5   A5 */ { 1 | UIOFUNC_DAC,   0,  0, 0 },
+/*  6   A6 */ { 1 | UIOFUNC_DAC,   0,  0, UIOPWM(3, 1, 2) },
 /*  7   A7 */ { 1,   UIOADC(2, 4), 0, UIOPWM(3, 2, 2) },
 
 /*  8   A8 */ { 1 | UIOFUNC_CLKOUT, 0, 0, UIOPWM(3, 1, 2) },  // 25 MHz Output
@@ -58,8 +59,8 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 /* 16   B0 */ { 1,   UIOADC(1, 15), 0, UIOPWM(3, 3, 2) },
 /* 17   B1 */ { 1,   UIOADC(1, 12), 0, UIOPWM(3, 4, 2) },
 /* 18   B2 */ { 1,   UIOADC(2, 12), 0, 0 },
-/* 19   B3 */ { 1,   0, 0, 0 }, // JTAG_TDO / TRACESWO, remap required
-/* 20   B4 */ { 1,   0, 0, 0 }, // JNTRST  !! 5k internal pull-down to PA10!
+/* 19   B3 */ { 1 | UIOFUNC_CAN,   0, 0, 0 }, // JTAG_TDO / TRACESWO, remap required
+/* 20   B4 */ { 1 | UIOFUNC_CAN,   0, 0, 0 }, // JNTRST  !! 5k internal pull-down to PA10!
 /* 21   B5 */ { 1,   0, 0, UIOPWM(3, 2, 2) },
 /* 22   B6 */ { 1,   0, 0, UIOPWM(4, 1, 2) },  // !! 5k internal pull-down to PA9!
 /* 23   B7 */ { 1 | UIOFUNC_I2C,   0, 0, UIOPWM(4, 2, 2) },  // I2C1_SDA
@@ -95,6 +96,10 @@ const TPinInfo g_pininfo[UIO_PIN_COUNT] =
 //------------------------------------------------------------------------------------------------------
 // TUnivioDevice Implementations
 //------------------------------------------------------------------------------------------------------
+
+// allocate the CAN SW buffers:
+TCanMsg   can_rxbuf[UIO_CAN_COUNT][16];
+TCanMsg   can_txbuf[UIO_CAN_COUNT][16];
 
 bool TUioDevImpl::InitBoard()
 {
@@ -175,6 +180,15 @@ bool TUioDevImpl::InitBoard()
 		g_uart[0].DmaAssign(false, &g_dma_uart_rx[0]);
 	#endif
 
+	#if UIO_CAN_COUNT > 0
+		// CAN-B initialization
+		//hwpinctrl.PinSetup(PORTNUM_B,  3,  PINCFG_AF_11);  // CAN3_RX
+		//hwpinctrl.PinSetup(PORTNUM_B,  4,  PINCFG_AF_11);  // CAN3_TX
+		g_can[0].raw_timestamp = true;
+		g_can[0].Init(3, &can_rxbuf[0][0], sizeof(can_rxbuf[0]) / sizeof(TCanMsg), &can_txbuf[0][0], sizeof(can_txbuf[0]) / sizeof(TCanMsg));
+	#endif
+
+
   // Other Pin inits is not necessary here, because all pins will be initialized later to passive
   // before the config loading happens
 
@@ -197,7 +211,7 @@ bool TUioDevImpl::PinFuncAvailable(TPinCfg * pcf)
   }
   else if (UIO_PINTYPE_DAC_OUT == pintype)
   {
-    return (pinfo->dac != 0);
+    return (0 != (pinfo->flags & UIOFUNC_DAC));
   }
   else if (UIO_PINTYPE_PWM_OUT == pintype)
   {
@@ -214,6 +228,10 @@ bool TUioDevImpl::PinFuncAvailable(TPinCfg * pcf)
   else if (UIO_PINTYPE_UART == pintype)
   {
     return (0 != (pinfo->flags & UIOFUNC_UART));
+  }
+  else if (UIO_PINTYPE_CAN == pintype)
+  {
+    return (0 != (pinfo->flags & UIOFUNC_CAN));
   }
   else
   {
@@ -300,6 +318,12 @@ void TUioDevImpl::SetupUart(TPinCfg * pcf)
   {
     pcf->hwpinflags = PINCFG_INPUT  | PINCFG_AF_7 | PINCFG_PULLUP;
   }
+}
+
+void TUioDevImpl::SetupCan(TPinCfg * pcf)
+{
+  const TPinInfo *  pinfo = &g_pininfo[pcf->pinid];
+  pcf->hwpinflags = PINCFG_AF_11;
 }
 
 void TUioDevImpl::SetupClockOut(TPinCfg * pcf)

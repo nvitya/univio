@@ -26,6 +26,7 @@ public:
   virtual void      SetupSpi(TPinCfg * pcf);
   virtual void      SetupI2c(TPinCfg * pcf);
   virtual void      SetupUart(TPinCfg * pcf);
+  virtual void      SetupCan(TPinCfg * pcf);
   virtual void      SetupClockOut(TPinCfg * pcf);
 
   virtual bool      LoadBuiltinConfig(uint8_t anum);
