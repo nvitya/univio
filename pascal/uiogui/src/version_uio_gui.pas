@@ -5,9 +5,10 @@ unit version_uio_gui;
 interface
 
 const
-  prg_version = '1.1';
+  prg_version = '1.2';
 
 (*
+1.2: PWM anchoring fixed
 1.1: unitid display fix
 1.0: initial version
 *)

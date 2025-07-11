@@ -10,7 +10,7 @@ object frm_main: Tfrm_main
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.4.0.0'
   object Label1: TLabel
     Left = 8
     Height = 14
@@ -122,9 +122,9 @@ object frm_main: Tfrm_main
           Height = 26
           Top = 16
           Width = 48
-          OnChange = edADCRangeChange
           TabOrder = 0
           Text = '3300'
+          OnChange = edADCRangeChange
         end
         object Label6: TLabel
           Left = 60
@@ -158,6 +158,7 @@ object frm_main: Tfrm_main
       Height = 157
       Top = 136
       Width = 273
+      Anchors = [akTop, akLeft, akBottom]
       Caption = 'PWM'
       ClientHeight = 142
       ClientWidth = 271
@@ -179,8 +180,8 @@ object frm_main: Tfrm_main
       Width = 79
       Anchors = [akLeft, akBottom]
       Caption = 'SPI'
-      OnClick = btnSpiClick
       TabOrder = 5
+      OnClick = btnSpiClick
     end
     object btnI2c: TButton
       Left = 540
@@ -189,8 +190,8 @@ object frm_main: Tfrm_main
       Width = 79
       Anchors = [akLeft, akBottom]
       Caption = 'I2C'
-      OnClick = btnI2cClick
       TabOrder = 6
+      OnClick = btnI2cClick
     end
   end
   object btnMoreInfo: TSpeedButton
