@@ -1,4 +1,4 @@
-﻿/*
+/*
  * uio_gendev_version.h
  *
  *  Created on: Jun 8, 2023
@@ -11,12 +11,14 @@
 
 #define UIO_VERSION_MAJOR       3
 #define UIO_VERSION_MINOR       1
-#define UIO_VERSION_INCREMENT   4
+#define UIO_VERSION_INCREMENT   5
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
 /* VERSION LOG
 
+3.1.5
+  - F32 ANA_OUT fix for 1.0
 3.1.4
   - SPI Flash Accelerator Status fix
 3.1.3

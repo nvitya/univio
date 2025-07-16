@@ -406,7 +406,7 @@ uint16_t TUioDevBase::GetAdcValueF32(uint8_t adc_idx, float * rvalue)
 		return r;
 	}
 
-	*rvalue = (float(u16value) / 65535);
+	*rvalue = (float(u16value) / 65535.0);
   return 0;
 }
 
@@ -436,7 +436,7 @@ uint16_t TUioDevBase::SetDacOutputF32(uint8_t dac_idx, float avalue)
 
 	if      (avalue > 1.0)  u16value = 0xFFFF;
 	else if (avalue < 0.0)  u16value = 0x0000;
-	else                    u16value = avalue * 65536.0;
+	else                    u16value = avalue * 65535.0;
 
 	return SetDacOutput(dac_idx, u16value);
 }
@@ -549,8 +549,8 @@ void TUioDevBase::ResetConfig()
 {
   unsigned n;
 
+  ClearConfig();
   ConfigurePins(false); // set all pins passive
-
 }
 
 void TUioDevBase::ConfigurePins(bool active)
