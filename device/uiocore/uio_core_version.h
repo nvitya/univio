@@ -10,13 +10,15 @@
 
 
 #define UIO_VERSION_MAJOR       3
-#define UIO_VERSION_MINOR       1
-#define UIO_VERSION_INCREMENT   5
+#define UIO_VERSION_MINOR       2
+#define UIO_VERSION_INCREMENT   0
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
 /* VERSION LOG
 
+3.2.0
+  - Supports custom parameter table
 3.1.5
   - F32 ANA_OUT fix for 1.0
 3.1.4

@@ -30,4 +30,6 @@
 
 #include "simple_partable.h"
 
+extern const TParamRangeDef  param_range_table[];
+
 #endif /* SRC_PARAMTABLE_H_ */

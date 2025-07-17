@@ -28,9 +28,15 @@
 #include "uio_device.h"
 #include "uio_core_version.h"
 #include "uio_nvdata.h"
+#include "udoslave.h"
 #include "board_pins.h"
 
 TUioDevice g_uiodev;
+
+bool TUioDevice::prfn_0000_UdoBase(TUdoRequest * rq, TParamRangeDef * prdef)
+{
+	return udoslave_handle_base_objects(rq);
+}
 
 bool TUioDevice::prfn_0100_DevId(TUdoRequest * rq, TParamRangeDef * prdef)
 {

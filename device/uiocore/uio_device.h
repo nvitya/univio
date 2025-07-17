@@ -34,6 +34,7 @@
 class TUioDevice : public TUioDevImpl
 {
 public:
+  bool       prfn_0000_UdoBase(TUdoRequest * rq, TParamRangeDef * prdef);
   bool       prfn_0100_DevId(TUdoRequest * rq, TParamRangeDef * prdef);
   bool       prfn_0180_DevConf(TUdoRequest * rq, TParamRangeDef * prdef);
 

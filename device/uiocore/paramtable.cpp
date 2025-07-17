@@ -1,4 +1,4 @@
-﻿/* -----------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------
  * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
  * Copyright (c) 2023 Viktor Nagy, nvitya
  *
@@ -54,6 +54,8 @@
 
 const TParamRangeDef  param_range_table[] =
 {
+  {0x0000, 0x00FF, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_0000_UdoBase) }, // UDO Base
+
   {0x0100, 0x017F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_0100_DevId) }, // some RO device identifiactions
   {0x0180, 0x019F, nullptr, &g_uiodev, PParRangeMethod(&TUioDevice::prfn_0180_DevConf) },
 

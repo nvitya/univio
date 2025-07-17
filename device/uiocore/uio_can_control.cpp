@@ -1,4 +1,4 @@
-﻿/* -----------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------
  * This file is a part of the UNIVIO project: https://github.com/nvitya/univio
  * Copyright (c) 2022 Viktor Nagy, nvitya
  *
