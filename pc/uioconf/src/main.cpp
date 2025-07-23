@@ -26,7 +26,7 @@ void print_usage()
 
 int main(int argc, char * const * argv)
 {
-  printf("UnivIO Configurator - v2.0\n");
+  printf("UnivIO Configurator - v2.1\n");
 
   //printf("argv[0]=%s\n", argv[0]);
 
