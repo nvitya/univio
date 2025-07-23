@@ -285,6 +285,43 @@ bool TUioCanCtrl::prfn_CanControl(TUdoRequest * rq, TParamRangeDef * prdef)
 
     return udo_response_ok(rq);
   }
+  else if (0x09 == idx) // Sampling point position in 0.1%
+  {
+    if (rq->iswrite)
+    {
+    	int v = udorq_intvalue(rq);
+    	if ((v < HWCAN_SMP_01_PERCENT_MIN) || (v > HWCAN_SMP_01_PERCENT_MAX))
+    	{
+    		return udo_response_error(rq, UDOERR_WRITE_VALUE);
+    	}
+    	can->smp_01_percent = v;
+      can->SetSpeed(can->speed); // re-initialize the timing parameters
+      return udo_response_ok(rq);
+    }
+    else
+    {
+      return udo_ro_int(rq, can->smp_01_percent, 4);
+    }
+  }
+  else if (0x0A == idx) // Resynchronization Jump Width in 0.1%
+  {
+    if (rq->iswrite)
+    {
+    	int v = udorq_intvalue(rq);
+    	if ((v < 0) || (v > HWCAN_RJW_01_PERCENT_MAX))
+    	{
+    		return udo_response_error(rq, UDOERR_WRITE_VALUE);
+    	}
+    	can->rjw_01_percent = v;
+      can->SetSpeed(can->speed); // re-initialize the timing parameters
+      return udo_response_ok(rq);
+    }
+    else
+    {
+      return udo_ro_int(rq, can->rjw_01_percent, 4);
+    }
+  }
+
 
   return udo_response_error(rq, UDOERR_INDEX);
 }
