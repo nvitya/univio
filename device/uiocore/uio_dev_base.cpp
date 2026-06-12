@@ -354,6 +354,14 @@ uint16_t TUioDevBase::PinSetup(uint8_t pinid, uint32_t pincfg, bool active)
     cfginfo[UIO_INFOIDX_CBITS] |= (UIO_INFOCBIT_CAN << (16 * unitnum));
   }
 
+  else if (pintype & UIO_PINTYPE_CUSTOM_MASK)
+  {
+  	if (active)
+  	{
+  		SetupCustom(&pcf, pintype);
+  	}
+  }
+
   else // unhandled config
   {
     return UIOERR_PINTYPE;

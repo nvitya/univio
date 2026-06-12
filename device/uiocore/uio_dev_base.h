@@ -73,6 +73,7 @@
 #define UIO_PINTYPE_UART             9
 #define UIO_PINTYPE_CLKOUT          10
 #define UIO_PINTYPE_CAN             11
+#define UIO_PINTYPE_CUSTOM_MASK   0x80
 
 #define UIO_PINFLAG_DIN_PULLUP       (0x0000 << 16)
 #define UIO_PINFLAG_DIN_PULLDN       (0x0001 << 16)
@@ -238,6 +239,7 @@ public: // board specific virtuals
   virtual void      SetupI2c(TPinCfg * pcf) { }
   virtual void      SetupUart(TPinCfg * pcf) { }
   virtual void      SetupCan(TPinCfg * pcf) { }
+  virtual void      SetupCustom(TPinCfg * pcf, uint8_t pintype) { }
   virtual void      SetupClockOut(TPinCfg * pcf) { }
 
   virtual bool      LoadBuiltinConfig(uint8_t anum) { return false; }
