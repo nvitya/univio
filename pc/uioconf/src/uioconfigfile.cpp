@@ -326,6 +326,26 @@ bool TUioConfig::ParsePinConf()
   {
   	pintype = UIO_PINTYPE_CAN;
   }
+  else if (sp->UCComparePrev("PINTYPE"))
+  {
+  	// example: PINTYPE(129)
+  	sp->SkipWhite();
+  	if (!sp->CheckSymbol("("))
+  	{
+  		errormsg = "\"(\" is expected after PINTYPE";
+  		return false;
+  	}
+
+  	pintype = ParseIntValue();  // read the specified integer value
+    if (error)  return false;
+
+  	sp->SkipWhite();
+  	if (!sp->CheckSymbol(")"))
+  	{
+  		errormsg = "\")\" is missing at PINTYPE";
+  		return false;
+  	}
+  }
   else
   {
   	errormsg = string("Invalid pintype: \"") + sp->PrevStr() + "\"";

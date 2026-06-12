@@ -13,6 +13,7 @@
 #include "udo_comm.h"
 #include "commh_udosl.h"
 #include "commh_udoip.h"
+#include "version.h"
 
 using namespace std;
 
@@ -26,7 +27,7 @@ void print_usage()
 
 int main(int argc, char * const * argv)
 {
-  printf("UnivIO Configurator - v2.1\n");
+  printf("UnivIO Configurator - v%s\n", UIOCONF_VERSION);
 
   //printf("argv[0]=%s\n", argv[0]);
 
