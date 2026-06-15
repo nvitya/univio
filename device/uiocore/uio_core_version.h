@@ -10,13 +10,15 @@
 
 
 #define UIO_VERSION_MAJOR       3
-#define UIO_VERSION_MINOR       2
-#define UIO_VERSION_INCREMENT   1
+#define UIO_VERSION_MINOR       3
+#define UIO_VERSION_INCREMENT   0
 
 #define UIO_VERSION_INTEGER  ((UIO_VERSION_MAJOR << 24) | (UIO_VERSION_MINOR << 16) | UIO_VERSION_INCREMENT)
 
 /* VERSION LOG
 
+3.3.0
+  - Added supporting custom PINTYPES (PINTYPE >= 128)
 3.2.1
   - VIHAL Update with CAN Timing fixes
   - configurabe CAN sampling point at #1809, and RJW at #180A
