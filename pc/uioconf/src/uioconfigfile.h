@@ -76,6 +76,8 @@ public:
   bool           SaveToDevice();
 
   string         GetPinName(uint8_t apinnum);
+
+  string         GetUioErrorCodeName(uint16_t ecode);
 };
 
 extern TUioConfig  uioconfig;

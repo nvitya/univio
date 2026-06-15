@@ -423,6 +423,57 @@ bool TUioConfig::LoadFromDevice()
 	return false;
 }
 
+#define UIOERR_PINTYPE              0x5001  // invalid pin type
+#define UIOERR_FUNC_NOT_AVAIL       0x5002  // the selected function is not available for this pin
+#define UIOERR_UNIT_ALREADY_IN_USE  0x5003  // the selected function is not available for this pin
+#define UIOERR_UNIT_INIT            0x5004  // unit initialization
+#define UIOERR_UNIT_PARAMS          0x5005  // wrong parameters
+#define UIOERR_RUN_MODE             0x5101  // config mode required
+#define UIOERR_UNITSEL              0x5102  // the referenced unit is not existing
+
+string TUioConfig::GetUioErrorCodeName(uint16_t ecode)
+{
+	char lbuf[16];
+	snprintf(lbuf, sizeof(lbuf), "%04X: ", ecode);
+
+  if (UIOERR_PINTYPE              == ecode)  // invalid pin type
+  {
+  	return string(lbuf)+"invalid pin type";
+  }
+
+  if (UIOERR_FUNC_NOT_AVAIL       == ecode)  // the selected function is not available for this pin
+  {
+  	return string(lbuf)+"the selected function is not available for this pin";
+  }
+
+  if (UIOERR_UNIT_ALREADY_IN_USE  == ecode)  // the selected function is not available for this pin
+  {
+  	return string(lbuf)+"the selected unit is already in use";
+  }
+
+  if (UIOERR_UNIT_INIT            == ecode)  // unit initialization
+  {
+  	return string(lbuf)+"unit initialization";
+  }
+
+  if (UIOERR_UNIT_PARAMS          == ecode)  // wrong parameters
+  {
+  	return string(lbuf)+"wrong parameters";
+  }
+
+  if (UIOERR_RUN_MODE             == ecode)  // config mode required
+  {
+  	return string(lbuf)+"configuration mode required";
+  }
+
+  if (UIOERR_UNITSEL              == ecode)  // the referenced unit is not existing
+  {
+  	return string(lbuf)+"invalid unit number";
+  }
+
+	return string(lbuf)+"unknown error";
+}
+
 bool TUioConfig::SaveToDevice()
 {
 	unsigned n;
@@ -476,7 +527,7 @@ bool TUioConfig::SaveToDevice()
 			catch (EUdoAbort & e)
 			{
 				string pinname = GetPinName(n);
-				printf("  PIN-%s config error: %04X\n", &pinname[0], e.ecode);
+				printf("  PIN-%s config error: %s\n", &pinname[0], GetUioErrorCodeName(e.ecode).c_str());
 				cfgerr = true;
 			}
 		}
